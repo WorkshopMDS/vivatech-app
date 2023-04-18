@@ -39,7 +39,7 @@
   "private": true,
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --cache --fix",
+      "yarn lint:fix",
       "prettier --write",
       "git add"
     ],
