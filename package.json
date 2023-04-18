@@ -40,8 +40,7 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "yarn lint:fix",
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ],
     "*.js": "eslint --cache --fix"
   }
