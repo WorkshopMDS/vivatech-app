@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign } from '@expo/vector-icons'
 import Home from './views/Home'
 import QRCode from './views/QRCode'
+import Exhibitors from './views/Exhibitors'
 
 const Tab = createBottomTabNavigator()
 
@@ -43,6 +44,19 @@ function Navigation() {
           tabBarIcon: ({ focused }) => (
             <AntDesign
               name="qrcode"
+              size={24}
+              color={focused ? '#000000' : '#666666'}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Exhibitors"
+        component={Exhibitors}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <AntDesign
+              name="isv"
               size={24}
               color={focused ? '#000000' : '#666666'}
             />
