@@ -2,10 +2,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign } from '@expo/vector-icons'
 import Home from './views/Home'
 import QRCode from './views/QRCode'
+import { useCustomTheme } from './Theme'
 
 const Tab = createBottomTabNavigator()
 
 function Navigation() {
+  const { colors } = useCustomTheme()
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -18,6 +21,7 @@ function Navigation() {
           right: 20,
           elevation: 0,
           borderRadius: 30,
+          borderTopWidth: 0,
           paddingBottom: 0,
           height: 56,
         },
@@ -31,7 +35,7 @@ function Navigation() {
             <AntDesign
               name="home"
               size={24}
-              color={focused ? '#000000' : '#666666'}
+              color={focused ? colors.primary : colors.border}
             />
           ),
         }}
@@ -44,7 +48,7 @@ function Navigation() {
             <AntDesign
               name="qrcode"
               size={24}
-              color={focused ? '#000000' : '#666666'}
+              color={focused ? colors.primary : colors.border}
             />
           ),
         }}
