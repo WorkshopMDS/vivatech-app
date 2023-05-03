@@ -91,7 +91,7 @@ function Navigation() {
             ),
           }}
           listeners={() => ({
-            tabPress: (event) => {
+            tabPress: event => {
               event.preventDefault()
               toggle()
             },

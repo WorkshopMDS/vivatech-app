@@ -56,8 +56,8 @@
   "private": true,
   "lint-staged": {
     "*.{ts,tsx}": [
-      "yarn lint:fix",
-      "prettier --write"
+      "prettier --write",
+      "yarn lint:fix"
     ],
     "*.js": "eslint --cache --fix"
   }
