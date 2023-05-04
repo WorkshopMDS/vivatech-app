@@ -4,6 +4,7 @@ import { View, Text, Alert } from 'react-native'
 import { Buffer } from 'buffer'
 import styled from 'styled-components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Camera } from 'expo-camera'
 
 const Title = styled(Text)`
   font-family: Museo-700;
@@ -78,15 +79,26 @@ function QRCodeScannerView({ setData }: any) {
       }}
     >
       <Title>Scanne ton billet physique</Title>
-      <BarCodeScanner
+
+      <View
         style={{
-          height: '100%',
           flex: 1,
           borderRadius: 16,
           overflow: 'hidden',
         }}
-        onBarCodeScanned={hasScanned ? undefined : handleBarCodeScanned}
-      />
+      >
+        <Camera
+          style={{
+            flex: 0,
+            width: '100%',
+            aspectRatio: 3 / 4,
+          }}
+          barCodeScannerSettings={{
+            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+          }}
+          onBarCodeScanned={hasScanned ? undefined : handleBarCodeScanned}
+        />
+      </View>
     </View>
   )
 }
