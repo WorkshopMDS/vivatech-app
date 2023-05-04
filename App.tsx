@@ -7,8 +7,10 @@ import { useColorScheme } from 'react-native'
 import { useFonts } from 'expo-font'
 import { ThemeProvider } from 'styled-components'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import VivaTheme from './app/Theme'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import Navigation from './app/Navigation'
+import VivaTheme from './app/utils/Theme'
 
 export default function App() {
   const scheme = useColorScheme()
@@ -30,12 +32,16 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <ThemeProvider {...{ theme }}>
-        <NavigationContainer {...{ theme }}>
-          <Navigation />
-        </NavigationContainer>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <BottomSheetModalProvider>
+          <ThemeProvider {...{ theme }}>
+            <NavigationContainer {...{ theme }}>
+              <Navigation />
+            </NavigationContainer>
+          </ThemeProvider>
+        </BottomSheetModalProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   )
 }
