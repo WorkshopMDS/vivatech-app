@@ -1,33 +1,32 @@
-import { View, Image } from 'react-native'
+import { Image, SafeAreaView, Text } from 'react-native'
 import styled from 'styled-components'
 
-const Container = styled(View)`
-  flex: 1;
-`
 const Background = styled(Image)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-`
-const Logo = styled(Image)`
-  width: 100%;
-  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+  height: 300px;
   resize-mode: contain;
 `
 
+const Title = styled(Text)`
+  font-family: Museo-700;
+  font-size: 24px;
+  text-align: center;
+  margin-top: 16px;
+`
+
 const images = {
-  bg: require('../../assets/gradient.png'),
+  bg: require('../../assets/vivatech.jpg'),
   logo: require('../../assets/logo.png'),
 }
 
 function Home() {
   return (
-    <Container>
+    <SafeAreaView>
       <Background source={images.bg} />
-      <Logo source={images.logo} />
-    </Container>
+      <Title>Bienvenue sur l&lsquo;application de Vivatech !</Title>
+    </SafeAreaView>
   )
 }
 
