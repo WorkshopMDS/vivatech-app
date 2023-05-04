@@ -9,10 +9,14 @@ import { ThemeProvider } from 'styled-components'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Navigation from './app/Navigation'
 import VivaTheme from './app/utils/Theme'
 
 export default function App() {
+  // Clear AsyncStorage for testing
+  AsyncStorage.clear()
+
   const scheme = useColorScheme()
 
   const isDarkMode = scheme === 'dark'
