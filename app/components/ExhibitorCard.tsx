@@ -3,9 +3,8 @@ import styled from 'styled-components'
 
 type Exhibitors = {
   name: string
-  interest: string[]
-  sectors: string[]
-  logo: string
+  interests: string[]
+  picture: string
 }
 
 const Container = styled(View)`
@@ -37,14 +36,10 @@ const Infos = styled(View)`
 const Title = styled(Text)`
   font-size: 20px;
   font-weight: bold;
-`
-const Interest = styled(Text)`
-  font-size: 16px;
   flex-wrap: wrap;
   width: 100%;
 `
-
-const Sectors = styled(Text)`
+const Interest = styled(Text)`
   font-size: 16px;
   flex-wrap: wrap;
   width: 100%;
@@ -53,21 +48,13 @@ const Sectors = styled(Text)`
 function Card(props: Exhibitors) {
   return (
     <Container>
-      <Logo source={{ uri: props?.logo }} />
+      <Logo source={{ uri: props?.picture }} />
       <Infos>
         <Title>{props?.name}</Title>
-        <Interest>Interêts: {props?.interest?.join(' - ')}</Interest>
-        <Sectors>
-          Secteur d&apos;activités:{props?.sectors?.join(' - ')}
-        </Sectors>
+        <Interest>{props?.interests?.join(', ')}</Interest>
       </Infos>
     </Container>
   )
 }
 
 export default Card
-
-/**
- *   <Interest>Interêts: {props?.interest?.join(' - ')}</Interest>
-        <Sectors>Secteur d'activités:{props?.sectors?.join(' - ')}</Sectors>
- */
