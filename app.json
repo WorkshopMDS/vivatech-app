@@ -16,6 +16,9 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets."
+      },
       "bundleIdentifier": "com.kilianpro.vivatech-app"
     },
     "android": {
@@ -27,5 +30,13 @@
     "web": {
       "favicon": "./assets/favicon.png"
     }
-  }
+  },
+  "plugins": [
+    [
+      "expo-barcode-scanner",
+      {
+        "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+      }
+    ]
+  ]
 }
