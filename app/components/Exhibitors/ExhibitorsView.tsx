@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import { FlashList } from '@shopify/flash-list'
 import styled from 'styled-components'
-import Card from '../components/ExhibitorCard'
+import Card from './ExhibitorCard'
 
-const Container = styled(SafeAreaView)`
+const Container = styled(View)`
   flex: 1;
 `
 
@@ -29,8 +28,8 @@ function Exhibitors() {
           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTM2MTBjOWFiZjlmZWJjZWRjMGI3YyIsImVtYWlsIjoiaGFubmFfbW9uYWhhbjUyQGdtYWlsLmNvbSIsInJvbGUiOjE5MzAsImlhdCI6MTY4MzE4NTkzMiwiZXhwIjoxNjgzMTg3NzMyfQ.qifcB9lluehX36bR4lbuZZHqKlwZwI6IOw3iXIyKImQ',
       },
     })
-      .then((response) => response.json())
-      .then((json) => setData(json.data))
+      .then(response => response.json())
+      .then(json => setData(json.data.slice(0, 5)))
       .finally(() => setLoading(false))
   }, [])
 
@@ -38,6 +37,7 @@ function Exhibitors() {
     <Container>
       <FlashList
         data={[...data]}
+        contentContainerStyle={{ paddingBottom: 100, paddingTop: 5 }}
         renderItem={({ item }) => (
           <Card
             name={item.name}

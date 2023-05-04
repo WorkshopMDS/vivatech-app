@@ -3,7 +3,7 @@ import { AntDesign } from '@expo/vector-icons'
 import { View, Image, useColorScheme } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import Home from './views/Home'
-import Exhibitors from './views/Exhibitors'
+import Exhibitors from './components/Exhibitors/ExhibitorsView'
 import { useCustomTheme } from './utils/Theme'
 
 import QRCodeModal from './components/QRCode/QRCodeModal'
@@ -137,6 +137,17 @@ function Navigation() {
                 name="isv"
                 size={24}
                 color={focused ? colors.primary : colors.border}
+              />
+            ),
+            headerTitle: () => (
+              <Image
+                source={logo}
+                style={{
+                  height: 50,
+                  width: 300,
+                  marginTop: -15,
+                  resizeMode: 'contain',
+                }}
               />
             ),
           }}

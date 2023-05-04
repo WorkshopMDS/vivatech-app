@@ -9,8 +9,8 @@ type Exhibitors = {
 
 const Container = styled(View)`
   background: #ffffff;
-  border: 1px solid #000000;
-  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.colors.border}};
+  border-radius: 25px;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -38,11 +38,14 @@ const Title = styled(Text)`
   font-weight: bold;
   flex-wrap: wrap;
   width: 100%;
+  color: ${({ theme }) => theme.colors.primary}};
 `
+
 const Interest = styled(Text)`
   font-size: 16px;
   flex-wrap: wrap;
   width: 100%;
+  color: ${({ theme }) => theme.colors.primary300}};
 `
 
 function Card(props: Exhibitors) {
