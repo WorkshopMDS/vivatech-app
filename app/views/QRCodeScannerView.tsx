@@ -39,7 +39,7 @@ function QRCodeScannerView({ setData }: any) {
       )
 
       // check if the data is valid (has the right keys)
-      if (hasAllKeys) {
+      if (!hasAllKeys) {
         throw new Error()
       }
 
