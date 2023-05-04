@@ -20,7 +20,6 @@ function QRCodeModal({ toggle }: QRCodeModalProps) {
       detached
       style={{
         flex: 1,
-        alignItems: 'center',
         marginHorizontal: 16,
       }}
       handleIndicatorStyle={{

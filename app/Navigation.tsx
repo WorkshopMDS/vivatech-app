@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign } from '@expo/vector-icons'
-import { View, Image } from 'react-native'
+import { View, Image, useColorScheme } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import Home from './views/Home'
 import Exhibitors from './views/Exhibitors'
@@ -9,7 +9,10 @@ import { useCustomTheme } from './utils/Theme'
 import QRCodeModal from './components/QRCode/QRCodeModal'
 import useToggle from './utils/useToggle'
 
-const logo = require('../assets/full_small.png')
+const logos = {
+  dark: require('../assets/header_dark.png'),
+  light: require('../assets/header_light.png'),
+}
 
 const Tab = createBottomTabNavigator()
 
@@ -19,6 +22,9 @@ function MyModalBackgroundScreen() {
 
 function Navigation() {
   const { colors } = useCustomTheme()
+  const scheme = useColorScheme()
+  const isDarkMode = scheme === 'dark'
+  const logo = logos[isDarkMode ? 'dark' : 'light']
 
   const [isOpen, toggle] = useToggle()
 
