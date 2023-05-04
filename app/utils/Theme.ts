@@ -28,7 +28,6 @@ export const VivaThemeDark: VivaThemeType = {
   colors: {
     ...DarkTheme.colors,
     ...Colors,
-    background: '#FF00FF',
   },
 }
 

@@ -1,8 +1,4 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  NavigationContainer,
-} from '@react-navigation/native'
+import { NavigationContainer } from '@react-navigation/native'
 import { useColorScheme } from 'react-native'
 import { useFonts } from 'expo-font'
 import { ThemeProvider } from 'styled-components'
