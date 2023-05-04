@@ -11,17 +11,18 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Navigation from './app/Navigation'
-import VivaTheme from './app/utils/Theme'
+import { VivaThemeLight, VivaThemeDark } from './app/utils/Theme'
 
 export default function App() {
   // Clear AsyncStorage for testing
-  AsyncStorage.clear()
+
+  if (AsyncStorage.getItem('ticket') !== null) AsyncStorage.clear()
 
   const scheme = useColorScheme()
 
   const isDarkMode = scheme === 'dark'
 
-  const theme = VivaTheme(isDarkMode ? DarkTheme : DefaultTheme)
+  const theme = isDarkMode ? VivaThemeDark : VivaThemeLight
 
   const [fontsLoaded] = useFonts({
     'Museo-100': require('./assets/fonts/MuseoSans-100.otf'),
