@@ -1,6 +1,6 @@
 import { View, Image } from 'react-native'
 
-const background = require('../assets/gradient.png')
+const background = require('../../../assets/gradient.png')
 
 interface QRCodeModalBackgroundProps {
   style: any
