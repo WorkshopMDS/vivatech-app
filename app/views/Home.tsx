@@ -14,6 +14,7 @@ const Title = styled(Text)`
   font-size: 24px;
   text-align: center;
   margin-top: 16px;
+  color: ${({ theme }) => theme.colors.text};
 `
 
 const images = {

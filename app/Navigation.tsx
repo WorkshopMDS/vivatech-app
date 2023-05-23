@@ -76,7 +76,11 @@ function Navigation() {
           options={{
             tabBarIcon: () => (
               <LinearGradient
-                colors={[colors.primary300, colors.orange]}
+                colors={[
+                  colors.gradient100,
+                  colors.gradient200,
+                  colors.gradient300,
+                ]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={{
