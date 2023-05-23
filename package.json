@@ -20,7 +20,6 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.2",
     "@types/styled-components": "^5.1.26",
-    "axios": "^1.4.0",
     "expo": "~48.0.11",
     "expo-barcode-scanner": "~12.3.2",
     "expo-camera": "~13.2.1",
