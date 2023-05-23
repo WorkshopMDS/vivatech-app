@@ -9,7 +9,7 @@ interface QRCodeModalProps {
 
 function QRCodeModal({ toggle }: QRCodeModalProps) {
   const bottomSheetRef = useRef<BottomSheet>(null)
-  const snapPoints = useMemo(() => ['42%'], [])
+  const snapPoints = useMemo(() => ['52%'], [])
 
   return (
     <BottomSheet
