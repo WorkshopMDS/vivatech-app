@@ -5,7 +5,8 @@ import { Buffer } from 'buffer'
 import styled from 'styled-components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Camera } from 'expo-camera'
-import axios from 'axios'
+import { useAppDispatch } from '../hooks'
+import { validateTicket } from '../store/actions/tickets.actions'
 
 const Title = styled(Text)`
   font-family: Museo-700;
@@ -15,10 +16,11 @@ const Title = styled(Text)`
   margin-bottom: 16px;
 `
 
-function QRCodeScannerView({ setData, cv }: any) {
+function QRCodeScannerView({ cv }: any) {
   const [hasPermission, setHasPermission] = useState(false)
   const [hasScanned, setHasScanned] = useState(false)
   const [hasAskedPermission, setHasAskedPermission] = useState(false)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -34,23 +36,7 @@ function QRCodeScannerView({ setData, cv }: any) {
     setHasScanned(true)
     try {
       if (!cv) {
-        const fetchTicket = await axios
-          .get(`https://viva-api.fly.dev/ticket/validation/${data}`)
-          .then(res => res.data)
-
-        // decode base64
-        const buff = Buffer.from(fetchTicket.data.user, 'base64').toString()
-        const user = JSON.parse(buff)
-
-        AsyncStorage.setItem('ticket', data)
-        AsyncStorage.setItem('user', JSON.stringify(user))
-
-        setData({
-          ticket: data,
-          cv: user.cv,
-          user,
-        })
-        setHasScanned(false)
+        dispatch(validateTicket(data)).then(() => setHasScanned(false))
       } else {
         const buff = JSON.parse(Buffer.from(data, 'base64').toString())
 
