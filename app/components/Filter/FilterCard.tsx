@@ -1,9 +1,8 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import styled from 'styled-components'
 
-type Exhibitors = {
-  name: string
-  picture: string
+type ExhibitorsFilter = {
+  interests: string
 }
 
 const Container = styled(View)`
@@ -13,26 +12,15 @@ const Container = styled(View)`
   display: flex;
   align-items: center;
   flex-direction: row;
-  height: 150px;
+  height: 80px;
   margin: 5px;
   padding: 5px;
   gap: 10px;
   flex: 1;
 `
-const Logo = styled(Image)`
-  width: 120px;
-  height: 120px;
-  resize-mode: contain;
-`
 
-const Infos = styled(View)`
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-  gap: 5px;
-`
-
-const Title = styled(Text)`
+const Interest = styled(Text)`
+  text-align: center;
   font-size: 20px;
   font-weight: bold;
   flex-wrap: wrap;
@@ -40,13 +28,10 @@ const Title = styled(Text)`
   color: ${({ theme }) => theme.colors.primary}};
 `
 
-function Card(props?: Exhibitors) {
+function Card(props?: ExhibitorsFilter) {
   return (
     <Container>
-      <Logo source={{ uri: props?.picture }} />
-      <Infos>
-        <Title>{props?.name}</Title>
-      </Infos>
+      <Interest>{props?.interests}</Interest>
     </Container>
   )
 }

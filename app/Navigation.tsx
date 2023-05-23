@@ -2,9 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign } from '@expo/vector-icons'
 import { View, Image, useColorScheme } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import Home from './views/Home'
-import Exhibitors from './components/Exhibitors/ExhibitorsView'
 import { useCustomTheme } from './utils/Theme'
+import Home from './views/Home'
+import ExhibitorsFilter from './components/Filter/FilterView'
 
 import QRCodeModal from './components/QRCode/QRCodeModal'
 import useToggle from './utils/useToggle'
@@ -130,7 +130,7 @@ function Navigation() {
         />
         <Tab.Screen
           name="Exhibitors"
-          component={Exhibitors}
+          component={ExhibitorsFilter}
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign

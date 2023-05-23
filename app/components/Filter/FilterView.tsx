@@ -1,25 +1,27 @@
 import { useEffect, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { FlashList } from '@shopify/flash-list'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'
 import styled from 'styled-components'
-import Card from './ExhibitorCard'
+import Card from '../Filter/FilterCard'
+
+type Interests = {
+  id: string
+  label: string
+}
 
 const Container = styled(View)`
   flex: 1;
 `
 
-type Exhibitors = {
-  name: string
-  interests: string[]
-  picture: string
-}
-
-function Exhibitors(interestId: string) {
+function FilterView() {
+  const navigation = useNavigation()
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<Exhibitors[]>([])
+  const [data, setData] = useState<Interests[]>([])
 
   useEffect(() => {
-    fetch('https://viva-api.fly.dev/exhibitors', {
+    fetch('https://viva-api.fly.dev/interests', {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -29,15 +31,13 @@ function Exhibitors(interestId: string) {
       },
     })
       .then(response => response.json())
-      .then(json => {
-        // Filter the data based on interestId
-        const filteredData = json.data.filter((exhibitor: Exhibitors) =>
-          exhibitor.interests.includes(interestId),
-        )
-        setData(filteredData)
-      })
+      .then(json => setData(json.data))
       .finally(() => setLoading(false))
-  }, [interestId])
+  }, [])
+
+  const handleCardPress = (itemId: string) => {
+    navigation.navigate('ExhibitorsView', { id: itemId })
+  }
 
   return (
     <Container>
@@ -45,7 +45,9 @@ function Exhibitors(interestId: string) {
         data={[...data]}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 5 }}
         renderItem={({ item }) => (
-          <Card name={item.name} picture={item.picture} />
+          <TouchableOpacity onPress={() => handleCardPress(item.id)}>
+            <Card interests={item.label} />
+          </TouchableOpacity>
         )}
         estimatedItemSize={20}
         ListFooterComponent={loading ? <ActivityIndicator /> : null}
@@ -54,4 +56,4 @@ function Exhibitors(interestId: string) {
   )
 }
 
-export default Exhibitors
+export default FilterView
