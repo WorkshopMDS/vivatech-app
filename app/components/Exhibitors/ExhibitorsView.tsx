@@ -10,12 +10,14 @@ const Container = styled(View)`
 
 type Exhibitors = {
   name: string
-  interests: string[]
+  interests: { label: string; id: string }[]
   picture: string
+  sectors: string[]
 }
 
-function Exhibitors(interestId: string) {
-  const [loading, setLoading] = useState(false)
+function Exhibitors({ route }) {
+  const { interestId } = route.params
+  const [loading] = useState(false)
   const [data, setData] = useState<Exhibitors[]>([])
 
   useEffect(() => {
@@ -30,13 +32,11 @@ function Exhibitors(interestId: string) {
     })
       .then(response => response.json())
       .then(json => {
-        // Filter the data based on interestId
-        const filteredData = json.data.filter((exhibitor: Exhibitors) =>
-          exhibitor.interests.includes(interestId),
+        const filteredData = json.data.filter(item =>
+          item.interests?.some(interest => interest.id === interestId),
         )
         setData(filteredData)
       })
-      .finally(() => setLoading(false))
   }, [interestId])
 
   return (
@@ -45,7 +45,11 @@ function Exhibitors(interestId: string) {
         data={[...data]}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 5 }}
         renderItem={({ item }) => (
-          <Card name={item.name} picture={item.picture} />
+          <Card
+            name={item.name}
+            picture={item.picture}
+            sectors={item.sectors}
+          />
         )}
         estimatedItemSize={20}
         ListFooterComponent={loading ? <ActivityIndicator /> : null}

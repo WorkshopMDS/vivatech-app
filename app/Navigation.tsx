@@ -4,10 +4,10 @@ import { View, Image, useColorScheme } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useCustomTheme } from './utils/Theme'
 import Home from './views/Home'
-import ExhibitorsFilter from './components/Filter/FilterView'
 
 import QRCodeModal from './components/QRCode/QRCodeModal'
 import useToggle from './utils/useToggle'
+import ExhibitorStack from './components/Exhibitors/ExhibitorStack'
 
 const logos = {
   dark: require('../assets/header_dark.png'),
@@ -105,32 +105,8 @@ function Navigation() {
           })}
         />
         <Tab.Screen
-          name="BUFFER"
-          component={Home}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <AntDesign
-                name="home"
-                size={24}
-                color={focused ? colors.primary : colors.border}
-              />
-            ),
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{
-                  height: 50,
-                  width: 300,
-                  marginTop: -15,
-                  resizeMode: 'contain',
-                }}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
           name="Exhibitors"
-          component={ExhibitorsFilter}
+          component={ExhibitorStack}
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign

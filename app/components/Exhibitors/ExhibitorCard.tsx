@@ -4,6 +4,7 @@ import styled from 'styled-components'
 type Exhibitors = {
   name: string
   picture: string
+  sectors: string[]
 }
 
 const Container = styled(View)`
@@ -40,12 +41,19 @@ const Title = styled(Text)`
   color: ${({ theme }) => theme.colors.primary}};
 `
 
+function cleanSectors(sector: string) {
+  return sector.replace(/[[\]']/g, '')
+}
+
 function Card(props?: Exhibitors) {
   return (
     <Container>
       <Logo source={{ uri: props?.picture }} />
       <Infos>
         <Title>{props?.name}</Title>
+        <Text>
+          {props?.sectors ? cleanSectors(props?.sectors?.join('')) : ''}
+        </Text>
       </Infos>
     </Container>
   )

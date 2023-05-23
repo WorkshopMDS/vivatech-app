@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { FlashList } from '@shopify/flash-list'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/native'
 import styled from 'styled-components'
 import Card from '../Filter/FilterCard'
 
@@ -15,8 +14,7 @@ const Container = styled(View)`
   flex: 1;
 `
 
-function FilterView() {
-  const navigation = useNavigation()
+function FilterView({ navigation }) {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Interests[]>([])
 
@@ -36,7 +34,7 @@ function FilterView() {
   }, [])
 
   const handleCardPress = (itemId: string) => {
-    navigation.navigate('ExhibitorsView', { id: itemId })
+    navigation.navigate('Exposants', { interestId: itemId })
   }
 
   return (
