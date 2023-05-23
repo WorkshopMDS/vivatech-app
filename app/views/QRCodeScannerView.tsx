@@ -5,6 +5,7 @@ import { Buffer } from 'buffer'
 import styled from 'styled-components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Camera } from 'expo-camera'
+import axios from 'axios'
 
 const Title = styled(Text)`
   font-family: Museo-700;
@@ -14,7 +15,7 @@ const Title = styled(Text)`
   margin-bottom: 16px;
 `
 
-function QRCodeScannerView({ setData }: any) {
+function QRCodeScannerView({ setData, cv }: any) {
   const [hasPermission, setHasPermission] = useState(false)
   const [hasScanned, setHasScanned] = useState(false)
   const [hasAskedPermission, setHasAskedPermission] = useState(false)
@@ -29,26 +30,44 @@ function QRCodeScannerView({ setData }: any) {
     getBarCodeScannerPermissions()
   }, [])
 
-  const handleBarCodeScanned = ({ data }: any) => {
-    const decodedData = Buffer.from(data, 'base64').toString('ascii')
+  const handleBarCodeScanned = async ({ data }: any) => {
+    setHasScanned(true)
     try {
-      const jsonData = JSON.parse(decodedData)
+      if (!cv) {
+        const fetchTicket = await axios
+          .get(`https://viva-api.fly.dev/ticket/validation/${data}`)
+          .then(res => res.data)
 
-      const keys = ['id', 'validityPeriod', 'buyDate', 'user']
-      const hasAllKeys = keys.every(key =>
-        Object.prototype.hasOwnProperty.call(jsonData, key),
-      )
+        // decode base64
+        const buff = Buffer.from(fetchTicket.data.user, 'base64').toString()
+        const user = JSON.parse(buff)
 
-      // check if the data is valid (has the right keys)
-      if (!hasAllKeys) {
-        throw new Error()
+        AsyncStorage.setItem('ticket', data)
+        AsyncStorage.setItem('user', JSON.stringify(user))
+
+        setData({
+          ticket: data,
+          cv: user.cv,
+          user,
+        })
+        setHasScanned(false)
+      } else {
+        const buff = JSON.parse(Buffer.from(data, 'base64').toString())
+
+        if (buff.cv) {
+          AsyncStorage.getItem('cvs').then(cvs => {
+            if (cvs) {
+              const cvsArray = JSON.parse(cvs)
+              cvsArray.push(buff.cv)
+              AsyncStorage.setItem('cvs', JSON.stringify(cvsArray))
+            } else {
+              AsyncStorage.setItem('cvs', JSON.stringify([buff.cv]))
+            }
+          })
+          Alert.alert('Succès', 'Le CV a bien été ajouté à ta CVThèque')
+        }
       }
-
-      AsyncStorage.setItem('ticket', data)
-      setData(data)
-    } catch {
-      setHasScanned(true)
-
+    } catch (error) {
       Alert.alert(
         'Erreur',
         "Le QR code scanné n'est pas valide",
@@ -78,7 +97,13 @@ function QRCodeScannerView({ setData }: any) {
         flex: 1,
       }}
     >
-      <Title>Scanne ton billet physique</Title>
+      {cv ? (
+        <Title>
+          Scanne le QR code du CV pour l&lsquo;ajouter à ta CVThèque
+        </Title>
+      ) : (
+        <Title>Scanne ton billet physique</Title>
+      )}
 
       <View
         style={{
