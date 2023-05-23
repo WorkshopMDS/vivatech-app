@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { encodeQRCode } from '../../utils/QRCode'
 import { useCustomTheme } from '../../utils/Theme'
 import QRCodeScannerView from '../../views/QRCodeScannerView'
+import { useAppSelector } from '../../hooks'
 
 const CVScann = styled(Pressable)`
   border-radius: 16px;
@@ -24,6 +25,7 @@ export default function QRCodeView() {
   const logo = require('../../../assets/small.png')
   const [data, setData] = useState<any>(undefined)
   const [scanCV, setScanCV] = useState(false)
+  const store = useAppSelector(state => state.tickets)
 
   useEffect(() => {
     AsyncStorage.getItem('ticket').then(ticket => {
@@ -37,6 +39,16 @@ export default function QRCodeView() {
       })
     })
   }, [])
+
+  useEffect(() => {
+    if (store.ticket) {
+      setData({
+        ticket: store.ticket,
+        cv: store.user.cv,
+        user: store.user,
+      })
+    }
+  }, [store])
 
   return (
     <View

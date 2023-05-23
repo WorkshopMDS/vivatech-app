@@ -6,7 +6,7 @@ import Home from './views/Home'
 import { useCustomTheme } from './utils/Theme'
 
 import QRCodeModal from './components/QRCode/QRCodeModal'
-import useToggle from './utils/useToggle'
+import { useToggle } from './hooks'
 
 const logos = {
   dark: require('../assets/header_dark.png'),
