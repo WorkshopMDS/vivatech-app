@@ -41,6 +41,7 @@ function Exhibitors({ route }: any) {
             a.hall.localeCompare(b.hall),
           ),
         ]}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 5 }}
         renderItem={({ item }) => <Card exhibitor={item} />}
         estimatedItemSize={20}

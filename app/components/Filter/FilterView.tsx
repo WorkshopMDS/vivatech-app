@@ -22,6 +22,7 @@ function FilterView({ navigation }: any) {
     <Container>
       {!!interests.length && (
         <FlashList
+          showsVerticalScrollIndicator={false}
           data={[
             ...interests.sort((a: IInterest, b: IInterest) =>
               a.label.localeCompare(b.label),
