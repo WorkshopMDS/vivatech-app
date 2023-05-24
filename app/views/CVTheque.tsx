@@ -4,11 +4,11 @@ import { AntDesign } from '@expo/vector-icons'
 import { useAppSelector } from '../hooks'
 import { useCustomTheme } from '../utils/Theme'
 
-const Card = styled(View)`
+export const Card = styled(View)`
   background-color: ${({ theme }) => theme.colors.card};
   padding: 16px;
   margin: 10px;
-  border-radius: 16px;
+  border-radius: 24px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -36,6 +36,15 @@ const Absolute = styled(View)`
   flex-direction: column;
   align-items: center;
   gap: 16px;
+`
+
+const Button = styled(Pressable)`
+  background-color: ${({ theme }) => theme.colors.primary};
+  padding: 16px;
+  border-radius: 16px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `
 
 function CVTheque({ navigation }: any) {
@@ -76,9 +85,9 @@ function CVTheque({ navigation }: any) {
               </Title>
               <Subtitle>{cv.email}</Subtitle>
             </Col>
-            <Pressable onPress={() => navigation.navigate('ViewCV', { cv })}>
-              <AntDesign name="file1" size={24} color={colors.text} />
-            </Pressable>
+            <Button onPress={() => navigation.navigate('ViewCV', { cv })}>
+              <AntDesign name="file1" size={24} color="white" />
+            </Button>
           </Card>
         )
       })}

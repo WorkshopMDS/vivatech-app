@@ -9,35 +9,41 @@ const Container = styled(View)`
   flex: 1;
 `
 
-type Exhibitors = {
-  name: string
-  interests: { label: string; id: string }[]
-  picture: string
-  sectors: string[]
+export type IInterest = {
+  label: string
+  id: string
 }
 
-function Exhibitors({ route }) {
+export type IExhibitor = {
+  name: string
+  interests: IInterest[]
+  picture: string
+  sectors: string[]
+  hall: string
+  stand: string
+}
+
+function Exhibitors({ route }: any) {
   const { interestId } = route.params
   const [loading] = useState(false)
 
   const { exhibitors } = useAppSelector(state => state.exhibitors)
 
-  const filteredData = exhibitors.filter(item =>
+  const filteredData = exhibitors.filter((item: IExhibitor) =>
     item.interests?.some(interest => interest.id === interestId),
   )
 
   return (
     <Container>
       <FlashList
-        data={[...filteredData]}
+        data={[
+          ...filteredData.sort((a: IExhibitor, b: IExhibitor) =>
+            a.hall.localeCompare(b.hall),
+          ),
+        ]}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 5 }}
-        renderItem={({ item }) => (
-          <Card
-            name={item.name}
-            picture={item.picture}
-            sectors={item.sectors}
-          />
-        )}
+        renderItem={({ item }) => <Card exhibitor={item} />}
         estimatedItemSize={20}
         ListFooterComponent={loading ? <ActivityIndicator /> : null}
       />

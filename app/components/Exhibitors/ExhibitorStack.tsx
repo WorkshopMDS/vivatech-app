@@ -1,8 +1,8 @@
-import { createStackNavigator } from '@react-navigation/stack'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import FilterView from '../Filter/FilterView'
 import ExhibitorsView from './ExhibitorsView'
 
-const Stack = createStackNavigator()
+const Stack = createNativeStackNavigator()
 
 function ExhibitorStack() {
   return (
