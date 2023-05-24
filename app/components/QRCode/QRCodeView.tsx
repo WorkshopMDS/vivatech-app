@@ -1,7 +1,6 @@
 import { Pressable, View, Text } from 'react-native'
 import QRCode from 'react-native-qrcode-svg'
 import { useEffect, useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import styled from 'styled-components'
 import { encodeQRCode } from '../../utils/QRCode'
 import { useCustomTheme } from '../../utils/Theme'
@@ -20,7 +19,7 @@ const CVScann = styled(Pressable)`
   width: 100%;
 `
 
-export default function QRCodeView() {
+export default function QRCodeView({ toggle }: { toggle: () => void }) {
   const { colors } = useCustomTheme()
   const logo = require('../../../assets/small.png')
   const [data, setData] = useState<any>(undefined)
@@ -28,23 +27,9 @@ export default function QRCodeView() {
   const store = useAppSelector(state => state.tickets)
 
   useEffect(() => {
-    AsyncStorage.getItem('ticket').then(ticket => {
-      AsyncStorage.getItem('user').then(user => {
-        if (ticket && user) {
-          setData({
-            cv: JSON.parse(user).cv,
-            ticket,
-          })
-        }
-      })
-    })
-  }, [])
-
-  useEffect(() => {
-    if (store.ticket) {
+    if (store.ticket && store.user) {
       setData({
         ticket: store.ticket,
-        cv: store.user.cv,
         user: store.user,
       })
     }
@@ -93,10 +78,7 @@ export default function QRCodeView() {
             </View>
           )}
           <QRCode
-            value={encodeQRCode({
-              ticket: data.ticket,
-              cv: data.cv,
-            })}
+            value={encodeQRCode(data)}
             size={250}
             logo={logo}
             logoBackgroundColor={colors.primary300}
@@ -120,8 +102,8 @@ export default function QRCodeView() {
           </CVScann>
         </View>
       )}
-      {scanCV && <QRCodeScannerView setData={setData} cv />}
-      {!data && !scanCV && <QRCodeScannerView setData={setData} />}
+      {scanCV && <QRCodeScannerView setScanCV={setScanCV} cv toggle={toggle} />}
+      {!data && !scanCV && <QRCodeScannerView toggle={toggle} />}
     </View>
   )
 }
