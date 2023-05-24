@@ -5,17 +5,12 @@ import { ThemeProvider } from 'styled-components'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Provider } from 'react-redux'
 import Navigation from './app/Navigation'
 import { VivaThemeLight, VivaThemeDark } from './app/utils/Theme'
 import store from './app/store/store'
 
 export default function App() {
-  // Clear AsyncStorage for testing
-
-  if (AsyncStorage.getItem('ticket') !== null) AsyncStorage.clear()
-
   const scheme = useColorScheme()
 
   const isDarkMode = scheme === 'dark'
