@@ -33,7 +33,7 @@ function QRCodeModal({ toggle }: QRCodeModalProps) {
       onClose={toggle}
       keyboardBehavior="interactive"
     >
-      <QRCodeView />
+      <QRCodeView {...{ toggle }} />
     </BottomSheet>
   )
 }

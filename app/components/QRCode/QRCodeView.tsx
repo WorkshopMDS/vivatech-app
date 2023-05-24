@@ -19,7 +19,7 @@ const CVScann = styled(Pressable)`
   width: 100%;
 `
 
-export default function QRCodeView() {
+export default function QRCodeView({ toggle }: { toggle: () => void }) {
   const { colors } = useCustomTheme()
   const logo = require('../../../assets/small.png')
   const [data, setData] = useState<any>(undefined)
@@ -102,8 +102,8 @@ export default function QRCodeView() {
           </CVScann>
         </View>
       )}
-      {scanCV && <QRCodeScannerView setScanCV={setScanCV} cv />}
-      {!data && !scanCV && <QRCodeScannerView />}
+      {scanCV && <QRCodeScannerView setScanCV={setScanCV} cv toggle={toggle} />}
+      {!data && !scanCV && <QRCodeScannerView toggle={toggle} />}
     </View>
   )
 }
