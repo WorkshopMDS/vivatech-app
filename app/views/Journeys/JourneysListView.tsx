@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import styled from 'styled-components'
 import { AntDesign } from '@expo/vector-icons'
+import { useAppSelector } from '../../hooks'
 
 const Card = styled(View)`
   flex-direction: row;
@@ -29,27 +30,22 @@ const styles = StyleSheet.create({
   },
 })
 
-function JourneysListView({ navigation }: any) {
-  const data = [
-    {
-      id: 0,
-      picture: 'https://picsum.photos/200/300',
-      title: 'Title 1',
-      description: 'Description 1',
-    },
-  ]
+async function JourneysListView({ navigation }: any) {
+  const { journeys } = useAppSelector(state => state.journeys)
+  console.log(journeys)
 
   return (
     <FlatList
-      data={data}
+      data={journeys}
       style={{ padding: 10 }}
       renderItem={({ item }) => (
         <Pressable
           onPress={() =>
             navigation.navigate('JourneyItem', { journeyId: item.id })
           }
+          key={item.id}
         >
-          <Card key={item.id}>
+          <Card>
             <View
               style={{
                 flex: 2,
@@ -57,7 +53,7 @@ function JourneysListView({ navigation }: any) {
               }}
             >
               <Image
-                source={{ uri: item.picture }}
+                source={{ uri: 'https://picsum.photos/1920/1080' }}
                 style={{
                   width: 100,
                   height: 100,
