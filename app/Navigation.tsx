@@ -10,6 +10,7 @@ import { useToggle } from './hooks'
 import ExhibitorStack from './components/Exhibitors/ExhibitorStack'
 import CVTheque from './views/CVTheque'
 import ViewCV from './views/ViewCV'
+import KYC from './views/KYC'
 
 const logos = {
   dark: require('../assets/allwhite.png'),
@@ -183,6 +184,30 @@ function Navigation() {
         <Tab.Screen
           name="Exhibitors"
           component={ExhibitorStack}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <AntDesign
+                name="isv"
+                size={24}
+                color={focused ? colors.primary : colors.border}
+              />
+            ),
+            headerTitle: () => (
+              <Image
+                source={logo}
+                style={{
+                  height: 50,
+                  width: 300,
+                  marginTop: -15,
+                  resizeMode: 'contain',
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="KYC"
+          component={KYC}
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign
