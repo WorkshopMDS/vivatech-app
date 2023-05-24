@@ -15,20 +15,11 @@ const Colors = {
   gradient300: '#f5255d',
 }
 
-const darkColors = {
-  cardbg: '#1c1c1c',
-}
-
-const lightColors = {
-  cardbg: '#fff',
-}
-
 export const VivaThemeLight = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
     ...Colors,
-    ...lightColors,
   },
 }
 
@@ -39,7 +30,6 @@ export const VivaThemeDark: VivaThemeType = {
     ...DarkTheme.colors,
     background: '#202020',
     ...Colors,
-    ...darkColors,
   },
 }
 

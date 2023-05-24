@@ -5,10 +5,10 @@ import { Conference } from '../../models/ConferenceType'
 import { useToggle } from '../../hooks'
 
 const Card = styled(Pressable)`
-  background-color: ${({ theme }) => theme.colors.cardbg};
-  border-radius: 10px;
-  padding: 18px;
-  margin: 15px;
+  background-color: ${({ theme }) => theme.colors.card};
+  border-radius: 24px;
+  padding: 20px;
+  margin: 12px;
   margin-bottom: 0;
 `
 const ConfTitle = styled(Text)`
@@ -24,7 +24,10 @@ const Schedule = styled(View)`
   align-items: center;
   font-size: 15px;
   color: ${({ theme }) => theme.colors.text};
-  jsutify-content: around;
+  justify-content: space-around;
+`
+const Time = styled(Text)`
+  color: ${({ theme }) => theme.colors.text};
 `
 const SpeakerName = styled(Text)`
   font-family: Museo-700;
@@ -58,26 +61,21 @@ interface ConferenceCardProps {
 function ConferenceCard({ conference }: ConferenceCardProps) {
   const [isConfOpen, toggleConf] = useToggle(false)
 
-  let shceduling = null
-  if (conference.startAt) {
-    shceduling = (
-      <Text>
-        {Moment(conference.startAt).format('d MMM hh:mm')}
-        {' - '}
-        {Moment(conference.endAt).format('hh:mm')}
-      </Text>
-    )
-  } else {
-    shceduling = <Text>Non défini</Text>
-  }
-
   return (
     <Card onPress={toggleConf}>
       <ConfTitle>{conference.title}</ConfTitle>
       <SpeakerName>
         {conference.speaker.name ? conference.speaker.name : 'Non définit'}
       </SpeakerName>
-      <Schedule>{shceduling}</Schedule>
+      <Schedule>
+        <Time>
+          {conference.startAt
+            ? `${Moment(conference.startAt).format('d MMM hh:mm')} - ${Moment(
+                conference.endAt,
+              ).format('hh:mm')}`
+            : 'Non défini'}
+        </Time>
+      </Schedule>
       <Details isOpen={isConfOpen}>
         <Stage>Stage {conference.stage}</Stage>
         <Description>
