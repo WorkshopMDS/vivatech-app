@@ -1,12 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign } from '@expo/vector-icons'
-import { View, Image, useColorScheme } from 'react-native'
+import { Image, useColorScheme, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import Home from './views/Home'
 import { useCustomTheme } from './utils/Theme'
 
 import QRCodeModal from './components/QRCode/QRCodeModal'
 import useToggle from './utils/useToggle'
+import ProgramStack from './views/Journeys/JourneyStack'
 
 const logos = {
   dark: require('../assets/header_dark.png'),
@@ -108,12 +109,12 @@ function Navigation() {
           })}
         />
         <Tab.Screen
-          name="BUFFER"
-          component={Home}
+          name="Programs"
+          component={ProgramStack}
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign
-                name="home"
+                name="find"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />
