@@ -29,6 +29,7 @@ export const VivaThemeDark: VivaThemeType = {
   roundness: '4px',
   colors: {
     ...DarkTheme.colors,
+    background: '#202020',
     ...Colors,
   },
 }

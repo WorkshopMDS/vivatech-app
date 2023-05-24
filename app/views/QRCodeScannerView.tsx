@@ -3,8 +3,13 @@ import { useEffect, useState } from 'react'
 import { View, Text, Alert } from 'react-native'
 import { Buffer } from 'buffer'
 import styled from 'styled-components'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Camera } from 'expo-camera'
+
+import { useNavigation } from '@react-navigation/native'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { validateTicket } from '../store/actions/tickets.actions'
+import { addCV } from '../store/actions/cv.actions'
+import CodeValidation from '../components/QRCode/CodeValidation'
 
 const Title = styled(Text)`
   font-family: Museo-700;
@@ -14,10 +19,13 @@ const Title = styled(Text)`
   margin-bottom: 16px;
 `
 
-function QRCodeScannerView({ setData }: any) {
+function QRCodeScannerView({ setScanCV, cv, toggle }: any) {
   const [hasPermission, setHasPermission] = useState(false)
   const [hasScanned, setHasScanned] = useState(false)
   const [hasAskedPermission, setHasAskedPermission] = useState(false)
+  const dispatch = useAppDispatch()
+  const { codeSent } = useAppSelector(state => state.tickets)
+  const navigation = useNavigation()
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -29,26 +37,35 @@ function QRCodeScannerView({ setData }: any) {
     getBarCodeScannerPermissions()
   }, [])
 
-  const handleBarCodeScanned = ({ data }: any) => {
-    const decodedData = Buffer.from(data, 'base64').toString('ascii')
+  const handleBarCodeScanned = async ({ data }: any) => {
+    setHasScanned(true)
     try {
-      const jsonData = JSON.parse(decodedData)
+      if (cv) {
+        const buff = JSON.parse(Buffer.from(data, 'base64').toString())
 
-      const keys = ['id', 'validityPeriod', 'buyDate', 'user']
-      const hasAllKeys = keys.every(key =>
-        Object.prototype.hasOwnProperty.call(jsonData, key),
-      )
-
-      // check if the data is valid (has the right keys)
-      if (!hasAllKeys) {
-        throw new Error()
+        await dispatch(
+          addCV({
+            name: buff.user.firstname,
+            lastName: buff.user.lastname,
+            email: buff.user.email,
+            cv: buff.user.cv,
+            phone: '00 00 00 00 00',
+          }),
+        ).then(savecCV => {
+          toggle()
+          navigation.navigate('CV', {
+            screen: 'ViewCV',
+            params: {
+              cv: savecCV,
+            },
+          })
+        })
+        setScanCV(false)
+      } else {
+        dispatch(validateTicket(data)).then(() => setHasScanned(false))
       }
-
-      AsyncStorage.setItem('ticket', data)
-      setData(data)
-    } catch {
-      setHasScanned(true)
-
+    } catch (error) {
+      console.log(error)
       Alert.alert(
         'Erreur',
         "Le QR code scanné n'est pas valide",
@@ -72,13 +89,28 @@ function QRCodeScannerView({ setData }: any) {
     return <Title>Accès à la caméra refusé</Title>
   }
 
+  if (codeSent) {
+    return (
+      <View>
+        <Title>Nous avons envoyé un code à ton adresse mail</Title>
+        <CodeValidation {...{ setHasScanned }} />
+      </View>
+    )
+  }
+
   return (
     <View
       style={{
         flex: 1,
       }}
     >
-      <Title>Scanne ton billet physique</Title>
+      {setScanCV ? (
+        <Title>
+          Scanne le QR code du CV pour l&lsquo;ajouter à ta CVThèque
+        </Title>
+      ) : (
+        <Title>Scanne ton billet physique</Title>
+      )}
 
       <View
         style={{
