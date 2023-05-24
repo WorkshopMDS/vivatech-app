@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { View, Text, Pressable } from 'react-native'
 import { Conference } from '../../models/ConferenceType'
-import useToggle from '../../utils/useToggle'
+import { useToggle } from '../../hooks'
 
 const Card = styled(Pressable)`
   background-color: ${({ theme }) => theme.colors.cardbg};
