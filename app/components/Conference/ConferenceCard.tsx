@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { View, Text, Pressable } from 'react-native'
+import Moment from 'moment'
 import { Conference } from '../../models/ConferenceType'
 import { useToggle } from '../../hooks'
 
@@ -12,17 +13,29 @@ const Card = styled(Pressable)`
 `
 const ConfTitle = styled(Text)`
   font-family: Museo-700;
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
   margin-top: 3px;
   color: ${({ theme }) => theme.colors.text};
 `
-
+const Schedule = styled(View)`
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+  font-size: 15px;
+  color: ${({ theme }) => theme.colors.text};
+  jsutify-content: around;
+`
 const SpeakerName = styled(Text)`
   font-family: Museo-700;
-  font-size: 18px;
+  font-size: 14px;
   margin-top: 10px;
   color: ${({ theme }) => theme.colors.text};
+`
+const Details = styled(View)<{ isOpen: boolean }>`
+  height: ${({ isOpen }) => (isOpen ? 'auto' : '0')};
+  transition: height 7s;
+  overflow: hidden;
 `
 const Stage = styled(Text)`
   font-family: Museo-500;
@@ -37,11 +50,6 @@ const Description = styled(Text)`
   text-align: justify;
   color: ${({ theme }) => theme.colors.text};
 `
-const Details = styled(View)<{ isOpen: boolean }>`
-  height: ${({ isOpen }) => (isOpen ? 'auto' : '0')};
-  transition: height 7s;
-  overflow: hidden;
-`
 
 interface ConferenceCardProps {
   conference: Conference
@@ -50,13 +58,33 @@ interface ConferenceCardProps {
 function ConferenceCard({ conference }: ConferenceCardProps) {
   const [isConfOpen, toggleConf] = useToggle(false)
 
+  let shceduling = null
+  if (conference.startAt) {
+    shceduling = (
+      <Text>
+        {Moment(conference.startAt).format('d MMM hh:mm')}
+        {' - '}
+        {Moment(conference.endAt).format('hh:mm')}
+      </Text>
+    )
+  } else {
+    shceduling = <Text>Non défini</Text>
+  }
+
   return (
     <Card onPress={toggleConf}>
       <ConfTitle>{conference.title}</ConfTitle>
-      <SpeakerName>{conference.speaker.name}</SpeakerName>
+      <SpeakerName>
+        {conference.speaker.name ? conference.speaker.name : 'Non définit'}
+      </SpeakerName>
+      <Schedule>{shceduling}</Schedule>
       <Details isOpen={isConfOpen}>
         <Stage>Stage {conference.stage}</Stage>
-        <Description>{conference.description}</Description>
+        <Description>
+          {conference.description
+            ? conference.description
+            : 'Description a revoir'}
+        </Description>
       </Details>
     </Card>
   )

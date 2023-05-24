@@ -2,7 +2,7 @@ const API_URL = 'https://viva-api.fly.dev'
 const ENDPOINT = '/conference'
 
 // Get all conferences
-export const getConferenceList = () => {
+export const getConferencesService = () => {
   return fetch(`${API_URL}${ENDPOINT}s`)
     .then(response => response.json())
     .then(response => {
@@ -18,7 +18,7 @@ export const getConferenceList = () => {
 }
 
 // Get conference by id
-export const getConferenceById = (id: string) => {
+export const getConferenceByIdService = (id: string) => {
   return fetch(`${API_URL}${ENDPOINT}/${id}`)
     .then(response => response.json())
     .then(response => {
