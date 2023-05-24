@@ -7,7 +7,11 @@
     "plugin:react/jsx-runtime",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["@typescript-eslint", "react", "prettier"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "prettier"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -17,13 +21,17 @@
     "sourceType": "module"
   },
   "rules": {
+    "react/no-unescaped-entities": 0,
     "import/no-unresolved": 0,
-    "react/jsx-filename-extension": [1, {
-      "extensions": [
-        ".ts",
-        ".tsx"
-      ]
-    }],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
     "prettier/prettier": [
       "error",
       {
@@ -34,11 +42,15 @@
       }
     ],
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/no-use-before-define": [
+      "error"
+    ],
     "import/extensions": "off",
     "react/prop-types": "off",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/no-shadow": [
+      "error"
+    ],
     "react/style-prop-object": "off",
     "react/no-unstable-nested-components": "off",
     "global-require": "off",
@@ -46,7 +58,7 @@
     "import/prefer-default-export": "off",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
-    "default-param-last"  : "off",
+    "default-param-last": "off",
     "react/no-array-index-key": "off",
     "@typescript-eslint/no-explicit-any": "off"
   }
