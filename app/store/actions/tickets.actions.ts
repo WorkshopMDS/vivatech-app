@@ -1,6 +1,11 @@
 import { Buffer } from 'buffer'
-import { validateTicketService } from '../services/tickets.service'
 import {
+  validateCodeTicketService,
+  validateTicketService,
+} from '../services/tickets.service'
+import {
+  VALIDATE_CODE,
+  VALIDATE_CODE_SUCCESS,
   VALIDATE_TICKET,
   VALIDATE_TICKET_FAILURE,
   VALIDATE_TICKET_SUCCESS,
@@ -12,16 +17,10 @@ export const validateTicket = (ticket: string) => (dispatch: any) => {
   })
 
   return validateTicketService(ticket).then(
-    async data => {
-      const decodedUser = await Buffer.from(data.user, 'base64').toString(
-        'ascii',
-      )
+    () => {
       dispatch({
         type: VALIDATE_TICKET_SUCCESS,
-        payload: {
-          ticket: data.ticket,
-          user: JSON.parse(decodedUser),
-        },
+        payload: ticket,
       })
 
       return Promise.resolve()
@@ -36,3 +35,31 @@ export const validateTicket = (ticket: string) => (dispatch: any) => {
     },
   )
 }
+
+export const validateCode =
+  (ticket: string, code: string) => (dispatch: any) => {
+    dispatch({
+      type: VALIDATE_CODE,
+    })
+
+    return validateCodeTicketService(ticket, code).then(
+      data => {
+        const decoded = Buffer.from(data.user, 'base64').toString('ascii')
+        dispatch({
+          type: VALIDATE_CODE_SUCCESS,
+          payload: JSON.parse(decoded),
+        })
+
+        return Promise.resolve()
+      },
+      error => {
+        console.log('error', error)
+        dispatch({
+          type: VALIDATE_TICKET_FAILURE,
+          payload: error,
+        })
+
+        return Promise.reject()
+      },
+    )
+  }
