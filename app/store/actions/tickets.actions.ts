@@ -1,4 +1,5 @@
 import { Buffer } from 'buffer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   validateCodeTicketService,
   validateTicketService,
@@ -18,6 +19,7 @@ export const validateTicket = (ticket: string) => (dispatch: any) => {
 
   return validateTicketService(ticket).then(
     () => {
+      AsyncStorage.setItem('ticket', ticket)
       dispatch({
         type: VALIDATE_TICKET_SUCCESS,
         payload: ticket,
@@ -45,6 +47,7 @@ export const validateCode =
     return validateCodeTicketService(ticket, code).then(
       data => {
         const decoded = Buffer.from(data.user, 'base64').toString('ascii')
+        AsyncStorage.setItem('user', JSON.stringify(decoded))
         dispatch({
           type: VALIDATE_CODE_SUCCESS,
           payload: JSON.parse(decoded),
