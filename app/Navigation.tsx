@@ -1,15 +1,17 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign } from '@expo/vector-icons'
-import { View, Image, useColorScheme } from 'react-native'
+import { View, Image } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Home from './views/Home'
 import { useCustomTheme } from './utils/Theme'
-
 import QRCodeModal from './components/QRCode/QRCodeModal'
 import { useToggle } from './hooks'
+import CVTheque from './views/CVTheque'
+import ViewCV from './views/ViewCV'
 
 const logos = {
-  dark: require('../assets/header_dark.png'),
+  dark: require('../assets/allwhite.png'),
   light: require('../assets/header_light.png'),
 }
 
@@ -19,11 +21,33 @@ function MyModalBackgroundScreen() {
   return null
 }
 
+function CV() {
+  const CVStack = createNativeStackNavigator()
+
+  return (
+    <CVStack.Navigator initialRouteName="CV">
+      <CVStack.Screen
+        name="List"
+        component={CVTheque}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <CVStack.Screen
+        name="ViewCV"
+        component={ViewCV}
+        options={{
+          headerBackVisible: true,
+          headerShown: false,
+        }}
+      />
+    </CVStack.Navigator>
+  )
+}
+
 function Navigation() {
   const { colors } = useCustomTheme()
-  const scheme = useColorScheme()
-  const isDarkMode = scheme === 'dark'
-  const logo = logos[isDarkMode ? 'dark' : 'light']
+  const logo = logos.dark
 
   const [isOpen, toggle] = useToggle()
 
@@ -43,6 +67,30 @@ function Navigation() {
             paddingBottom: 0,
             height: 56,
           },
+          headerBackground: () => (
+            <LinearGradient
+              colors={[
+                colors.gradient100,
+                colors.gradient200,
+                colors.gradient300,
+                colors.primary200,
+              ]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{
+                width: '100%',
+                height: 90,
+                marginBottom: 24,
+                backgroundColor: colors.primary,
+                borderBottomEndRadius: 30,
+                borderBottomStartRadius: 30,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 8,
+              }}
+            />
+          ),
         }}
       >
         <Tab.Screen
@@ -108,12 +156,12 @@ function Navigation() {
           })}
         />
         <Tab.Screen
-          name="BUFFER"
-          component={Home}
+          name="CV"
+          component={CV}
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign
-                name="home"
+                name="file1"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />
