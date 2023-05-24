@@ -5,6 +5,7 @@ import { Buffer } from 'buffer'
 import styled from 'styled-components'
 import { Camera } from 'expo-camera'
 
+import { useNavigation } from '@react-navigation/native'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { validateTicket } from '../store/actions/tickets.actions'
 import { addCV } from '../store/actions/cv.actions'
@@ -18,12 +19,13 @@ const Title = styled(Text)`
   margin-bottom: 16px;
 `
 
-function QRCodeScannerView({ setScanCV, cv }: any) {
+function QRCodeScannerView({ setScanCV, cv, toggle }: any) {
   const [hasPermission, setHasPermission] = useState(false)
   const [hasScanned, setHasScanned] = useState(false)
   const [hasAskedPermission, setHasAskedPermission] = useState(false)
   const dispatch = useAppDispatch()
   const { codeSent } = useAppSelector(state => state.tickets)
+  const navigation = useNavigation()
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -49,14 +51,21 @@ function QRCodeScannerView({ setScanCV, cv }: any) {
             cv: buff.user.cv,
             phone: '00 00 00 00 00',
           }),
-        )
+        ).then(savecCV => {
+          toggle()
+          navigation.navigate('CV', {
+            screen: 'ViewCV',
+            params: {
+              cv: savecCV,
+            },
+          })
+        })
         setScanCV(false)
-
-        Alert.alert('Succès', 'Le CV a bien été ajouté à ta CVThèque')
       } else {
         dispatch(validateTicket(data)).then(() => setHasScanned(false))
       }
     } catch (error) {
+      console.log(error)
       Alert.alert(
         'Erreur',
         "Le QR code scanné n'est pas valide",
