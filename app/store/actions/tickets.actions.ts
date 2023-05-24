@@ -5,6 +5,7 @@ import {
   validateTicketService,
 } from '../services/tickets.service'
 import {
+  LOGOUT,
   VALIDATE_CODE,
   VALIDATE_CODE_SUCCESS,
   VALIDATE_TICKET,
@@ -66,3 +67,12 @@ export const validateCode =
       },
     )
   }
+
+export const logout = () => (dispatch: any) => {
+  AsyncStorage.removeItem('ticket')
+  AsyncStorage.removeItem('user')
+  dispatch({
+    type: LOGOUT,
+    payload: null,
+  })
+}
