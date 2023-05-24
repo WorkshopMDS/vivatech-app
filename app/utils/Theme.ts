@@ -17,6 +17,7 @@ const Colors = {
 
 export const VivaThemeLight = {
   ...DefaultTheme,
+  roundness: '4px',
   colors: {
     ...DefaultTheme.colors,
     ...Colors,
@@ -25,6 +26,7 @@ export const VivaThemeLight = {
 
 export const VivaThemeDark: VivaThemeType = {
   ...DarkTheme,
+  roundness: '4px',
   colors: {
     ...DarkTheme.colors,
     ...Colors,
