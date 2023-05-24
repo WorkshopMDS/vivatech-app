@@ -1,5 +1,9 @@
+import { useEffect } from 'react'
 import { Image, SafeAreaView, Text } from 'react-native'
 import styled from 'styled-components'
+import { getInterests } from '../store/actions/interests.actions'
+import { getExhibitors } from '../store/actions/exhibitors.actions'
+import { useAppDispatch } from '../hooks'
 
 const Background = styled(Image)`
   margin-left: auto;
@@ -23,6 +27,13 @@ const images = {
 }
 
 function Home() {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getInterests())
+    dispatch(getExhibitors())
+  }, [dispatch])
+
   return (
     <SafeAreaView>
       <Background source={images.bg} />
