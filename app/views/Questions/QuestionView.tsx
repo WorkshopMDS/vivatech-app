@@ -36,7 +36,7 @@ const CTA = styled(View)`
   justify-content: center;
   gap: 10px;
   border-radius: ${({ theme }) => theme.roundness};
-  background-color: #28a745;
+  background-color: ${props => (props.isActive ? 'red' : 'grey')};
   padding: 15px;
   margin-top: 10px;
 `
@@ -76,7 +76,7 @@ function QuestionView() {
             style={styles.responses}
           />
         </View>
-        <CTA>
+        <CTA isActive={!data2}>
           <AntDesign name="check" size={24} color="white" />
           <Text style={styles.ctaText}>Valider</Text>
         </CTA>

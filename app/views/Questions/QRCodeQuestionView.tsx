@@ -6,10 +6,10 @@ import styled from 'styled-components'
 import { Camera } from 'expo-camera'
 
 const Title = styled(Text)`
-  font-family: Museo-700;
   font-size: 24px;
+  font-weight: bold;
   text-align: center;
-  margin: 40px 0;
+  margin-bottom: 5px;
 `
 
 function QRCodeQuestionView({ setData }: any) {
@@ -69,18 +69,23 @@ function QRCodeQuestionView({ setData }: any) {
         flex: 1,
       }}
     >
-      <Title>Scan le QR code du stand XXX</Title>
+      <View style={{ margin: 40 }}>
+        <Title>Rendez-vous sur le stand 10</Title>
+        <Text style={{ fontSize: 14, textAlign: 'center' }}>
+          et scan le QR code présent pour répondre à la question
+        </Text>
+      </View>
 
       <View
         style={{
           flex: 1,
-          overflow: 'hidden',
           alignItems: 'center',
         }}
       >
         <Camera
           style={{
             borderRadius: 10,
+            overflow: 'hidden',
             flex: 0,
             width: '95%',
             height: '80%',

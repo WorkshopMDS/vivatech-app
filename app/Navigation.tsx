@@ -121,6 +121,30 @@ function Navigation() {
           }}
         />
         <Tab.Screen
+          name="Programs"
+          component={ProgramStack}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <AntDesign
+                name="find"
+                size={24}
+                color={focused ? colors.primary : colors.border}
+              />
+            ),
+            headerTitle: () => (
+              <Image
+                source={logo}
+                style={{
+                  height: 50,
+                  width: 300,
+                  marginTop: -15,
+                  resizeMode: 'contain',
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
           name="QRCode"
           component={MyModalBackgroundScreen}
           options={{
@@ -189,30 +213,6 @@ function Navigation() {
             tabBarIcon: ({ focused }) => (
               <AntDesign
                 name="isv"
-                size={24}
-                color={focused ? colors.primary : colors.border}
-              />
-            ),
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{
-                  height: 50,
-                  width: 300,
-                  marginTop: -15,
-                  resizeMode: 'contain',
-                }}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Programs"
-          component={ProgramStack}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <AntDesign
-                name="find"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />

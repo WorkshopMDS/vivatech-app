@@ -139,7 +139,9 @@ function JourneyItemView({ route, navigation }: any): any {
             </Block>
           </View>
           <TouchableHighlight
-            onPress={() => navigation.navigate('QuestionView', { journeyId })}
+            onPress={() =>
+              navigation.navigate('TutorialQuestionView', { journeyId })
+            }
             style={{ marginBottom: 40 }}
           >
             <CTA>
