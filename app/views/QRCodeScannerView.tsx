@@ -5,6 +5,8 @@ import { Buffer } from 'buffer'
 import styled from 'styled-components'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Camera } from 'expo-camera'
+import { useAppDispatch } from '../hooks'
+import { validateTicket } from '../store/actions/tickets.actions'
 
 const Title = styled(Text)`
   font-family: Museo-700;
@@ -14,10 +16,11 @@ const Title = styled(Text)`
   margin-bottom: 16px;
 `
 
-function QRCodeScannerView({ setData }: any) {
+function QRCodeScannerView({ cv }: any) {
   const [hasPermission, setHasPermission] = useState(false)
   const [hasScanned, setHasScanned] = useState(false)
   const [hasAskedPermission, setHasAskedPermission] = useState(false)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -29,26 +32,28 @@ function QRCodeScannerView({ setData }: any) {
     getBarCodeScannerPermissions()
   }, [])
 
-  const handleBarCodeScanned = ({ data }: any) => {
-    const decodedData = Buffer.from(data, 'base64').toString('ascii')
+  const handleBarCodeScanned = async ({ data }: any) => {
+    setHasScanned(true)
     try {
-      const jsonData = JSON.parse(decodedData)
+      if (!cv) {
+        dispatch(validateTicket(data)).then(() => setHasScanned(false))
+      } else {
+        const buff = JSON.parse(Buffer.from(data, 'base64').toString())
 
-      const keys = ['id', 'validityPeriod', 'buyDate', 'user']
-      const hasAllKeys = keys.every(key =>
-        Object.prototype.hasOwnProperty.call(jsonData, key),
-      )
-
-      // check if the data is valid (has the right keys)
-      if (!hasAllKeys) {
-        throw new Error()
+        if (buff.cv) {
+          AsyncStorage.getItem('cvs').then(cvs => {
+            if (cvs) {
+              const cvsArray = JSON.parse(cvs)
+              cvsArray.push(buff.cv)
+              AsyncStorage.setItem('cvs', JSON.stringify(cvsArray))
+            } else {
+              AsyncStorage.setItem('cvs', JSON.stringify([buff.cv]))
+            }
+          })
+          Alert.alert('Succès', 'Le CV a bien été ajouté à ta CVThèque')
+        }
       }
-
-      AsyncStorage.setItem('ticket', data)
-      setData(data)
-    } catch {
-      setHasScanned(true)
-
+    } catch (error) {
       Alert.alert(
         'Erreur',
         "Le QR code scanné n'est pas valide",
@@ -78,7 +83,13 @@ function QRCodeScannerView({ setData }: any) {
         flex: 1,
       }}
     >
-      <Title>Scanne ton billet physique</Title>
+      {cv ? (
+        <Title>
+          Scanne le QR code du CV pour l&lsquo;ajouter à ta CVThèque
+        </Title>
+      ) : (
+        <Title>Scanne ton billet physique</Title>
+      )}
 
       <View
         style={{
