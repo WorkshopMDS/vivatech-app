@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { Image, Text, View } from 'react-native'
 import styled from 'styled-components'
 
 type Exhibitors = {
@@ -37,14 +37,17 @@ const Title = styled(Text)`
   font-weight: bold;
   flex-wrap: wrap;
   width: 100%;
-  color: ${({ theme }) => theme.colors.primary}};
+  color: ${({ theme }) => theme.colors.primary}
+}
+
+;
 `
 
 const Label = styled(View)`
   width: 30px;
   height: 30px;
   border-radius: 20px;
-  background: ${({ theme }) => theme.colors.primary}};  
+  background: ${({ theme }) => theme.colors.primary};
   font-size: 16px;
   flex-wrap: wrap;
   justify-content: center;
@@ -60,7 +63,10 @@ const Sector = styled(Text)`
   font-size: 12px;
   flex-wrap: wrap;
   width: 100%;
-  color: ${({ theme }) => theme.colors.primary}};
+  color: ${({ theme }) => theme.colors.primary}
+}
+
+;
 `
 
 function cleanSectors(sector: string) {
