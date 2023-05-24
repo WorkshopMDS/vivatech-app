@@ -25,8 +25,10 @@ export const VivaThemeLight = {
 
 export const VivaThemeDark: VivaThemeType = {
   ...DarkTheme,
+
   colors: {
     ...DarkTheme.colors,
+    background: '#202020',
     ...Colors,
   },
 }
