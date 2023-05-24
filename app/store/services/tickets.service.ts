@@ -1,5 +1,5 @@
 const API_URL = 'https://viva-api.fly.dev'
-const ENDPOINT = '/ticket'
+const ENDPOINT = '/conferences'
 
 export const validateTicketService = (ticket: string) =>
   fetch(`${API_URL}${ENDPOINT}/validation/${ticket}`)
