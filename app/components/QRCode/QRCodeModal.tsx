@@ -11,7 +11,7 @@ interface QRCodeModalProps {
 function QRCodeModal({ toggle }: QRCodeModalProps) {
   const bottomSheetRef = useRef<BottomSheet>(null)
   const { codeSent } = useAppSelector(state => state.tickets)
-  const snapPoints = useMemo(() => (!codeSent ? ['52%'] : ['25%']), [codeSent])
+  const snapPoints = useMemo(() => (!codeSent ? ['56%'] : ['30%']), [codeSent])
 
   return (
     <BottomSheet
@@ -32,6 +32,7 @@ function QRCodeModal({ toggle }: QRCodeModalProps) {
       )}
       onClose={toggle}
       keyboardBehavior="interactive"
+      keyboardBlurBehavior="restore"
     >
       <QRCodeView {...{ toggle }} />
     </BottomSheet>
