@@ -6,13 +6,13 @@ type ExhibitorsFilter = {
 }
 
 const Container = styled(View)`
-  background: #ffffff;
-  border-radius: 25px;
+  background: ${({ theme }) => theme.colors.card};
+  border-radius: 24px;
   display: flex;
   align-items: center;
   flex-direction: row;
   height: 80px;
-  margin: 5px;
+  margin: 8px 12px;
   padding: 5px;
   gap: 10px;
   flex: 1;

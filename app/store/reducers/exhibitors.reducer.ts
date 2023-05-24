@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   GET_EXHIBITORS,
   GET_EXHIBITORS_SUCCESS,
@@ -9,6 +10,19 @@ const initialState = {
   error: '',
   loading: false,
 }
+
+const fetchExhibitorsData = async () => {
+  try {
+    const exhibitors = await AsyncStorage.getItem('exhibitors')
+    if (exhibitors !== null) {
+      initialState.exhibitors = JSON.parse(exhibitors)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+fetchExhibitorsData()
 
 function exhibitorsReducer(state = initialState, action: any) {
   const { type, payload } = action

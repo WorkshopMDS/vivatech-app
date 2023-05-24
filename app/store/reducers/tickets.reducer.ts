@@ -5,6 +5,7 @@ import {
   VALIDATE_TICKET_SUCCESS,
   VALIDATE_CODE_SUCCESS,
   VALIDATE_CODE_FAILURE,
+  LOGOUT,
 } from '../actions/types'
 
 const initialState = {
@@ -76,6 +77,16 @@ function ticketsReducer(state = initialState, action: any) {
         ...state,
         error: 'Code is invalid',
         loading: false,
+      }
+    case LOGOUT:
+      return {
+        ...state,
+        ticket: '',
+        user: {},
+        error: '',
+        loading: false,
+        validated: false,
+        codeSent: false,
       }
     default:
       return state
