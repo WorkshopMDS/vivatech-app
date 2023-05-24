@@ -6,11 +6,12 @@ const Colors = {
   primary100: '#ff00e4',
   primary200: '#ff0081',
   primary300: '#a1009b',
+  primary1000: '#5508a0',
   orange: '#f15700',
   yellow: '#ffff00',
   green: '#00ff00',
   blue: '#00ffff',
-  gradient100: '#fff265',
+  gradient100: '#F8F265',
   gradient200: '#ff5900',
   gradient300: '#f5255d',
 }
@@ -31,6 +32,7 @@ export const VivaThemeDark: VivaThemeType = {
     ...DarkTheme.colors,
     background: '#202020',
     ...Colors,
+    primary1000: '#FFFFFF',
   },
 }
 

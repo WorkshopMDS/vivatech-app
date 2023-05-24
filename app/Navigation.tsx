@@ -154,6 +154,7 @@ function Navigation() {
                   colors.gradient100,
                   colors.gradient200,
                   colors.gradient300,
+                  colors.primary100,
                 ]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}

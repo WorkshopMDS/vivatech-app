@@ -1,13 +1,13 @@
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import { useEffect, useState } from 'react'
-import { View, Text, Alert } from 'react-native'
+import { View, Text, Alert, Pressable } from 'react-native'
 import { Buffer } from 'buffer'
 import styled from 'styled-components'
 import { Camera } from 'expo-camera'
 
 import { useNavigation } from '@react-navigation/native'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { validateTicket } from '../store/actions/tickets.actions'
+import { logout, validateTicket } from '../store/actions/tickets.actions'
 import { addCV } from '../store/actions/cv.actions'
 import CodeValidation from '../components/QRCode/CodeValidation'
 
@@ -17,6 +17,23 @@ const Title = styled(Text)`
   text-align: center;
   color: white;
   margin-bottom: 16px;
+`
+
+const Logout = styled(Pressable)`
+  background-color: white;
+  padding: 16px;
+  border-radius: 16px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+`
+
+const LogoutText = styled(Text)`
+  font-family: Museo-700;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.primary};
+  text-align: center;
 `
 
 function QRCodeScannerView({ setScanCV, cv, toggle }: any) {
@@ -36,6 +53,10 @@ function QRCodeScannerView({ setScanCV, cv, toggle }: any) {
 
     getBarCodeScannerPermissions()
   }, [])
+
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   const handleBarCodeScanned = async ({ data }: any) => {
     setHasScanned(true)
@@ -94,6 +115,9 @@ function QRCodeScannerView({ setScanCV, cv, toggle }: any) {
       <View>
         <Title>Nous avons envoyé un code à ton adresse mail</Title>
         <CodeValidation {...{ setHasScanned }} />
+        <Logout onPress={handleLogout}>
+          <LogoutText>Changer de billet</LogoutText>
+        </Logout>
       </View>
     )
   }

@@ -1,6 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ADD_CV } from '../actions/types'
 
-interface CV {
+export interface CV {
   name: string
   lastName: string
   email: string
@@ -15,6 +16,19 @@ interface CVState {
 const initialState: CVState = {
   cvs: [],
 }
+
+const fetchLocalData = async () => {
+  try {
+    const cvs = await AsyncStorage.getItem('cv')
+    if (cvs !== null) {
+      initialState.cvs = JSON.parse(cvs)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+fetchLocalData()
 
 function cvReducer(state = initialState, action: any) {
   const { type, payload } = action
