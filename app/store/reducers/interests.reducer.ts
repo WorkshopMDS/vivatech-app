@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   GET_INTERESTS,
   GET_INTERESTS_SUCCESS,
@@ -9,6 +10,19 @@ const initialState = {
   error: '',
   loading: false,
 }
+
+const fetchInterestsData = async () => {
+  try {
+    const interests = await AsyncStorage.getItem('interests')
+    if (interests !== null) {
+      initialState.interests = JSON.parse(interests)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+fetchInterestsData()
 
 function interestsReducer(state = initialState, action: any) {
   const { type, payload } = action
