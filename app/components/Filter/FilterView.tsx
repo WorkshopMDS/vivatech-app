@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator, Pressable, View } from 'react-native'
 import { FlashList } from '@shopify/flash-list'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import styled from 'styled-components'
 import Card from '../Filter/FilterCard'
 
@@ -43,9 +42,9 @@ function FilterView({ navigation }) {
         data={[...data]}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 5 }}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleCardPress(item.id)}>
+          <Pressable onPress={() => handleCardPress(item.id)}>
             <Card interests={item.label} />
-          </TouchableOpacity>
+          </Pressable>
         )}
         estimatedItemSize={20}
         ListFooterComponent={loading ? <ActivityIndicator /> : null}

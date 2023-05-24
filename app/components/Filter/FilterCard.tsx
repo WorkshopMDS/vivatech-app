@@ -7,13 +7,12 @@ type ExhibitorsFilter = {
 
 const Container = styled(View)`
   background: #ffffff;
-  border: 1px solid ${({ theme }) => theme.colors.border}};
   border-radius: 25px;
   display: flex;
   align-items: center;
   flex-direction: row;
   height: 80px;
-  margin: 5px;
+  margin: 15px;
   padding: 5px;
   gap: 10px;
   flex: 1;

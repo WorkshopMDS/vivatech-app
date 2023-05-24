@@ -9,14 +9,13 @@ type Exhibitors = {
 
 const Container = styled(View)`
   background: #ffffff;
-  border: 1px solid ${({ theme }) => theme.colors.border}};
   border-radius: 25px;
   display: flex;
   align-items: center;
   flex-direction: row;
   height: 150px;
   margin: 5px;
-  padding: 5px;
+  padding: 10px;
   gap: 10px;
   flex: 1;
 `
@@ -41,6 +40,22 @@ const Title = styled(Text)`
   color: ${({ theme }) => theme.colors.primary}};
 `
 
+const Stand = styled(Text)`
+  width: 20px;
+  border-radius: 20px;
+  background: ${({ theme }) => theme.colors.primary}};  
+  font-size: 16px;
+  flex-wrap: wrap;
+  color: white;
+`
+
+const Sector = styled(Text)`
+  font-size: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.primary}};
+`
+
 function cleanSectors(sector: string) {
   return sector.replace(/[[\]']/g, '')
 }
@@ -51,10 +66,11 @@ function Card(props?: Exhibitors) {
       <Logo source={{ uri: props?.picture }} />
       <Infos>
         <Title>{props?.name}</Title>
-        <Text>
+        <Sector>
           {props?.sectors ? cleanSectors(props?.sectors?.join('')) : ''}
-        </Text>
+        </Sector>
       </Infos>
+      <Stand>A1</Stand>
     </Container>
   )
 }
