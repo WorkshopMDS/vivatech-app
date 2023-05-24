@@ -6,7 +6,7 @@ import { useCustomTheme } from './utils/Theme'
 import Home from './views/Home'
 
 import QRCodeModal from './components/QRCode/QRCodeModal'
-import useToggle from './utils/useToggle'
+import { useToggle } from './hooks'
 import ExhibitorStack from './components/Exhibitors/ExhibitorStack'
 
 const logos = {

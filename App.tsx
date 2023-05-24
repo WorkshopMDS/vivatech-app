@@ -6,8 +6,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Provider } from 'react-redux'
 import Navigation from './app/Navigation'
 import { VivaThemeLight, VivaThemeDark } from './app/utils/Theme'
+import store from './app/store/store'
 
 export default function App() {
   // Clear AsyncStorage for testing
@@ -35,13 +37,15 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <BottomSheetModalProvider>
-          <ThemeProvider {...{ theme }}>
-            <NavigationContainer {...{ theme }}>
-              <Navigation />
-            </NavigationContainer>
-          </ThemeProvider>
-        </BottomSheetModalProvider>
+        <Provider store={store}>
+          <BottomSheetModalProvider>
+            <ThemeProvider {...{ theme }}>
+              <NavigationContainer {...{ theme }}>
+                <Navigation />
+              </NavigationContainer>
+            </ThemeProvider>
+          </BottomSheetModalProvider>
+        </Provider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   )
