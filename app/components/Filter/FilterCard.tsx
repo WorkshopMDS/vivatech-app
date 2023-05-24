@@ -12,7 +12,7 @@ const Container = styled(View)`
   align-items: center;
   flex-direction: row;
   height: 80px;
-  margin: 15px;
+  margin: 5px;
   padding: 5px;
   gap: 10px;
   flex: 1;

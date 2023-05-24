@@ -14,8 +14,8 @@ const Container = styled(View)`
   align-items: center;
   flex-direction: row;
   height: 150px;
-  margin: 5px;
-  padding: 10px;
+  margin: 10px;
+  padding: 5px;
   gap: 10px;
   flex: 1;
 `
@@ -40,10 +40,17 @@ const Title = styled(Text)`
   color: ${({ theme }) => theme.colors.primary}};
 `
 
-const Stand = styled(Text)`
-  width: 20px;
+const Label = styled(View)`
+  width: 30px;
+  height: 30px;
   border-radius: 20px;
   background: ${({ theme }) => theme.colors.primary}};  
+  font-size: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+`
+
+const Stand = styled(Text)`
   font-size: 16px;
   flex-wrap: wrap;
   color: white;
@@ -70,7 +77,9 @@ function Card(props?: Exhibitors) {
           {props?.sectors ? cleanSectors(props?.sectors?.join('')) : ''}
         </Sector>
       </Infos>
-      <Stand>A1</Stand>
+      <Label>
+        <Stand>A1</Stand>
+      </Label>
     </Container>
   )
 }
