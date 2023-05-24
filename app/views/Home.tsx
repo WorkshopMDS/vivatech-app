@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { getInterests } from '../store/actions/interests.actions'
 import { getExhibitors } from '../store/actions/exhibitors.actions'
 import { useAppDispatch } from '../hooks'
+import { getJourneys } from '../store/actions/journeys.actions'
 
 const Background = styled(Image)`
   margin-left: auto;
@@ -32,6 +33,7 @@ function Home() {
   useEffect(() => {
     dispatch(getInterests())
     dispatch(getExhibitors())
+    dispatch(getJourneys())
   }, [dispatch])
 
   return (
