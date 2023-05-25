@@ -52,6 +52,7 @@ const Details = styled(View)`
 const Stage = styled(Time)`
   font-family: Museo-700;
   font-size: 16px;
+  text-align: center;
 `
 
 const StageContainer = styled(View)`
@@ -61,6 +62,7 @@ const StageContainer = styled(View)`
   padding: 8px;
   justify-content: space-around;
   align-items: center;
+  flex: 1;
 `
 const Description = styled(Text)`
   font-family: Museo-300;
