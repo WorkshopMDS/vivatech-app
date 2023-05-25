@@ -4,39 +4,21 @@ import { View, Image, Pressable } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useState, useEffect } from 'react'
 import Home from './views/Home'
 import ConferenceList from './views/ConferenceView'
 import { useCustomTheme } from './utils/Theme'
 
 import QRCodeModal from './components/QRCode/QRCodeModal'
-import { useToggle } from './hooks'
+import { useAppSelector, useToggle } from './hooks'
 import ExhibitorStack from './components/Exhibitors/ExhibitorStack'
 import CVTheque from './views/CVTheque'
 import ViewCV from './views/ViewCV'
-import KYC from './views/KYC'
 import Profile from './views/Profile'
 import ProgramStack from './views/Journeys/JourneyStack'
 
 const logos = {
   dark: require('../assets/allwhite.png'),
   light: require('../assets/header_light.png'),
-}
-
-// AsyncStorage.clear()
-
-async function checkIfFirstLaunch() {
-  try {
-    const hasFirstLaunched = await AsyncStorage.getItem('userHasLaunched')
-    if (hasFirstLaunched === null) {
-      await AsyncStorage.setItem('userHasLaunched', 'true')
-      return true
-    }
-    return false
-  } catch (error) {
-    return false
-  }
 }
 
 const Tab = createBottomTabNavigator()
@@ -47,61 +29,39 @@ function MyModalBackgroundScreen() {
 
 function HomeStackView() {
   const HomeStack = createNativeStackNavigator()
-  const navigation = useNavigation()
-  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null)
-
-  useEffect(() => {
-    const launchKYC = async () => {
-      const firstLaunch = await checkIfFirstLaunch()
-      setIsFirstLaunch(firstLaunch)
-      console.log(firstLaunch)
-    }
-    launchKYC()
-  }, [navigation])
 
   return (
-    isFirstLaunch !== null && (
-      <HomeStack.Navigator>
-        {isFirstLaunch && (
-          <HomeStack.Screen
-            name="KYC"
-            component={KYC}
-            options={{
-              headerShown: false,
-            }}
-          />
-        )}
-        <HomeStack.Screen
-          name="HomeView"
-          component={Home}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <HomeStack.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <HomeStack.Screen
-          name="CVTheque"
-          component={CVTheque}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <HomeStack.Screen
-          name="ViewCV"
-          component={ViewCV}
-          options={{
-            headerBackVisible: true,
-            headerShown: false,
-          }}
-        />
-      </HomeStack.Navigator>
-    )
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="HomeView"
+        component={Home}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="CVTheque"
+        component={CVTheque}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="ViewCV"
+        component={ViewCV}
+        options={{
+          headerBackVisible: true,
+          headerShown: false,
+        }}
+      />
+    </HomeStack.Navigator>
   )
 }
 
@@ -111,6 +71,8 @@ function Navigation() {
   const navigation = useNavigation()
 
   const [isOpen, toggle] = useToggle()
+  const { user } = useAppSelector(state => state.tickets)
+  const { isFilled } = useAppSelector(state => state.kyc)
 
   const headerOptions = {
     headerTitle: () => (
@@ -124,21 +86,27 @@ function Navigation() {
         }}
       />
     ),
-    headerRight: () => (
-      <Pressable
-        style={{
-          width: 50,
-          height: 35,
-        }}
-      >
-        <AntDesign
-          name="user"
-          size={24}
-          color="white"
-          onPress={() => navigation.navigate('Profile')}
-        />
-      </Pressable>
-    ),
+
+    headerRight: () => {
+      if (!user.firstname || !isFilled) {
+        return null
+      }
+      return (
+        <Pressable
+          style={{
+            width: 50,
+            height: 35,
+          }}
+        >
+          <AntDesign
+            name="user"
+            size={24}
+            color="white"
+            onPress={() => navigation.navigate('Profile')}
+          />
+        </Pressable>
+      )
+    },
   }
 
   return (

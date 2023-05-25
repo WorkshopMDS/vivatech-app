@@ -3,18 +3,14 @@ import { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Alert,
-  Button,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
+  View,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getInterests } from '../store/actions/interests.actions'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { useCustomTheme } from '../utils/Theme'
 import { addUserKYC } from '../store/actions/kyc.actions'
 
 export type IInterest = {
@@ -22,9 +18,7 @@ export type IInterest = {
   id: string
 }
 
-function KYC() {
-  const { colors } = useCustomTheme()
-  const navigation = useNavigation()
+function KYC({ colors }: any) {
   const dispatch = useAppDispatch()
   const loading = false
 
@@ -71,18 +65,27 @@ function KYC() {
     return <ActivityIndicator />
   }
 
-  const Label = styled(Text)<{ isActive: boolean }>`
+  const Label = styled(Text)`
     text-align: center;
     font-size: 16px;
-    height: 30px;
-    flex: 0;
+
     padding: 5px;
     padding-bottom: 0px;
-    margin: 3px;
-    background: ${({ isActive }) =>
-      isActive ? colors.primary : colors.orange}};
+
     color: white;
-    border-radius: 10px;
+  `
+
+  const LabelContainer = styled(Pressable)<{ isActive: boolean }>`
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+    margin-bottom: 0px;
+    height: 30px;
+
+    border-radius: 8px;
+    background-color: ${({ isActive }) =>
+      isActive ? colors.primary : colors.orange};
   `
 
   const Title = styled(Text)`
@@ -90,7 +93,18 @@ function KYC() {
     font-weight: bold;
     margin: 10px;
     align-self: center;
-    color: ${({ theme }) => theme.colors.text};
+    color: ${() => colors.text};
+  `
+
+  const Valider = styled(Pressable)`
+    margin: 10px;
+    align-self: center;
+    color: ${() => colors.text};
+    background-color: ${() => colors.primary};
+    padding: 10px;
+    border-radius: 8px;
+    width: 100px;
+    align-items: center;
   `
 
   const styles = StyleSheet.create({
@@ -111,27 +125,34 @@ function KYC() {
         return sortedInterests[interestIndex].id as string
       })
       dispatch(addUserKYC(interestsId))
-      AsyncStorage.setItem('userHasLaunched', 'false')
-      navigation.navigate('Home', {
-        screen: 'HomeView',
-      })
     }
   }
 
   return (
-    <SafeAreaView>
+    <View
+      style={{
+        backgroundColor: colors.background,
+        flex: 1,
+        paddingBottom: 64,
+        paddingHorizontal: 4,
+      }}
+    >
       <Title>Choississez jusqu&lsquo;à 5 centres d&lsquo;interêts</Title>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {sortedInterests.map((item: IInterest) => (
-          <Pressable key={item.id} onPress={() => addInterest(item.label)}>
-            <Label isActive={listInterest.includes(item.label)}>
-              {item.label}
-            </Label>
-          </Pressable>
+          <LabelContainer
+            key={item.id}
+            onPress={() => addInterest(item.label)}
+            isActive={listInterest.includes(item.label)}
+          >
+            <Label>{item.label}</Label>
+          </LabelContainer>
         ))}
       </ScrollView>
-      <Button onPress={() => sendUserInterests()} title="Valider" />
-    </SafeAreaView>
+      <Valider onPress={() => sendUserInterests()}>
+        <Text style={{ color: 'white', fontSize: 24 }}>Valider</Text>
+      </Valider>
+    </View>
   )
 }
 

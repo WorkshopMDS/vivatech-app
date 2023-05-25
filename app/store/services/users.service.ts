@@ -70,6 +70,9 @@ export const addJourneyService = async (journey: IInputJourney) => {
 
 export const updateUserKYCService = async (interests: string[]) => {
   const accessToken = await getAccessToken()
+  if (!accessToken) {
+    return
+  }
   fetch(`${API_URL}${ENDPOINT}`, {
     method: 'PATCH',
     headers: {
@@ -86,7 +89,7 @@ export const updateUserKYCService = async (interests: string[]) => {
       return Promise.reject()
     })
     .catch(error => {
-      console.log('error', error)
+      console.log('errorIDI', error)
       return Promise.reject(error)
     })
 }

@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Image, SafeAreaView, Text } from 'react-native'
 import styled from 'styled-components'
 import { ScrollView } from 'react-native-gesture-handler'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { getInterests } from '../store/actions/interests.actions'
 import { getExhibitors } from '../store/actions/exhibitors.actions'
@@ -10,8 +11,9 @@ import ConferenceCard from '../components/Conference/ConferenceCard'
 import { IConference } from '../models/ConferenceType'
 import { IExhibitor } from '../components/Exhibitors/ExhibitorsView'
 import Card from '../components/Exhibitors/ExhibitorCard'
-import { IInterest } from './KYC'
+import KYC, { IInterest } from './KYC'
 import { getUserKYC } from '../store/actions/kyc.actions'
+import { useCustomTheme } from '../utils/Theme'
 
 const Background = styled(Image)`
   margin-left: auto;
@@ -42,9 +44,10 @@ const Container = styled(SafeAreaView)`
 
 function Home() {
   const dispatch = useAppDispatch()
+  const { colors } = useCustomTheme()
   const { conferences } = useAppSelector(state => state.conferences)
   const { exhibitors } = useAppSelector(state => state.exhibitors)
-  const { userInterests } = useAppSelector(state => state.kyc)
+  const { userInterests, isFilled } = useAppSelector(state => state.kyc)
 
   // const [userInterests, setUserInterests] = useState<string[]>([])
 
@@ -83,6 +86,16 @@ function Home() {
     dispatch(getUserKYC())
   }, [dispatch])
 
+  const ref = useRef<any>(null)
+
+  useEffect(() => {
+    if (isFilled) {
+      ref.current?.close()
+      return
+    }
+    ref.current?.present()
+  }, [isFilled])
+
   return (
     <Container>
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
@@ -96,6 +109,16 @@ function Home() {
           <Card key={exhibitor.name} exhibitor={exhibitor} />
         ))}
       </ScrollView>
+      <BottomSheetModal
+        snapPoints={['85%', '85%']}
+        index={1}
+        ref={ref}
+        enablePanDownToClose={false}
+        enableDismissOnClose={false}
+        handleComponent={() => null}
+      >
+        <KYC colors={colors} />
+      </BottomSheetModal>
     </Container>
   )
 }

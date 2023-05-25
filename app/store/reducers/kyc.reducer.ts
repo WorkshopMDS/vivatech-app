@@ -5,7 +5,21 @@ const initialState = {
   userInterests: [],
   error: '',
   loading: false,
+  isFilled: false,
 }
+
+const fetchIsFilled = async () => {
+  try {
+    const isFilled = await AsyncStorage.getItem('userFilledKYC')
+    if (isFilled !== null) {
+      initialState.isFilled = JSON.parse(isFilled)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+fetchIsFilled()
 
 const fetchUserInterests = async () => {
   try {
@@ -28,6 +42,7 @@ function kycReducer(state = initialState, action: any) {
       return {
         ...state,
         userInterests: payload,
+        isFilled: true,
       }
     case 'GET_KYC':
       return {
