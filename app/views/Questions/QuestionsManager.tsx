@@ -41,6 +41,8 @@ function QuestionsManager({ navigation, route }: any) {
       <QRCodeQuestionView
         standId={journey.questions[currentQuestion].stand}
         setIsOnStand={setIsOnStand}
+        totalQuestionsNb={journey.questions.length}
+        questionNb={currentQuestion + 1}
       />
     ))
   )

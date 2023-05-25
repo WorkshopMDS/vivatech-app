@@ -125,12 +125,12 @@ function QuestionView({
             source={question.image ? { uri: question.image } : emptyImage}
           />
           <Text style={{ textAlign: 'center' }}>
+            Stand
+            <Text style={{ fontWeight: 'bold' }}> {question.stand} </Text>-
             Question
             <Text style={{ fontWeight: 'bold' }}> {questionNb} </Text>
             sur
-            <Text style={{ fontWeight: 'bold' }}> {totalQuestionsNb} </Text>-
-            Stand
-            <Text style={{ fontWeight: 'bold' }}> {question.stand}</Text>
+            <Text style={{ fontWeight: 'bold' }}> {totalQuestionsNb}</Text>
           </Text>
           <Text style={styles.h1}>{question.question}</Text>
           {question.description && (

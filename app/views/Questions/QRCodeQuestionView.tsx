@@ -20,7 +20,7 @@ const Button = styled(View)`
   background-color: ${({ theme }) => theme.colors.primary};
   padding: 10px;
   border-radius: 16px;
-  margin: 10px;
+  margin: 16px 0 10px 0;
 `
 
 const ButtonTitle = styled(Text)`
@@ -30,7 +30,12 @@ const ButtonTitle = styled(Text)`
   color: white;
 `
 
-function QRCodeQuestionView({ standId, setIsOnStand }: any) {
+function QRCodeQuestionView({
+  standId,
+  totalQuestionsNb,
+  questionNb,
+  setIsOnStand,
+}: any) {
   const [hasPermission, setHasPermission] = useState(false)
   const [hasScanned, setHasScanned] = useState(false)
   const [hasAskedPermission, setHasAskedPermission] = useState(false)
@@ -87,7 +92,14 @@ function QRCodeQuestionView({ standId, setIsOnStand }: any) {
         flex: 1,
       }}
     >
-      <View style={{ margin: 40 }}>
+      <View style={{ marginHorizontal: 40, marginTop: 28, marginBottom: 28 }}>
+        <Text style={{ textAlign: 'center', marginBottom: 4 }}>
+          Stand
+          <Text style={{ fontWeight: 'bold' }}> {standId} </Text>- Question
+          <Text style={{ fontWeight: 'bold' }}> {questionNb} </Text>
+          sur
+          <Text style={{ fontWeight: 'bold' }}> {totalQuestionsNb}</Text>
+        </Text>
         <Title>Rendez-vous sur le stand</Title>
         <Button>
           <ButtonTitle>{standId}</ButtonTitle>
