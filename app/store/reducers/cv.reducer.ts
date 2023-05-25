@@ -2,8 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ADD_CV } from '../actions/types'
 
 export interface CV {
-  name: string
-  lastName: string
+  firstname: string
+  lastname: string
   email: string
   phone: string
   cv: string

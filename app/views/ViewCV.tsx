@@ -36,7 +36,7 @@ function ViewCV({ route }: any) {
     >
       <Container>
         <Title>
-          {cv.name} {cv.lastName}
+          {cv.firstname} {cv.lastname}
         </Title>
         <Subtitle>{cv.email}</Subtitle>
         <PDFReader

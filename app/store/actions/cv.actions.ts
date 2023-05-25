@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ADD_CV, UPDATE_CV, UPLOAD_CV } from './types'
 import { CV } from '../reducers/cv.reducer'
-import { uploadCVService } from '../services/cv.service'
+import { scanCVService, uploadCVService } from '../services/cv.service'
 import { changeCVService } from '../services/users.service'
 
 export const addCV = (cv: CV) => async (dispatch: any) => {
@@ -14,6 +14,8 @@ export const addCV = (cv: CV) => async (dispatch: any) => {
   } else {
     AsyncStorage.setItem('cv', JSON.stringify([cv]))
   }
+
+  await scanCVService()
 
   dispatch({
     type: ADD_CV,

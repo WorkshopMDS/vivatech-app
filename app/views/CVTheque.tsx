@@ -81,7 +81,7 @@ function CVTheque({ navigation }: any) {
           <Card key={index}>
             <Col>
               <Title>
-                {cv.name} {cv.lastName}
+                {cv.firstname} {cv.lastname}
               </Title>
               <Subtitle>{cv.email}</Subtitle>
             </Col>

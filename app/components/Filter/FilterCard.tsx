@@ -24,7 +24,7 @@ const Interest = styled(Text)`
   font-weight: bold;
   flex-wrap: wrap;
   width: 100%;
-  color: ${({ theme }) => theme.colors.primary}};
+  color: ${({ theme }) => theme.colors.primary1000}};
 `
 
 function Card(props?: ExhibitorsFilter) {

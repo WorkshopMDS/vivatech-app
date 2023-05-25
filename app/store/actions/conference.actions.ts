@@ -14,7 +14,9 @@ export const getConferences = () => (dispatch: any) => {
     async data => {
       dispatch({
         type: GET_CONFERENCE_SUCCESS,
-        payload: data.data,
+        payload: data.data.sort((a: any, b: any) => {
+          return new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
+        }),
       })
 
       return Promise.resolve()
