@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import { getAccessToken } from '../../utils/auth'
 
 const API_URL = 'https://viva-api.fly.dev'
@@ -33,8 +34,20 @@ export const changeCVService = async (cv: string) => {
 
 export const addJourneyService = async (journey: IInputJourney) => {
   const accessToken = await getAccessToken()
+  if (!accessToken) {
+    return
+  }
+  const parts: string[] = accessToken
+    .split('.')
+    .map(part =>
+      Buffer.from(
+        part.replace(/-/g, '+').replace(/_/g, '/'),
+        'base64',
+      ).toString(),
+    )
+  const token = JSON.parse(parts[1])
 
-  fetch(`${API_URL}${ENDPOINT}`, {
+  fetch(`${API_URL}${ENDPOINT}/${token.id}/journeys`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

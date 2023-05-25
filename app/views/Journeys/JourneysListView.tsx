@@ -53,7 +53,7 @@ function JourneysListView({ navigation }: any) {
               }}
             >
               <Image
-                source={{ uri: 'https://picsum.photos/1920/1080' }}
+                source={{ uri: item.image }}
                 style={{
                   width: 100,
                   height: 100,

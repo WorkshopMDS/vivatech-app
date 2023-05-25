@@ -12,17 +12,12 @@ function QuestionsManager({ navigation, route }: any) {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [isOnStand, setIsOnStand] = useState(false)
   const [score, setScore] = useState(0)
-  // console.log(
-  //  Buffer.from(
-  //    JSON.stringify({ standId: journey?.questions[currentQuestion].stand })
-  //  ).toString('base64')
-  // )
 
   const handleAnswer = (questionScore: number) => {
-    setScore(questionScore + score)
+    setScore(score + questionScore)
     setIsOnStand(false)
 
-    if (currentQuestion === journey.questions.length - 1) {
+    if (currentQuestion > journey.questions.length - 1) {
       navigation.pop(2)
       navigation.navigate('JourneyResult', { journeyId, score })
       addJourneyService({ journey: journey.id, score })
