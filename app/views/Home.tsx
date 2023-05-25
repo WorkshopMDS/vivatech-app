@@ -94,13 +94,6 @@ function Home() {
         {filteredExhibitors.slice(0, 5).map((exhibitor: IExhibitor) => (
           <Card key={exhibitor.name} exhibitor={exhibitor} />
         ))}
-        {/* <FlashList
-        contentContainerStyle={{ paddingBottom: 100 }}
-        data={conferences.slice(0, 2) as IConference[]}
-        renderItem={({ item }) => <ConferenceCard conference={item} />}
-        showsVerticalScrollIndicator={false}
-        estimatedItemSize={100}
-      /> */}
       </ScrollView>
     </Container>
   )
