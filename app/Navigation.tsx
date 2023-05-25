@@ -111,7 +111,10 @@ function Navigation() {
             right: 20,
             elevation: 0,
             borderRadius: 30,
-            borderTopWidth: 0,
+            borderColor: colors.border,
+            borderWidth: 1,
+            borderTopColor: colors.border,
+            borderTopWidth: 1,
             paddingBottom: 0,
             height: 56,
           },
@@ -161,7 +164,7 @@ function Navigation() {
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign
-                name="meh"
+                name="notification"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />

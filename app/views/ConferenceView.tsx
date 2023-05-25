@@ -16,7 +16,9 @@ function ConferenceList() {
       <FlatList
         contentContainerStyle={{ paddingBottom: 100 }}
         data={conferences}
-        renderItem={({ item }) => <ConferenceCard conference={item} />}
+        renderItem={({ item, index }) => (
+          <ConferenceCard conference={item} key={index} />
+        )}
       />
     </Container>
   )

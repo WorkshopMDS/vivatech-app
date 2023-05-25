@@ -84,8 +84,8 @@ function QRCodeScannerView({ setScanCV, cv, toggle, navigation }: any) {
         } else {
           await dispatch(
             addCV({
-              name: buff.user.firstname,
-              lastName: buff.user.lastname,
+              firstname: buff.user.firstname,
+              lastname: buff.user.lastname,
               email: buff.user.email,
               cv: buff.user.cv,
               phone: '00 00 00 00 00',

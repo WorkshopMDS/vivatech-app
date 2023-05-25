@@ -85,14 +85,14 @@ const Sectors = styled(View)`
   flex: 1;
 `
 
-const Pill = styled(View)`
+export const Pill = styled(View)`
   background: ${({ theme }) => theme.colors.orange}};
   border-radius: 16px;
   padding: 2px 8px;
 
 `
 
-const PillText = styled(Text)`
+export const PillText = styled(Text)`
   font-size: 12px;
   color: white;
   font-family: Museo-700;
