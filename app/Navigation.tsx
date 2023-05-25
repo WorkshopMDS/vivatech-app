@@ -4,6 +4,7 @@ import { View, Image } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Home from './views/Home'
+import ConferenceList from './views/ConferenceView'
 import { useCustomTheme } from './utils/Theme'
 import QRCodeModal from './components/QRCode/QRCodeModal'
 import { useToggle } from './hooks'
@@ -101,6 +102,30 @@ function Navigation() {
             tabBarIcon: ({ focused }) => (
               <AntDesign
                 name="home"
+                size={24}
+                color={focused ? colors.primary : colors.border}
+              />
+            ),
+            headerTitle: () => (
+              <Image
+                source={logo}
+                style={{
+                  height: 50,
+                  width: 300,
+                  marginTop: -15,
+                  resizeMode: 'contain',
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Conferences"
+          component={ConferenceList}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <AntDesign
+                name="meh"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />
