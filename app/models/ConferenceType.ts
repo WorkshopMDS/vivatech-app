@@ -2,7 +2,7 @@ type Speaker = {
   name: string
 }
 
-export type Conference = {
+export type IConference = {
   id: string
   title: string
   description: string

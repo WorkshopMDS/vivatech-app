@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { View, Text, Pressable } from 'react-native'
 import Moment from 'moment'
-import { Conference } from '../../models/ConferenceType'
+import { IConference } from '../../models/ConferenceType'
 import { useToggle } from '../../hooks'
 
 const Card = styled(Pressable)`
@@ -55,7 +55,7 @@ const Description = styled(Text)`
 `
 
 interface ConferenceCardProps {
-  conference: Conference
+  conference: IConference
 }
 
 function ConferenceCard({ conference }: ConferenceCardProps) {
