@@ -5,6 +5,7 @@ import { getInterests } from '../store/actions/interests.actions'
 import { getExhibitors } from '../store/actions/exhibitors.actions'
 import { useAppDispatch } from '../hooks'
 import { getConferences } from '../store/actions/conference.actions'
+import { getJourneys } from '../store/actions/journeys.actions'
 
 const Background = styled(Image)`
   margin-left: auto;
@@ -34,6 +35,7 @@ function Home() {
     dispatch(getInterests())
     dispatch(getExhibitors())
     dispatch(getConferences())
+    dispatch(getJourneys())
   }, [dispatch])
 
   return (

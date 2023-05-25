@@ -76,6 +76,7 @@ export const validateCode =
 
 export const logout = () => (dispatch: any) => {
   AsyncStorage.removeItem('ticket')
+  AsyncStorage.removeItem('userJourneys')
   AsyncStorage.removeItem('user')
   dispatch({
     type: LOGOUT,
