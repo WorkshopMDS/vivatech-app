@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign } from '@expo/vector-icons'
-import { View, Image } from 'react-native'
+import { View, Image, Pressable } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useNavigation } from '@react-navigation/native'
 import Home from './views/Home'
+import ConferenceList from './views/ConferenceView'
 import { useCustomTheme } from './utils/Theme'
 import QRCodeModal from './components/QRCode/QRCodeModal'
 import { useToggle } from './hooks'
@@ -11,6 +13,7 @@ import ExhibitorStack from './components/Exhibitors/ExhibitorStack'
 import CVTheque from './views/CVTheque'
 import ViewCV from './views/ViewCV'
 import KYC from './views/KYC'
+import Profile from './views/Profile'
 
 const logos = {
   dark: require('../assets/allwhite.png'),
@@ -23,19 +26,33 @@ function MyModalBackgroundScreen() {
   return null
 }
 
-function CV() {
-  const CVStack = createNativeStackNavigator()
+function HomeStackView() {
+  const HomeStack = createNativeStackNavigator()
 
   return (
-    <CVStack.Navigator initialRouteName="CV">
-      <CVStack.Screen
-        name="List"
+    <HomeStack.Navigator initialRouteName="HomeView">
+      <HomeStack.Screen
+        name="HomeView"
+        component={Home}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="CVTheque"
         component={CVTheque}
         options={{
           headerShown: false,
         }}
       />
-      <CVStack.Screen
+      <HomeStack.Screen
         name="ViewCV"
         component={ViewCV}
         options={{
@@ -43,15 +60,45 @@ function CV() {
           headerShown: false,
         }}
       />
-    </CVStack.Navigator>
+    </HomeStack.Navigator>
   )
 }
 
 function Navigation() {
   const { colors } = useCustomTheme()
   const logo = logos.dark
+  const navigation = useNavigation()
 
   const [isOpen, toggle] = useToggle()
+
+  const headerOptions = {
+    headerTitle: () => (
+      <Image
+        source={logo}
+        style={{
+          height: 50,
+          width: 300,
+          marginTop: -15,
+          resizeMode: 'contain',
+        }}
+      />
+    ),
+    headerRight: () => (
+      <Pressable
+        style={{
+          width: 50,
+          height: 35,
+        }}
+      >
+        <AntDesign
+          name="user"
+          size={24}
+          color="white"
+          onPress={() => navigation.navigate('Profile')}
+        />
+      </Pressable>
+    ),
+  }
 
   return (
     <>
@@ -97,11 +144,25 @@ function Navigation() {
       >
         <Tab.Screen
           name="Home"
-          component={Home}
+          component={HomeStackView}
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign
                 name="home"
+                size={24}
+                color={focused ? colors.primary : colors.border}
+              />
+            ),
+            ...headerOptions,
+          }}
+        />
+        <Tab.Screen
+          name="Conferences"
+          component={ConferenceList}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <AntDesign
+                name="meh"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />
@@ -158,30 +219,7 @@ function Navigation() {
             },
           })}
         />
-        <Tab.Screen
-          name="CV"
-          component={CV}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <AntDesign
-                name="file1"
-                size={24}
-                color={focused ? colors.primary : colors.border}
-              />
-            ),
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{
-                  height: 50,
-                  width: 300,
-                  marginTop: -15,
-                  resizeMode: 'contain',
-                }}
-              />
-            ),
-          }}
-        />
+
         <Tab.Screen
           name="Exhibitors"
           component={ExhibitorStack}
@@ -193,17 +231,7 @@ function Navigation() {
                 color={focused ? colors.primary : colors.border}
               />
             ),
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{
-                  height: 50,
-                  width: 300,
-                  marginTop: -15,
-                  resizeMode: 'contain',
-                }}
-              />
-            ),
+            ...headerOptions,
           }}
         />
         <Tab.Screen
@@ -217,21 +245,11 @@ function Navigation() {
                 color={focused ? colors.primary : colors.border}
               />
             ),
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{
-                  height: 50,
-                  width: 300,
-                  marginTop: -15,
-                  resizeMode: 'contain',
-                }}
-              />
-            ),
+            ...headerOptions,
           }}
         />
       </Tab.Navigator>
-      {isOpen && <QRCodeModal {...{ toggle }} />}
+      {isOpen && <QRCodeModal {...{ toggle, navigation }} />}
     </>
   )
 }

@@ -6,9 +6,10 @@ import { useAppSelector } from '../../hooks'
 
 interface QRCodeModalProps {
   toggle: () => void
+  navigation: any
 }
 
-function QRCodeModal({ toggle }: QRCodeModalProps) {
+function QRCodeModal({ toggle, navigation }: QRCodeModalProps) {
   const bottomSheetRef = useRef<BottomSheet>(null)
   const { codeSent } = useAppSelector(state => state.tickets)
   const snapPoints = useMemo(() => (!codeSent ? ['56%'] : ['30%']), [codeSent])
@@ -34,7 +35,7 @@ function QRCodeModal({ toggle }: QRCodeModalProps) {
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
     >
-      <QRCodeView {...{ toggle }} />
+      <QRCodeView {...{ toggle, navigation }} />
     </BottomSheet>
   )
 }
