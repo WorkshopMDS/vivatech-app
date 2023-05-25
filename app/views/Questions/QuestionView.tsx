@@ -41,7 +41,12 @@ const Tips = styled(View)`
   margin-top: 10px;
 `
 
-function QuestionView({ question, setScore }: any) {
+function QuestionView({
+  question,
+  questionNb,
+  totalQuestionsNb,
+  setScore,
+}: any) {
   const [selected, setSelected] = useState([])
   const [localScore, setLocalScore] = useState<number>(-1)
   const isSelected = selected.length > 0
@@ -119,6 +124,14 @@ function QuestionView({ question, setScore }: any) {
             style={styles.image}
             source={question.image ? { uri: question.image } : emptyImage}
           />
+          <Text style={{ textAlign: 'center' }}>
+            Question
+            <Text style={{ fontWeight: 'bold' }}> {questionNb} </Text>
+            sur
+            <Text style={{ fontWeight: 'bold' }}> {totalQuestionsNb} </Text>-
+            Stand
+            <Text style={{ fontWeight: 'bold' }}> {question.stand}</Text>
+          </Text>
           <Text style={styles.h1}>{question.question}</Text>
           {question.description && (
             <Tips>

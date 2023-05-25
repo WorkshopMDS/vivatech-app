@@ -34,6 +34,8 @@ function QuestionsManager({ navigation, route }: any) {
       <QuestionView
         question={journey.questions[currentQuestion]}
         setScore={handleAnswer}
+        totalQuestionsNb={journey.questions.length}
+        questionNb={currentQuestion + 1}
       />
     ) : (
       <QRCodeQuestionView
