@@ -72,7 +72,7 @@ function KYC() {
     padding-bottom: 0px;
     margin: 3px;
     background: ${({ isActive }) =>
-      isActive ? colors.primary100 : colors.primary}};
+      isActive ? colors.primary : colors.orange}};
     color: white;
     border-radius: 10px;
   `
