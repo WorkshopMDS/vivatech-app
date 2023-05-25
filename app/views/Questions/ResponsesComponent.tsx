@@ -45,7 +45,7 @@ const Default = styled(Text)<{
   font-size: 18px;
 `
 
-function ReponsesComponent({ data, setSelected, isBlocked, ...rest }: any) {
+function ResponsesComponent({ data, setSelected, isBlocked, ...rest }: any) {
   const [selectedOptions, setSelectedOptions] = useState<any>([])
 
   const selectHandler = (value: any) => {
@@ -78,4 +78,4 @@ function ReponsesComponent({ data, setSelected, isBlocked, ...rest }: any) {
   )
 }
 
-export default ReponsesComponent
+export default ResponsesComponent

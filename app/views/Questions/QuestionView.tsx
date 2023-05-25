@@ -91,7 +91,7 @@ function QuestionView({ question, setScore }: any) {
       question.correctAnswers.sort().join() === selected.sort().join()
     if (isSelected) {
       if (hasGoodAnswer) {
-        setLocalScore(10)
+        setLocalScore(1)
       } else {
         setLocalScore(0)
       }

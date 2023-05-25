@@ -144,7 +144,7 @@ function JourneyItemView({ route, navigation }: any): any {
                   alignItems: 'center',
                 }}
               >
-                <BlockText>Stand N°</BlockText>
+                <BlockText>Stand</BlockText>
                 <BlockText style={{ fontWeight: 'bold' }}>
                   {uniqueStands.length}
                 </BlockText>

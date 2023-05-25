@@ -12,10 +12,12 @@ function QuestionsManager({ navigation, route }: any) {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [isOnStand, setIsOnStand] = useState(false)
   const [score, setScore] = useState(0)
+  const [previousStand, setPreviousStand] = useState<null | number>(null)
 
   const handleAnswer = (questionScore: number) => {
     setScore(score + questionScore)
     setIsOnStand(false)
+    setPreviousStand(journey.questions[currentQuestion].stand)
 
     if (currentQuestion >= journey.questions.length - 1) {
       navigation.pop(2)
@@ -28,7 +30,7 @@ function QuestionsManager({ navigation, route }: any) {
 
   return (
     currentQuestion <= journey.questions.length - 1 &&
-    (isOnStand ? (
+    (isOnStand || previousStand === journey.questions[currentQuestion].stand ? (
       <QuestionView
         question={journey.questions[currentQuestion]}
         setScore={handleAnswer}
