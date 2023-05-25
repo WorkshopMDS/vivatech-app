@@ -127,7 +127,7 @@ function TutorialQuestionView({ navigation, route }: any) {
         }}
       >
         <Ionicons name="play" size={24} color="white" />
-        <Text style={styles.ctaText}>C'est partit !</Text>
+        <Text style={styles.ctaText}>C'est parti !</Text>
       </CTA>
     </View>
   )

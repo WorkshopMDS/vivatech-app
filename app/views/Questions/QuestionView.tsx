@@ -41,7 +41,12 @@ const Tips = styled(View)`
   margin-top: 10px;
 `
 
-function QuestionView({ question, setScore }: any) {
+function QuestionView({
+  question,
+  questionNb,
+  totalQuestionsNb,
+  setScore,
+}: any) {
   const [selected, setSelected] = useState([])
   const [localScore, setLocalScore] = useState<number>(-1)
   const isSelected = selected.length > 0
@@ -91,7 +96,7 @@ function QuestionView({ question, setScore }: any) {
       question.correctAnswers.sort().join() === selected.sort().join()
     if (isSelected) {
       if (hasGoodAnswer) {
-        setLocalScore(10)
+        setLocalScore(1)
       } else {
         setLocalScore(0)
       }
@@ -101,6 +106,7 @@ function QuestionView({ question, setScore }: any) {
   const nextQuestion = () => {
     setScore(localScore)
     setLocalScore(-1)
+    setSelected([])
   }
 
   return (
@@ -118,6 +124,14 @@ function QuestionView({ question, setScore }: any) {
             style={styles.image}
             source={question.image ? { uri: question.image } : emptyImage}
           />
+          <Text style={{ textAlign: 'center' }}>
+            Stand
+            <Text style={{ fontWeight: 'bold' }}> {question.stand} </Text>-
+            Question
+            <Text style={{ fontWeight: 'bold' }}> {questionNb} </Text>
+            sur
+            <Text style={{ fontWeight: 'bold' }}> {totalQuestionsNb}</Text>
+          </Text>
           <Text style={styles.h1}>{question.question}</Text>
           {question.description && (
             <Tips>
@@ -127,6 +141,7 @@ function QuestionView({ question, setScore }: any) {
           )}
           <ResponsesComponent
             data={question}
+            selected={selected}
             setSelected={setSelected}
             style={styles.responses}
             isBlocked={localScore === -1}

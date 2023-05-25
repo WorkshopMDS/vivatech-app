@@ -71,7 +71,7 @@ function JourneyResult({ route, navigation }: any): any {
   const { journeys } = useAppSelector(state => state.journeys)
   const { user } = useAppSelector(state => state.tickets)
   const journey = journeys.find(item => item.id === journeyId)
-  const totalScore = journey.questions.length * 10
+  const totalScore = journey.questions.length
 
   if (!journey) {
     navigation.goBack()
