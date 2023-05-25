@@ -25,3 +25,26 @@ export const changeCVService = async (cv: string) => {
       return Promise.reject(error)
     })
 }
+
+export const updateUserKYCService = async (interests: string[]) => {
+  const accessToken = await getAccessToken()
+  fetch(`${API_URL}${ENDPOINT}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ interests }),
+  })
+    .then(response => response.json())
+    .then(response => {
+      if (response.data) {
+        return response.data
+      }
+      return Promise.reject()
+    })
+    .catch(error => {
+      console.log('error', error)
+      return Promise.reject(error)
+    })
+}

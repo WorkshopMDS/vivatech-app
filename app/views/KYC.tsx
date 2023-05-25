@@ -10,10 +10,15 @@ import {
   Text,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getInterests } from '../store/actions/interests.actions'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { useCustomTheme } from '../utils/Theme'
+import { addUserKYC } from '../store/actions/kyc.actions'
+
+export type IInterest = {
+  label: string
+  id: string
+}
 
 function KYC() {
   const { colors } = useCustomTheme()
@@ -29,28 +34,28 @@ function KYC() {
   const { interests } = useAppSelector(state => state.interests)
 
   const sortedInterests = interests
-    .map(item => {
+    .map((item: IInterest) => {
       return {
         id: item.id,
         label: item.label,
         isActive: false,
       }
     })
-    .sort((a, b) => {
+    .sort((a: IInterest, b: IInterest) => {
       return a.label.localeCompare(b.label)
     })
 
-  function addInterest(item) {
+  function addInterest(item: string) {
     if (listInterest.length < 5 && !listInterest.includes(item)) {
       const interestIndex = sortedInterests.findIndex(
-        interest => interest.label === item,
+        (interest: IInterest) => interest.label === item,
       )
       if (interestIndex !== -1) {
         sortedInterests[interestIndex].isActive = true
         setListInterest([...listInterest, item])
       }
     } else if (listInterest.includes(item)) {
-      setListInterest([...listInterest.filter(i => i !== item)])
+      setListInterest([...listInterest.filter((i: string) => i !== item)])
     } else {
       Alert.alert(
         "Vous pouvez choisir seulement 5 centres d'interêts",
@@ -92,11 +97,17 @@ function KYC() {
     },
   })
 
-  function updateUserInterests() {
+  function sendUserInterests() {
     if (listInterest.length === 0)
       Alert.alert("Vous devez choisir au moins un centre d'intérêt")
     else {
-      AsyncStorage.setItem('userKyc', JSON.stringify(listInterest))
+      const interestsId = listInterest.map((item: string) => {
+        const interestIndex = sortedInterests.findIndex(
+          (interest: IInterest) => interest.label === item,
+        )
+        return sortedInterests[interestIndex].id as string
+      })
+      dispatch(addUserKYC(interestsId))
     }
   }
 
@@ -104,7 +115,7 @@ function KYC() {
     <SafeAreaView>
       <Title>Choississez jusqu&lsquo;à 5 centres d&lsquo;interêts</Title>
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        {sortedInterests.map(item => (
+        {sortedInterests.map((item: IInterest) => (
           <Pressable key={item.id} onPress={() => addInterest(item.label)}>
             <Label isActive={listInterest.includes(item.label)}>
               {item.label}
@@ -112,7 +123,7 @@ function KYC() {
           </Pressable>
         ))}
       </ScrollView>
-      <Button onPress={() => updateUserInterests()} title="Valider" />
+      <Button onPress={() => sendUserInterests()} title="Valider" />
     </SafeAreaView>
   )
 }

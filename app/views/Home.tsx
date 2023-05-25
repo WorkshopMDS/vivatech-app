@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { Image, SafeAreaView, Text } from 'react-native'
 import styled from 'styled-components'
+import { useAppDispatch } from '../hooks'
 import { getInterests } from '../store/actions/interests.actions'
 import { getExhibitors } from '../store/actions/exhibitors.actions'
-import { useAppDispatch } from '../hooks'
 import { getConferences } from '../store/actions/conference.actions'
 
 const Background = styled(Image)`
@@ -30,6 +30,17 @@ const images = {
 function Home() {
   const dispatch = useAppDispatch()
 
+  // const [userInterests, setUserInterests] = useState(null) // Add useState hook
+
+  // useEffect(() => {
+  //   const fetchUserInterests = async () => {
+  //     const getUserInterests = await AsyncStorage.getItem('userInterests')
+  //     setUserInterests(getUserInterests)
+  //   }
+
+  //   fetchUserInterests()
+  // }, [])
+
   useEffect(() => {
     dispatch(getInterests())
     dispatch(getExhibitors())
@@ -40,6 +51,7 @@ function Home() {
     <SafeAreaView>
       <Background source={images.bg} />
       <Title>Bienvenue sur l&lsquo;application de Vivatech !</Title>
+      <Text>interestsId : {} </Text>
     </SafeAreaView>
   )
 }
