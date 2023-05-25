@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Image, SafeAreaView, Text } from 'react-native'
 import styled from 'styled-components'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { getInterests } from '../store/actions/interests.actions'
@@ -9,21 +10,9 @@ import { getConferences } from '../store/actions/conference.actions'
 import { getJourneys } from '../store/actions/journeys.actions'
 import ConferenceCard from '../components/Conference/ConferenceCard'
 import { IConference } from '../models/ConferenceType'
+import { IExhibitor } from '../components/Exhibitors/ExhibitorsView'
 import Card from '../components/Exhibitors/ExhibitorCard'
-
-export type IExhibitor = {
-  name: string
-  interests: IInterest[]
-  picture: string
-  sectors: string[]
-  hall: string
-  stand: string
-}
-
-export type IInterest = {
-  label: string
-  id: string
-}
+import { IInterest } from './KYC'
 
 const Background = styled(Image)`
   margin-left: auto;
@@ -57,17 +46,34 @@ function Home() {
   const { conferences } = useAppSelector(state => state.conferences)
   const { exhibitors } = useAppSelector(state => state.exhibitors)
 
-  // const [userInterests, setUserInterests] = useState(null)
+  const [userInterests, setUserInterests] = useState<string[]>([])
 
-  // useEffect(() => {
-  //   const fetchUserInterests = async () => {
-  //     const getUserInterests = await AsyncStorage.getItem('userInterests')
-  //     setUserInterests(getUserInterests)
-  //     console.log(userInterests)
-  //   }
+  useEffect(() => {
+    const fetchUserInterests = async () => {
+      const getUserInterests = await AsyncStorage.getItem('userInterests')
+      setUserInterests(getUserInterests)
+    }
 
-  //   fetchUserInterests()
-  // }, [])
+    fetchUserInterests()
+  }, [])
+
+  const filteredConferences = conferences.filter((conference: IConference) => {
+    const conferenceInterests = conference?.interests?.map(
+      (interest: IInterest) => interest.id,
+    )
+    return conferenceInterests?.some((interest: string) =>
+      userInterests.includes(interest),
+    )
+  })
+
+  const filteredExhibitors = exhibitors.filter((exhibitor: IExhibitor) => {
+    const exhibitorInterests = exhibitor?.interests?.map(
+      (interest: IInterest) => interest.id,
+    )
+    return exhibitorInterests?.some((interest: string) =>
+      userInterests.includes(interest),
+    )
+  })
 
   useEffect(() => {
     dispatch(getInterests())
@@ -81,12 +87,12 @@ function Home() {
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         <Background source={images.bg} />
         <Title>Nos conférences pour vous</Title>
-        {conferences.slice(0, 2).map((conference: IConference) => (
+        {filteredConferences.slice(0, 2).map((conference: IConference) => (
           <ConferenceCard key={conference.id} conference={conference} />
         ))}
         <Title>Les exposants pouvant vous interesser</Title>
-        {exhibitors.slice(0, 2).map(exhibitor => (
-          <Card key={exhibitor.id} exhibitor={exhibitor} />
+        {filteredExhibitors.slice(0, 5).map((exhibitor: IExhibitor) => (
+          <Card key={exhibitor.name} exhibitor={exhibitor} />
         ))}
         {/* <FlashList
         contentContainerStyle={{ paddingBottom: 100 }}
