@@ -9,38 +9,47 @@ const List = styled(View)`
 
 const Option = styled(Pressable)`
   text-align: center;
-  border-radius: ${({ theme }) => theme.roundness};
+  border-radius: 160px;
   overflow: hidden;
 `
 
-const Default = styled(Text)`
-  background-color: white;
+const Default = styled(Text)<{
+  isCorrect?: boolean
+  isBlocked?: boolean
+  isSelected?: boolean
+}>`
+  background-color: ${({ theme, isCorrect, isSelected, isBlocked }) => {
+    if (isBlocked) {
+      if (isSelected) {
+        return theme.colors.primary
+      }
+      return theme.colors.card
+    }
+    if (isCorrect) {
+      return 'green'
+    }
+    return '#d3d3d34d'
+  }};
+  color: ${({ theme, isBlocked, isCorrect, isSelected }) => {
+    if (!isBlocked && isCorrect) {
+      return 'white'
+    }
+
+    if (isBlocked && isSelected) {
+      return 'white'
+    }
+    return theme.colors.text
+  }};
+  text-align: center;
   padding: 15px;
   font-size: 18px;
-  border-width: 2px;
-  border-color: ${(props: any) =>
-    // eslint-disable-next-line no-nested-ternary
-    props.isCorrect === null ? 'white' : props.isCorrect ? 'green' : 'red'};
-`
-
-const Selected = styled(Default)`
-  background-color: ${({ theme }) => theme.colors.orange};
-  color: white;
-  font-weight: bold;
-  border-color: ${(props: any) =>
-    // eslint-disable-next-line no-nested-ternary
-    props.isCorrect === null
-      ? 'white'
-      : props.isCorrect
-      ? 'green'
-      : ({ theme }) => theme.colors.orange};
 `
 
 function ReponsesComponent({ data, setSelected, isBlocked, ...rest }: any) {
   const [selectedOptions, setSelectedOptions] = useState<any>([])
 
   const selectHandler = (value: any) => {
-    if (isBlocked) return
+    if (!isBlocked) return
     let options = []
     if (selectedOptions.includes(value)) {
       options = selectedOptions.filter(v => v !== value)
@@ -56,23 +65,13 @@ function ReponsesComponent({ data, setSelected, isBlocked, ...rest }: any) {
     <List {...rest}>
       {data.answers.map((item: any) => (
         <Option onPress={() => selectHandler(item.value)} key={item.value}>
-          {selectedOptions.includes(item.value) ? (
-            <Selected
-              isCorrect={
-                isBlocked && data.correctAnswers.includes(item.value) ? 1 : null
-              }
-            >
-              {item.description}
-            </Selected>
-          ) : (
-            <Default
-              isCorrect={
-                isBlocked ? data.correctAnswers.includes(item.value) : null
-              }
-            >
-              {item.description}
-            </Default>
-          )}
+          <Default
+            isCorrect={data.correctAnswers.includes(item.value)}
+            isBlocked={isBlocked}
+            isSelected={selectedOptions.includes(item.value)}
+          >
+            {item.description}
+          </Default>
         </Option>
       ))}
     </List>

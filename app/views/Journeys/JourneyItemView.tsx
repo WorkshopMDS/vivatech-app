@@ -1,43 +1,12 @@
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text as ReactText,
-  TouchableHighlight,
-  View,
-} from 'react-native'
+import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import styled from 'styled-components'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { useAppSelector } from '../../hooks'
 import { Text } from '../../components/Text'
-
-const styles = StyleSheet.create({
-  h1: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    marginBottom: 25,
-    marginTop: 10,
-  },
-  h2: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 15,
-    color: '#808080',
-  },
-  ctaText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  description: {
-    fontSize: 16,
-    lineHeight: 25,
-  },
-})
+import { useCustomTheme } from '../../utils/Theme'
 
 const TopImage = styled(Image)`
-  border-bottom-right-radius: 150px;
+  border-bottom-right-radius: 64px;
   width: 100%;
   height: 200px;
   resize-mode: cover;
@@ -46,18 +15,20 @@ const TopImage = styled(Image)`
 const Block = styled(View)`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 10px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.card};
   width: 49%;
   padding: 10px;
-  border-radius: ${({ theme }) => theme.roundness};
+  border-radius: 16px;
   align-items: center;
 `
 
 const Button = styled(Pressable)`
   position: absolute;
+  border-radius: 50px;
+  background-color: ${({ theme }) => theme.colors.orange};
 `
 
 const CTA = styled(View)`
@@ -66,9 +37,14 @@ const CTA = styled(View)`
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border-radius: ${({ theme }) => theme.roundness};
+  border-radius: 16px;
   background-color: ${({ theme }) => theme.colors.orange};
   padding: 15px;
+`
+
+const BlockText = styled(Text)`
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.text};
 `
 
 function JourneyItemView({ route, navigation }: any): any {
@@ -78,13 +54,42 @@ function JourneyItemView({ route, navigation }: any): any {
   const stands = journey?.questions.map(question => question.stand)
   const uniqueStands = [...new Set(stands)]
 
+  const { colors } = useCustomTheme()
+
+  const styles = StyleSheet.create({
+    h1: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      marginBottom: 25,
+      marginTop: 10,
+    },
+    h2: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 15,
+      color: colors.text,
+    },
+    ctaText: {
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: 16,
+    },
+    description: {
+      fontSize: 16,
+      lineHeight: 25,
+    },
+  })
+
   if (!journey) {
     navigation.goBack()
   }
 
   return (
     journey && (
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={{ position: 'relative' }}>
           <TopImage source={{ uri: journey.image }} />
           <Button
@@ -115,25 +120,38 @@ function JourneyItemView({ route, navigation }: any): any {
             }}
           >
             <Block>
-              <Ionicons name="time" size={24} color="black" />
-              <View>
-                <ReactText>Durée</ReactText>
-                <ReactText style={{ fontWeight: 'bold' }}>
+              <Ionicons name="time" size={24} color={colors.text} />
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: 5,
+                  alignItems: 'center',
+                }}
+              >
+                <BlockText>Durée :</BlockText>
+                <BlockText style={{ fontWeight: 'bold' }}>
                   {journey.duration} min
-                </ReactText>
+                </BlockText>
               </View>
             </Block>
             <Block>
-              <MaterialIcons name="place" size={24} color="black" />
-              <View>
-                <ReactText>Stands</ReactText>
-                <ReactText style={{ fontWeight: 'bold' }}>
+              <MaterialIcons name="place" size={24} color={colors.text} />
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <BlockText>Stand N°</BlockText>
+                <BlockText style={{ fontWeight: 'bold' }}>
                   {uniqueStands.length}
-                </ReactText>
+                </BlockText>
               </View>
             </Block>
           </View>
-          <TouchableHighlight
+          <Pressable
             onPress={() =>
               navigation.navigate('TutorialQuestionView', { journeyId })
             }
@@ -143,7 +161,7 @@ function JourneyItemView({ route, navigation }: any): any {
               <Ionicons name="play" size={24} color="white" />
               <Text style={styles.ctaText}>Lancer ce parcours</Text>
             </CTA>
-          </TouchableHighlight>
+          </Pressable>
           <Text style={styles.h2}>Description</Text>
           <Text style={styles.description}>{journey.description}</Text>
         </View>

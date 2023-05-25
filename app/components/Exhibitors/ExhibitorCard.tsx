@@ -93,7 +93,7 @@ export const Pill = styled(View)`
 `
 
 export const PillText = styled(Text)`
-  font-size: 12px;
+  font-size: 16px;
   color: white;
   font-family: Museo-700;
   text-align: center;

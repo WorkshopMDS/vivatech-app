@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 })
 
 const TopImage = styled(Image)`
-  border-bottom-right-radius: 150px;
+  border-bottom-right-radius: 64px;
   height: 200px;
   resize-mode: cover;
 `
@@ -58,7 +58,7 @@ const CTA = styled(Pressable)`
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border-radius: ${({ theme }) => theme.roundness};
+  border-radius: 16px;
   background-color: ${({ theme }) => theme.colors.orange};
   padding: 15px;
   margin-top: 20px;
@@ -69,6 +69,7 @@ function JourneyResult({ route, navigation }: any): any {
   const { colors } = useCustomTheme()
 
   const { journeys } = useAppSelector(state => state.journeys)
+  const { user } = useAppSelector(state => state.tickets)
   const journey = journeys.find(item => item.id === journeyId)
   const totalScore = journey.questions.length * 10
 
@@ -125,6 +126,7 @@ function JourneyResult({ route, navigation }: any): any {
               justifyContent: 'center',
               alignItems: 'center',
               padding: 15,
+              borderRadius: 16,
             }}
           >
             {score > totalScore / 2 ? (
@@ -140,6 +142,11 @@ function JourneyResult({ route, navigation }: any): any {
               Votre score {score} sur {totalScore}
             </Text>
           </LinearGradient>
+          {!user.firstname && (
+            <Text style={{ textAlign: 'center', marginTop: 16, fontSize: 12 }}>
+              Vous n'êtes pas connecté, votre score ne sera pas enregistré
+            </Text>
+          )}
           <CTA onPress={() => navigation.goBack()}>
             <Text style={styles.ctaText}>Quitter</Text>
           </CTA>
