@@ -1,8 +1,10 @@
-import { FlatList, View } from 'react-native'
+import { View } from 'react-native'
 
 import styled from 'styled-components'
+import { FlashList } from '@shopify/flash-list'
 import ConferenceCard from '../components/Conference/ConferenceCard'
 import { useAppSelector } from '../hooks'
+import { IConference } from '../models/ConferenceType'
 
 const Container = styled(View)`
   flex: 1;
@@ -14,12 +16,12 @@ function ConferenceList() {
 
   return (
     <Container>
-      <FlatList
+      <FlashList
         contentContainerStyle={{ paddingBottom: 100 }}
-        data={conferences}
-        renderItem={({ item, index }) => (
-          <ConferenceCard conference={item} key={index} />
-        )}
+        data={conferences as IConference[]}
+        renderItem={({ item }) => <ConferenceCard conference={item} />}
+        showsVerticalScrollIndicator={false}
+        estimatedItemSize={100}
       />
     </Container>
   )

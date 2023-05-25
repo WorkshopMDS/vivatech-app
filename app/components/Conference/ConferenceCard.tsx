@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { View, Text } from 'react-native'
 import Moment from 'moment'
@@ -30,6 +31,8 @@ const Schedule = styled(View)`
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+  overflow: hidden;
+  flex-wrap: wrap;
 `
 const Time = styled(Text)`
   font-size: 16px;
@@ -83,6 +86,16 @@ const capitalizeEveryString = (str: string) =>
     .join(' ')
 
 function ConferenceCard({ conference }: ConferenceCardProps) {
+  const [interests, setInterests] = useState<IInterest[]>([])
+
+  useEffect(() => {
+    // unique interests
+    const uniqueInterests = conference.interests.filter(
+      (interest, index, self) =>
+        index === self.findIndex(t => t.label === interest.label),
+    )
+    setInterests(uniqueInterests)
+  }, [conference])
   return (
     <Card>
       <Row>
@@ -146,9 +159,16 @@ function ConferenceCard({ conference }: ConferenceCardProps) {
           gap: 8,
         }}
       >
-        {conference.interests.map((interest: IInterest) => (
-          <Pill>
-            <PillText key={interest.id}>{interest.label}</PillText>
+        {interests.map((interest: IInterest) => (
+          <Pill
+            key={
+              interest.label +
+              conference.title +
+              conference.stage +
+              conference.startAt.toString()
+            }
+          >
+            <PillText>{interest.label}</PillText>
           </Pill>
         ))}
       </View>
