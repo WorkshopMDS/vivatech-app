@@ -16,3 +16,7 @@ export const GET_INTERESTS_SUCCESS = 'GET_INTERESTS_SUCCESS'
 export const GET_INTERESTS_FAILURE = 'GET_INTERESTS_FAILURE'
 
 export const LOGOUT = 'LOGOUT'
+export const GET_USER = 'GET_USER'
+
+export const UPDATE_CV = 'UPDATE_CV'
+export const UPLOAD_CV = 'UPLOAD_CV'

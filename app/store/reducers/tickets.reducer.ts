@@ -6,6 +6,9 @@ import {
   VALIDATE_CODE_SUCCESS,
   VALIDATE_CODE_FAILURE,
   LOGOUT,
+  GET_USER,
+  UPDATE_CV,
+  UPLOAD_CV,
 } from '../actions/types'
 
 const initialState = {
@@ -15,6 +18,9 @@ const initialState = {
   loading: false,
   validated: false,
   codeSent: false,
+  refresh: '',
+  access: '',
+  cvLoading: false,
 }
 
 const fetchTicketData = async () => {
@@ -68,7 +74,9 @@ function ticketsReducer(state = initialState, action: any) {
     case VALIDATE_CODE_SUCCESS:
       return {
         ...state,
-        user: payload,
+        user: payload.user,
+        refresh: payload.refresh,
+        access: payload.access,
         validated: true,
         codeSent: false,
       }
@@ -77,6 +85,11 @@ function ticketsReducer(state = initialState, action: any) {
         ...state,
         error: 'Code is invalid',
         loading: false,
+      }
+    case GET_USER:
+      return {
+        ...state,
+        loading: true,
       }
     case LOGOUT:
       return {
@@ -87,6 +100,22 @@ function ticketsReducer(state = initialState, action: any) {
         loading: false,
         validated: false,
         codeSent: false,
+        refresh: '',
+        access: '',
+      }
+    case UPDATE_CV:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          cv: payload,
+        },
+        cvLoading: false,
+      }
+    case UPLOAD_CV:
+      return {
+        ...state,
+        cvLoading: true,
       }
     default:
       return state
