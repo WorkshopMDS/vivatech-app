@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import QRCodeQuestionView from './QRCodeQuestionView'
-import { useAppDispatch, useAppSelector } from '../../hooks'
+import { useAppSelector } from '../../hooks'
 import QuestionView from './QuestionView'
-import { addJourney } from '../../store/actions/users.actions'
+import { addJourneyService } from '../../store/services/users.service'
 
 function QuestionsManager({ navigation, route }: any) {
-  const dispatch = useAppDispatch()
   const { journeyId } = route.params
   const { journeys } = useAppSelector(state => state.journeys)
   const journey = journeys.find(item => item.id === journeyId)
@@ -26,7 +25,7 @@ function QuestionsManager({ navigation, route }: any) {
     if (currentQuestion === journey.questions.length - 1) {
       navigation.pop(2)
       navigation.navigate('JourneyResult', { journeyId, score })
-      dispatch(addJourney({ journey: journey.id, score }))
+      addJourneyService({ journey: journey.id, score })
     }
 
     setCurrentQuestion(currentQuestion + 1)

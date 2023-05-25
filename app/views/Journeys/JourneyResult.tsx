@@ -140,7 +140,7 @@ function JourneyResult({ route, navigation }: any): any {
               Votre score {score} sur {totalScore}
             </Text>
           </LinearGradient>
-          <CTA>
+          <CTA onPress={() => navigation.goBack()}>
             <Text style={styles.ctaText}>Quitter</Text>
           </CTA>
         </View>
