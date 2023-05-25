@@ -14,6 +14,7 @@ import Card from '../components/Exhibitors/ExhibitorCard'
 import KYC, { IInterest } from './KYC'
 import { getUserKYC } from '../store/actions/kyc.actions'
 import { useCustomTheme } from '../utils/Theme'
+import { getJourneys } from '../store/actions/journeys.actions'
 
 const Background = styled(Image)`
   margin-left: auto;
@@ -84,6 +85,7 @@ function Home() {
     dispatch(getExhibitors())
     dispatch(getConferences())
     dispatch(getUserKYC())
+    dispatch(getJourneys())
   }, [dispatch])
 
   const ref = useRef<any>(null)
