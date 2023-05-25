@@ -29,6 +29,12 @@ function kycReducer(state = initialState, action: any) {
         ...state,
         userInterests: payload,
       }
+    case 'GET_KYC':
+      return {
+        ...state,
+        userInterests: payload,
+        loading: true,
+      }
     default:
       return state
   }

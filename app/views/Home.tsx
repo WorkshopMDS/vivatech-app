@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Image, SafeAreaView, Text } from 'react-native'
 import styled from 'styled-components'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { getInterests } from '../store/actions/interests.actions'
 import { getExhibitors } from '../store/actions/exhibitors.actions'
 import { getConferences } from '../store/actions/conference.actions'
-import { getJourneys } from '../store/actions/journeys.actions'
 import ConferenceCard from '../components/Conference/ConferenceCard'
 import { IConference } from '../models/ConferenceType'
 import { IExhibitor } from '../components/Exhibitors/ExhibitorsView'
 import Card from '../components/Exhibitors/ExhibitorCard'
 import { IInterest } from './KYC'
+import { getUserKYC } from '../store/actions/kyc.actions'
 
 const Background = styled(Image)`
   margin-left: auto;
@@ -45,17 +44,19 @@ function Home() {
   const dispatch = useAppDispatch()
   const { conferences } = useAppSelector(state => state.conferences)
   const { exhibitors } = useAppSelector(state => state.exhibitors)
+  const { userInterests } = useAppSelector(state => state.kyc)
 
-  const [userInterests, setUserInterests] = useState<string[]>([])
+  // const [userInterests, setUserInterests] = useState<string[]>([])
 
-  useEffect(() => {
-    const fetchUserInterests = async () => {
-      const getUserInterests = await AsyncStorage.getItem('userInterests')
-      setUserInterests(getUserInterests)
-    }
+  // useEffect(() => {
+  //   console.log(userInterests)
+  //   // const fetchUserInterests = async () => {
+  //   //   const getUserInterests = await AsyncStorage.getItem('userInterests')
+  //   //   setUserInterests(getUserInterests)
+  //   // }
 
-    fetchUserInterests()
-  }, [])
+  //   // fetchUserInterests()
+  // }, [userInterests])
 
   const filteredConferences = conferences.filter((conference: IConference) => {
     const conferenceInterests = conference?.interests?.map(
@@ -79,7 +80,7 @@ function Home() {
     dispatch(getInterests())
     dispatch(getExhibitors())
     dispatch(getConferences())
-    dispatch(getJourneys())
+    dispatch(getUserKYC())
   }, [dispatch])
 
   return (

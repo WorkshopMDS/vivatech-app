@@ -10,6 +10,8 @@ import {
   Text,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getInterests } from '../store/actions/interests.actions'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { useCustomTheme } from '../utils/Theme'
@@ -22,6 +24,7 @@ export type IInterest = {
 
 function KYC() {
   const { colors } = useCustomTheme()
+  const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const loading = false
 
@@ -108,6 +111,10 @@ function KYC() {
         return sortedInterests[interestIndex].id as string
       })
       dispatch(addUserKYC(interestsId))
+      AsyncStorage.setItem('userHasLaunched', 'false')
+      navigation.navigate('Home', {
+        screen: 'HomeView',
+      })
     }
   }
 

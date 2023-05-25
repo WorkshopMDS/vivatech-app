@@ -15,5 +15,14 @@ export const addUserKYC = (interests: string[]) => async (dispatch: any) => {
         payload: interests,
       })
     })
-  }
+  } else
+    dispatch({
+      type: 'ADD_KYC',
+      payload: interests,
+    })
+}
+
+export const getUserKYC = () => async (dispatch: any) => {
+  const userInterests = await AsyncStorage.getItem('userInterests')
+  dispatch({ type: 'GET_KYC', payload: JSON.parse(userInterests || '[]') })
 }

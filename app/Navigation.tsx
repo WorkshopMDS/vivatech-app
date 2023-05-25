@@ -4,6 +4,8 @@ import { View, Image, Pressable } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useState, useEffect } from 'react'
 import Home from './views/Home'
 import ConferenceList from './views/ConferenceView'
 import { useCustomTheme } from './utils/Theme'
@@ -22,6 +24,21 @@ const logos = {
   light: require('../assets/header_light.png'),
 }
 
+// AsyncStorage.clear()
+
+async function checkIfFirstLaunch() {
+  try {
+    const hasFirstLaunched = await AsyncStorage.getItem('userHasLaunched')
+    if (hasFirstLaunched === null) {
+      await AsyncStorage.setItem('userHasLaunched', 'true')
+      return true
+    }
+    return false
+  } catch (error) {
+    return false
+  }
+}
+
 const Tab = createBottomTabNavigator()
 
 function MyModalBackgroundScreen() {
@@ -30,39 +47,61 @@ function MyModalBackgroundScreen() {
 
 function HomeStackView() {
   const HomeStack = createNativeStackNavigator()
+  const navigation = useNavigation()
+  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const launchKYC = async () => {
+      const firstLaunch = await checkIfFirstLaunch()
+      setIsFirstLaunch(firstLaunch)
+      console.log(firstLaunch)
+    }
+    launchKYC()
+  }, [navigation])
 
   return (
-    <HomeStack.Navigator initialRouteName="HomeView">
-      <HomeStack.Screen
-        name="HomeView"
-        component={Home}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <HomeStack.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <HomeStack.Screen
-        name="CVTheque"
-        component={CVTheque}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <HomeStack.Screen
-        name="ViewCV"
-        component={ViewCV}
-        options={{
-          headerBackVisible: true,
-          headerShown: false,
-        }}
-      />
-    </HomeStack.Navigator>
+    isFirstLaunch !== null && (
+      <HomeStack.Navigator>
+        {isFirstLaunch && (
+          <HomeStack.Screen
+            name="KYC"
+            component={KYC}
+            options={{
+              headerShown: false,
+            }}
+          />
+        )}
+        <HomeStack.Screen
+          name="HomeView"
+          component={Home}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <HomeStack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <HomeStack.Screen
+          name="CVTheque"
+          component={CVTheque}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <HomeStack.Screen
+          name="ViewCV"
+          component={ViewCV}
+          options={{
+            headerBackVisible: true,
+            headerShown: false,
+          }}
+        />
+      </HomeStack.Navigator>
+    )
   )
 }
 
@@ -244,20 +283,6 @@ function Navigation() {
             tabBarIcon: ({ focused }) => (
               <AntDesign
                 name="find"
-                size={24}
-                color={focused ? colors.primary : colors.border}
-              />
-            ),
-            ...headerOptions,
-          }}
-        />
-        <Tab.Screen
-          name="KYC"
-          component={KYC}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <AntDesign
-                name="isv"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />
