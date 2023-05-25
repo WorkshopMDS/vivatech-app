@@ -68,7 +68,9 @@ function JourneysListView({ navigation }: any) {
               }}
             >
               <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.description}>{item.description}</Text>
+              <Text style={styles.description}>
+                {`${item.description.substring(1, 100)}...`}
+              </Text>
             </View>
             <View
               style={{
