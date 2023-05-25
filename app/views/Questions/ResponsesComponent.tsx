@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import styled from 'styled-components'
 
@@ -45,18 +44,21 @@ const Default = styled(Text)<{
   font-size: 18px;
 `
 
-function ResponsesComponent({ data, setSelected, isBlocked, ...rest }: any) {
-  const [selectedOptions, setSelectedOptions] = useState<any>([])
-
+function ResponsesComponent({
+  data,
+  selected,
+  setSelected,
+  isBlocked,
+  ...rest
+}: any) {
   const selectHandler = (value: any) => {
     if (!isBlocked) return
     let options = []
-    if (selectedOptions.includes(value)) {
-      options = selectedOptions.filter(v => v !== value)
+    if (selected.includes(value)) {
+      options = selected.filter(v => v !== value)
     } else {
-      options = [...selectedOptions, value]
+      options = [...selected, value]
     }
-    setSelectedOptions(options)
     setSelected(options)
   }
 
@@ -68,7 +70,7 @@ function ResponsesComponent({ data, setSelected, isBlocked, ...rest }: any) {
           <Default
             isCorrect={data.correctAnswers.includes(item.value)}
             isBlocked={isBlocked}
-            isSelected={selectedOptions.includes(item.value)}
+            isSelected={selected.includes(item.value)}
           >
             {item.description}
           </Default>

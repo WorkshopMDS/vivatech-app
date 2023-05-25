@@ -101,6 +101,7 @@ function QuestionView({ question, setScore }: any) {
   const nextQuestion = () => {
     setScore(localScore)
     setLocalScore(-1)
+    setSelected([])
   }
 
   return (
@@ -127,6 +128,7 @@ function QuestionView({ question, setScore }: any) {
           )}
           <ResponsesComponent
             data={question}
+            selected={selected}
             setSelected={setSelected}
             style={styles.responses}
             isBlocked={localScore === -1}
