@@ -6,6 +6,7 @@ import { useAppSelector } from '../hooks'
 
 const Container = styled(View)`
   flex: 1;
+  width: 100%;
 `
 
 function ConferenceList() {

@@ -62,47 +62,57 @@ function QRCodeScannerView({ setScanCV, cv, toggle, navigation }: any) {
     try {
       if (cv) {
         const buff = JSON.parse(Buffer.from(data, 'base64').toString())
-        const cvs = await AsyncStorage.getItem('cv')
+        const cvs = (await AsyncStorage.getItem('cv')) || '[]'
 
-        if (cvs) {
-          const parsedCVs = JSON.parse(cvs)
-          const foundCV = parsedCVs.find(
-            (c: any) => c.email === buff.user.email,
-          )
+        const parsedCVs = JSON.parse(cvs)
+        const foundCV = parsedCVs.find((c: any) => c.email === buff.user.email)
 
-          if (foundCV) {
-            toggle()
-            navigation.navigate('Home', {
-              screen: 'ViewCV',
-              params: {
-                cv: foundCV,
-              },
-            })
-            setScanCV(false)
-            return
-          }
-        } else {
-          await dispatch(
-            addCV({
-              firstname: buff.user.firstname,
-              lastname: buff.user.lastname,
-              email: buff.user.email,
-              cv: buff.user.cv,
-              phone: '00 00 00 00 00',
-            }),
-          ).then(savecCV => {
-            toggle()
-            navigation.navigate('Home', {
-              screen: 'ViewCV',
-              params: {
-                cv: savecCV,
-              },
-            })
+        if (foundCV) {
+          toggle()
+          navigation.navigate('Home', {
+            screen: 'ViewCV',
+            params: {
+              cv: foundCV,
+            },
           })
+          setScanCV(false)
+          return
         }
+
+        await dispatch(
+          addCV({
+            firstname: buff.user.firstname,
+            lastname: buff.user.lastname,
+            email: buff.user.email,
+            cv: buff.user.cv,
+            phone: '00 00 00 00 00',
+          }),
+        ).then(savecCV => {
+          toggle()
+          navigation.navigate('Home', {
+            screen: 'ViewCV',
+            params: {
+              cv: savecCV,
+            },
+          })
+        })
         setScanCV(false)
-      } else {
+      } else if (data.length < 10) {
         dispatch(validateTicket(data)).then(() => setHasScanned(false))
+      } else {
+        Alert.alert(
+          'Erreur',
+          "Le QR code scanné n'est pas valide",
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                setHasScanned(false)
+              },
+            },
+          ],
+          { cancelable: false },
+        )
       }
     } catch (error) {
       console.log(error)
