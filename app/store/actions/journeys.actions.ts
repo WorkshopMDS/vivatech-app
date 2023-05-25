@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getAllJourneys } from '../services/journeys.service'
 import {
   GET_JOURNEYS,
@@ -12,6 +13,7 @@ export const getJourneys = () => (dispatch: any) => {
 
   return getAllJourneys().then(
     async data => {
+      AsyncStorage.setItem('journeys', JSON.stringify(data))
       dispatch({
         type: GET_JOURNEYS_SUCCESS,
         payload: data.data,

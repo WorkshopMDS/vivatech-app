@@ -49,9 +49,15 @@ export const validateCode =
       data => {
         const decoded = Buffer.from(data.user, 'base64').toString('ascii')
         AsyncStorage.setItem('user', JSON.stringify(decoded))
+        AsyncStorage.setItem('access', data.accessToken)
+        AsyncStorage.setItem('refresh', data.refreshToken)
         dispatch({
           type: VALIDATE_CODE_SUCCESS,
-          payload: JSON.parse(decoded),
+          payload: {
+            user: JSON.parse(decoded),
+            access: data.accessToken,
+            refresh: data.refreshToken,
+          },
         })
 
         return Promise.resolve()
@@ -70,6 +76,7 @@ export const validateCode =
 
 export const logout = () => (dispatch: any) => {
   AsyncStorage.removeItem('ticket')
+  AsyncStorage.removeItem('userJourneys')
   AsyncStorage.removeItem('user')
   dispatch({
     type: LOGOUT,

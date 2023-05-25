@@ -1,10 +1,11 @@
-import { createStackNavigator } from '@react-navigation/stack'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import JourneysListView from './JourneysListView'
 import JourneyItemView from './JourneyItemView'
-import QuestionView from '../Questions/QuestionView'
 import TutorialQuestionView from '../Questions/TutorialQuestionView'
+import QuestionsManager from '../Questions/QuestionsManager'
+import JourneyResult from './JourneyResult'
 
-const Stack = createStackNavigator()
+const Stack = createNativeStackNavigator()
 
 function ProgramStack() {
   return (
@@ -15,7 +16,8 @@ function ProgramStack() {
     >
       <Stack.Screen name="JourneysList" component={JourneysListView} />
       <Stack.Screen name="JourneyItem" component={JourneyItemView} />
-      <Stack.Screen name="QuestionView" component={QuestionView} />
+      <Stack.Screen name="JourneyResult" component={JourneyResult} />
+      <Stack.Screen name="QuestionsManager" component={QuestionsManager} />
       <Stack.Screen
         name="TutorialQuestionView"
         component={TutorialQuestionView}

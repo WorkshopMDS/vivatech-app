@@ -31,6 +31,6 @@ export const validateCodeTicketService = (ticket: string, code: string) =>
       return Promise.reject(new Error("Le code n'est pas valide"))
     })
     .catch(error => {
-      console.log('error', error)
+      console.log('errorCODE', error)
       return Promise.reject(error)
     })

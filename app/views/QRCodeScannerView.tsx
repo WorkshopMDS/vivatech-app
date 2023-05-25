@@ -5,7 +5,7 @@ import { Buffer } from 'buffer'
 import styled from 'styled-components'
 import { Camera } from 'expo-camera'
 
-import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { logout, validateTicket } from '../store/actions/tickets.actions'
 import { addCV } from '../store/actions/cv.actions'
@@ -36,13 +36,12 @@ const LogoutText = styled(Text)`
   text-align: center;
 `
 
-function QRCodeScannerView({ setScanCV, cv, toggle }: any) {
+function QRCodeScannerView({ setScanCV, cv, toggle, navigation }: any) {
   const [hasPermission, setHasPermission] = useState(false)
   const [hasScanned, setHasScanned] = useState(false)
   const [hasAskedPermission, setHasAskedPermission] = useState(false)
   const dispatch = useAppDispatch()
   const { codeSent } = useAppSelector(state => state.tickets)
-  const navigation = useNavigation()
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -63,24 +62,44 @@ function QRCodeScannerView({ setScanCV, cv, toggle }: any) {
     try {
       if (cv) {
         const buff = JSON.parse(Buffer.from(data, 'base64').toString())
+        const cvs = await AsyncStorage.getItem('cv')
 
-        await dispatch(
-          addCV({
-            name: buff.user.firstname,
-            lastName: buff.user.lastname,
-            email: buff.user.email,
-            cv: buff.user.cv,
-            phone: '00 00 00 00 00',
-          }),
-        ).then(savecCV => {
-          toggle()
-          navigation.navigate('CV', {
-            screen: 'ViewCV',
-            params: {
-              cv: savecCV,
-            },
+        if (cvs) {
+          const parsedCVs = JSON.parse(cvs)
+          const foundCV = parsedCVs.find(
+            (c: any) => c.email === buff.user.email,
+          )
+
+          if (foundCV) {
+            toggle()
+            navigation.navigate('Home', {
+              screen: 'ViewCV',
+              params: {
+                cv: foundCV,
+              },
+            })
+            setScanCV(false)
+            return
+          }
+        } else {
+          await dispatch(
+            addCV({
+              name: buff.user.firstname,
+              lastName: buff.user.lastname,
+              email: buff.user.email,
+              cv: buff.user.cv,
+              phone: '00 00 00 00 00',
+            }),
+          ).then(savecCV => {
+            toggle()
+            navigation.navigate('Home', {
+              screen: 'ViewCV',
+              params: {
+                cv: savecCV,
+              },
+            })
           })
-        })
+        }
         setScanCV(false)
       } else {
         dispatch(validateTicket(data)).then(() => setHasScanned(false))

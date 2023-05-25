@@ -3,13 +3,14 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
+  Text as ReactText,
   TouchableHighlight,
   View,
 } from 'react-native'
-import { useEffect } from 'react'
 import styled from 'styled-components'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
+import { useAppSelector } from '../../hooks'
+import { Text } from '../../components/Text'
 
 const styles = StyleSheet.create({
   h1: {
@@ -72,30 +73,20 @@ const CTA = styled(View)`
 
 function JourneyItemView({ route, navigation }: any): any {
   const { journeyId } = route.params
-  const allData = [
-    {
-      id: 0,
-      picture: 'https://picsum.photos/1920/1080',
-      title: 'Découvrir la Blockchain',
-      time: 20,
-      stops: 10,
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing. Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing',
-    },
-  ]
-  const data = allData.find(item => item.id === journeyId)
+  const { journeys } = useAppSelector(state => state.journeys)
+  const journey = journeys.find(item => item.id === journeyId)
+  const stands = journey?.questions.map(question => question.stand)
+  const uniqueStands = [...new Set(stands)]
 
-  useEffect(() => {
-    if (!data) {
-      navigation.goBack()
-    }
-  })
+  if (!journey) {
+    navigation.goBack()
+  }
 
   return (
-    data && (
+    journey && (
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         <View style={{ position: 'relative' }}>
-          <TopImage source={{ uri: data.picture }} />
+          <TopImage source={{ uri: journey.image }} />
           <Button
             onPress={() => navigation.goBack()}
             style={{
@@ -114,7 +105,7 @@ function JourneyItemView({ route, navigation }: any): any {
           </Button>
         </View>
         <View style={{ padding: 15 }}>
-          <Text style={styles.h1}>{data.title}</Text>
+          <Text style={styles.h1}>{journey.title}</Text>
           <View
             style={{
               display: 'flex',
@@ -126,15 +117,19 @@ function JourneyItemView({ route, navigation }: any): any {
             <Block>
               <Ionicons name="time" size={24} color="black" />
               <View>
-                <Text>Durée</Text>
-                <Text style={{ fontWeight: 'bold' }}>{data.time} min</Text>
+                <ReactText>Durée</ReactText>
+                <ReactText style={{ fontWeight: 'bold' }}>
+                  {journey.duration} min
+                </ReactText>
               </View>
             </Block>
             <Block>
               <MaterialIcons name="place" size={24} color="black" />
               <View>
-                <Text>Stands</Text>
-                <Text style={{ fontWeight: 'bold' }}>{data.stops}</Text>
+                <ReactText>Stands</ReactText>
+                <ReactText style={{ fontWeight: 'bold' }}>
+                  {uniqueStands.length}
+                </ReactText>
               </View>
             </Block>
           </View>
@@ -150,7 +145,7 @@ function JourneyItemView({ route, navigation }: any): any {
             </CTA>
           </TouchableHighlight>
           <Text style={styles.h2}>Description</Text>
-          <Text style={styles.description}>{data.description}</Text>
+          <Text style={styles.description}>{journey.description}</Text>
         </View>
       </ScrollView>
     )

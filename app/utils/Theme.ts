@@ -14,6 +14,7 @@ const Colors = {
   gradient100: '#F8F265',
   gradient200: '#ff5900',
   gradient300: '#f5255d',
+  disabled: '#8080804D',
 }
 
 export const VivaThemeLight = {
@@ -30,9 +31,10 @@ export const VivaThemeDark: VivaThemeType = {
   roundness: '4px',
   colors: {
     ...DarkTheme.colors,
-    background: '#202020',
     ...Colors,
+    background: '#202020',
     primary1000: '#FFFFFF',
+    disabled: '#8080801A',
   },
 }
 

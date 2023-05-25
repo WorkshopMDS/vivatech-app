@@ -34,7 +34,13 @@ const Col = styled(View)`
   flex-direction: column;
 `
 
-export default function QRCodeView({ toggle }: { toggle: () => void }) {
+export default function QRCodeView({
+  toggle,
+  navigation,
+}: {
+  toggle: () => void
+  navigation: any
+}) {
   const { colors } = useCustomTheme()
   const logo = require('../../../assets/small.png')
   const [data, setData] = useState<any>(undefined)
@@ -131,7 +137,12 @@ export default function QRCodeView({ toggle }: { toggle: () => void }) {
         </View>
       )}
       {data && data.ticket && data.user.email && scanCV && (
-        <QRCodeScannerView setScanCV={setScanCV} cv toggle={toggle} />
+        <QRCodeScannerView
+          setScanCV={setScanCV}
+          cv
+          toggle={toggle}
+          navigation={navigation}
+        />
       )}
       {data && (!data.ticket || !data.user.email) && !scanCV && (
         <QRCodeScannerView toggle={toggle} />

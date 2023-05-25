@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
   },
 })
 
-async function JourneysListView({ navigation }: any) {
+function JourneysListView({ navigation }: any) {
   const { journeys } = useAppSelector(state => state.journeys)
-  console.log(journeys)
 
   return (
     <FlatList
+      showsVerticalScrollIndicator={false}
       data={journeys}
       style={{ padding: 10 }}
       renderItem={({ item }) => (

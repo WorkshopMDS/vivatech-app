@@ -1,9 +1,10 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, StyleSheet, View } from 'react-native'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Ionicons } from '@expo/vector-icons'
 import { useCustomTheme } from '../../utils/Theme'
+import { Text } from '../../components/Text'
 
 const styles = StyleSheet.create({
   img: {
@@ -66,7 +67,8 @@ function TutorialQuestionView({ navigation, route }: any) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // navigation.navigate('QuestionView', { journeyId })
+      navigation.pop(1)
+      navigation.navigate('QuestionsManager', { journeyId })
     }, 1000 * 20)
 
     return () => clearInterval(interval) // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
@@ -118,7 +120,12 @@ function TutorialQuestionView({ navigation, route }: any) {
           des points.
         </Text>
       </View>
-      <CTA onPress={() => navigation.navigate('QuestionView', { journeyId })}>
+      <CTA
+        onPress={() => {
+          navigation.pop(1)
+          navigation.navigate('QuestionsManager', { journeyId })
+        }}
+      >
         <Ionicons name="play" size={24} color="white" />
         <Text style={styles.ctaText}>C'est partit !</Text>
       </CTA>

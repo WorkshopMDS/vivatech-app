@@ -1,9 +1,10 @@
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import { useEffect, useState } from 'react'
-import { Alert, Text, View } from 'react-native'
+import { Alert, View } from 'react-native'
 import { Buffer } from 'buffer'
 import styled from 'styled-components'
 import { Camera } from 'expo-camera'
+import { Text } from '../../components/Text'
 
 const Title = styled(Text)`
   font-size: 24px;
@@ -12,7 +13,7 @@ const Title = styled(Text)`
   margin-bottom: 5px;
 `
 
-function QRCodeQuestionView({ setData }: any) {
+function QRCodeQuestionView({ standId, setIsOnStand }: any) {
   const [hasPermission, setHasPermission] = useState(false)
   const [hasScanned, setHasScanned] = useState(false)
   const [hasAskedPermission, setHasAskedPermission] = useState(false)
@@ -32,11 +33,11 @@ function QRCodeQuestionView({ setData }: any) {
     try {
       const jsonData = JSON.parse(decodedData)
 
-      if (!jsonData.standId) {
+      if (!jsonData.standId || jsonData.standId !== standId) {
         throw new Error()
       }
 
-      setData(jsonData.standId)
+      setIsOnStand(true)
     } catch {
       setHasScanned(true)
 
@@ -70,9 +71,9 @@ function QRCodeQuestionView({ setData }: any) {
       }}
     >
       <View style={{ margin: 40 }}>
-        <Title>Rendez-vous sur le stand 10</Title>
+        <Title>Rendez-vous sur le stand {standId}</Title>
         <Text style={{ fontSize: 14, textAlign: 'center' }}>
-          et scan le QR code présent pour répondre à la question
+          et scannez le QR code présent pour répondre à la question
         </Text>
       </View>
 

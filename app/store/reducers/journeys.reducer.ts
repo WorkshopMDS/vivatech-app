@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   GET_JOURNEYS,
   GET_JOURNEYS_FAILURE,
@@ -9,6 +10,19 @@ const initialState = {
   error: '',
   loading: false,
 }
+
+const fetchLocalData = async () => {
+  try {
+    const journeys = await AsyncStorage.getItem('journeys')
+    if (journeys !== null) {
+      initialState.journeys = JSON.parse(journeys)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+fetchLocalData()
 
 function journeysReducer(state = initialState, action: any) {
   const { type, payload } = action

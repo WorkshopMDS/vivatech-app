@@ -1,11 +1,22 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { useEffect, useState } from 'react'
-import { AntDesign } from '@expo/vector-icons'
+import { Image, Pressable, StyleSheet, View } from 'react-native'
+import { useState } from 'react'
+import { AntDesign, Foundation } from '@expo/vector-icons'
 import styled from 'styled-components'
-import RadioButton from '../../components/RadioButton'
-import QRCodeQuestionView from './QRCodeQuestionView'
+import ResponsesComponent from './ResponsesComponent'
+import { Text } from '../../components/Text'
+
+const emptyImage = require('../../../assets/splash.png')
 
 const styles = StyleSheet.create({
+  image: {
+    width: '100%',
+    height: 200,
+    objectFit: 'cover',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: 50,
+    marginTop: 50,
+  },
   h1: {
     fontSize: 25,
     fontWeight: 'bold',
@@ -29,34 +40,58 @@ const styles = StyleSheet.create({
   },
 })
 
-const CTA = styled(View)`
+const CTA = styled(Pressable)`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 10px;
   border-radius: ${({ theme }) => theme.roundness};
-  background-color: ${props => (props.isActive ? 'red' : 'grey')};
   padding: 15px;
   margin-top: 10px;
 `
 
-function QuestionView() {
-  const [option, setOption] = useState(null)
-  const [data2, setData] = useState('')
-  const data = [
-    { key: 1, value: 'Apple' },
-    { key: 2, value: 'Samsung' },
-    { key: 3, value: 'Blackberry' },
-  ]
+const Continue = styled(CTA)`
+  background-color: ${(props: any) => (props.isSuccess ? 'green' : 'red')};
+`
 
-  // const { journeyId } = route.params
-  useEffect(() => {
-    console.log(data2)
-    console.log(option)
-  }, [data2, option])
+const Validate = styled(CTA)`
+  background-color: ${(props: any) =>
+    props.isActive ? '#28a745' : ({ theme }) => theme.colors.disabled};
+`
 
-  return data2 ? (
+const Tips = styled(View)`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  background-color: #d3d3d34d;
+  padding: 10px;
+  margin-top: 10px;
+`
+
+function QuestionView({ question, setScore }: any) {
+  const [selected, setSelected] = useState([])
+  const [localScore, setLocalScore] = useState<number | null>(null)
+  const isSelected = selected.length > 0
+
+  const onValidate = () => {
+    if (isSelected) {
+      if (
+        question.correctAnswers.sort().join(',') === selected.sort().join(',')
+      ) {
+        setLocalScore(10)
+      } else {
+        setLocalScore(0)
+      }
+    }
+  }
+
+  const nextQuestion = () => {
+    setScore(localScore)
+    setLocalScore(null)
+  }
+
+  return (
     <View style={{ position: 'relative', padding: 10 }}>
       <View
         style={{
@@ -66,24 +101,52 @@ function QuestionView() {
           paddingBottom: 120,
         }}
       >
-        <Image source={{ uri: 'https://picsum.photos/200/300' }} />
         <View>
-          <Text style={styles.h1}>Qui est le plus beau ?</Text>
-          <Text style={styles.description}>lorem ipsum</Text>
-          <RadioButton
-            data={data}
-            onSelect={(value: any) => setOption(value)}
+          <Image
+            style={styles.image}
+            source={question.image ? { uri: question.image } : emptyImage}
+          />
+          <Text style={styles.h1}>{question.question}</Text>
+          {question.description && (
+            <Tips>
+              <Foundation name="info" size={24} color="#f15700" />
+              <Text style={styles.description}>{question.description}</Text>
+            </Tips>
+          )}
+          <ResponsesComponent
+            data={question}
+            setSelected={setSelected}
             style={styles.responses}
+            isBlocked={localScore !== null}
           />
         </View>
-        <CTA isActive={!data2}>
-          <AntDesign name="check" size={24} color="white" />
-          <Text style={styles.ctaText}>Valider</Text>
-        </CTA>
+        {localScore === null ? (
+          <Validate isActive={isSelected} onPress={onValidate}>
+            <AntDesign
+              name={isSelected ? 'check' : 'lock'}
+              size={24}
+              color="white"
+            />
+            <Text style={styles.ctaText}>
+              {isSelected
+                ? `Valider ${selected.length > 1 ? 'mes' : 'ma'} réponse${
+                    selected.length > 1 ? 's' : ''
+                  }`
+                : 'Choisir au moins une réponse pour valider'}
+            </Text>
+          </Validate>
+        ) : (
+          <Continue onPress={nextQuestion} isSuccess={localScore > 0}>
+            <AntDesign name="caretright" size={24} color="white" />
+            <Text style={styles.ctaText}>
+              {localScore > 0
+                ? 'Bravo, passez à la questions suivante !'
+                : 'Dommage, vous ferez mieux la prochaine fois'}
+            </Text>
+          </Continue>
+        )}
       </View>
     </View>
-  ) : (
-    <QRCodeQuestionView setData={setData} />
   )
 }
 
