@@ -3,6 +3,7 @@ import ticketsReducer from './tickets.reducer'
 import cvReducer from './cv.reducer'
 import interestsReducer from './interests.reducer'
 import exhibitorsReducer from './exhibitors.reducer'
+import journeysReducer from './journeys.reducer'
 import conferencesReducer from './conferences.reducer'
 
 export default combineReducers({
@@ -10,5 +11,6 @@ export default combineReducers({
   cv: cvReducer,
   interests: interestsReducer,
   exhibitors: exhibitorsReducer,
+  journeys: journeysReducer,
   conferences: conferencesReducer,
 })

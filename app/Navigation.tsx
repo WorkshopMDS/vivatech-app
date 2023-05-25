@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import Home from './views/Home'
 import ConferenceList from './views/ConferenceView'
 import { useCustomTheme } from './utils/Theme'
+
 import QRCodeModal from './components/QRCode/QRCodeModal'
 import { useToggle } from './hooks'
 import ExhibitorStack from './components/Exhibitors/ExhibitorStack'
@@ -14,6 +15,7 @@ import CVTheque from './views/CVTheque'
 import ViewCV from './views/ViewCV'
 import KYC from './views/KYC'
 import Profile from './views/Profile'
+import ProgramStack from './views/Journeys/JourneyStack'
 
 const logos = {
   dark: require('../assets/allwhite.png'),
@@ -112,7 +114,10 @@ function Navigation() {
             right: 20,
             elevation: 0,
             borderRadius: 30,
-            borderTopWidth: 0,
+            borderColor: colors.border,
+            borderWidth: 1,
+            borderTopColor: colors.border,
+            borderTopWidth: 1,
             paddingBottom: 0,
             height: 56,
           },
@@ -131,8 +136,6 @@ function Navigation() {
                 height: 90,
                 marginBottom: 24,
                 backgroundColor: colors.primary,
-                borderBottomEndRadius: 30,
-                borderBottomStartRadius: 30,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -162,7 +165,7 @@ function Navigation() {
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign
-                name="meh"
+                name="notification"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />
@@ -227,6 +230,20 @@ function Navigation() {
             tabBarIcon: ({ focused }) => (
               <AntDesign
                 name="isv"
+                size={24}
+                color={focused ? colors.primary : colors.border}
+              />
+            ),
+            ...headerOptions,
+          }}
+        />
+        <Tab.Screen
+          name="Programs"
+          component={ProgramStack}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <AntDesign
+                name="find"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />

@@ -28,7 +28,6 @@ export const getConferenceByIdService = (id: string) => {
       return Promise.reject()
     })
     .catch(error => {
-      console.log('error', error)
       return Promise.reject(error)
     })
 }
