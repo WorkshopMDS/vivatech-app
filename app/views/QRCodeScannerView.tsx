@@ -67,7 +67,7 @@ function QRCodeScannerView({ setScanCV, cv, toggle, navigation }: any) {
         const parsedCVs = JSON.parse(cvs)
         const foundCV = parsedCVs.find((c: any) => c.email === buff.user.email)
 
-        if (false) {
+        if (foundCV) {
           toggle()
           navigation.navigate('Networking', {
             screen: 'ViewCV',
