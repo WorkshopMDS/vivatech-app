@@ -1,38 +1,61 @@
-import {
-  FlatList,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { FlatList, Image, Pressable, Text, View } from 'react-native'
 import styled from 'styled-components'
 import { AntDesign } from '@expo/vector-icons'
 import { useAppSelector } from '../../hooks'
+import { Pill, PillText } from '../../components/Exhibitors/ExhibitorCard'
+import { IInterest } from '../../components/Exhibitors/ExhibitorsView'
 
 const Card = styled(View)`
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  border-radius: ${({ theme }) => theme.roundness};
-  overflow: hidden;
-  margin: 5px;
-  background-color: #ffffff;
+  border-radius: 16px;
+  margin: 4px;
+
+  background-color: ${({ theme }) => theme.colors.card};
 `
 
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  description: {
-    fontSize: 16,
-  },
-})
+const Picture = styled(Image)`
+  height: 100px;
+  aspect-ratio: 1;
+  resize-mode: cover;
+  border-radius: 8px;
+`
+
+const Row = styled(View)`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 16px;
+  padding-right: 16px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  width: 100%;
+  flex: 1;
+`
+
+const Description = styled(Text)`
+  font-size: 16px;
+  padding: 16px;
+  color: ${({ theme }) => theme.colors.text};
+`
+
+const Title = styled(Text)`
+  font-size: 18px;
+  font-family: Museo-700;
+  color: white;
+  text-align: center;
+  padding: 16px;
+`
+
+const Interests = styled(View)`
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 16px;
+  padding-top: 0;
+  width: 100%;
+`
 
 function JourneysListView({ navigation }: any) {
   const { journeys } = useAppSelector(state => state.journeys)
-
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
@@ -46,40 +69,22 @@ function JourneysListView({ navigation }: any) {
           key={item.id}
         >
           <Card>
-            <View
-              style={{
-                flex: 2,
-                overflow: 'hidden',
-              }}
-            >
-              <Image
-                source={{ uri: item.image }}
-                style={{
-                  width: 100,
-                  height: 100,
-                  resizeMode: 'cover',
-                }}
-              />
-            </View>
-            <View
-              style={{
-                flex: 4,
-                padding: 5,
-              }}
-            >
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.description}>
-                {`${item.description.substring(1, 100)}...`}
-              </Text>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-              }}
-            >
-              <AntDesign name="caretright" size={24} color="black" />
-            </View>
+            <Row>
+              <Picture source={{ uri: item.image }} />
+              <Title>{item.title}</Title>
+              <AntDesign name="right" size={24} color="white" />
+            </Row>
+
+            <Description>
+              {`${item.description.substring(0, 150)}...`}
+            </Description>
+            <Interests>
+              {item.interests.map((interest: IInterest) => (
+                <Pill key={interest.id}>
+                  <PillText>{interest.label}</PillText>
+                </Pill>
+              ))}
+            </Interests>
           </Card>
         </Pressable>
       )}

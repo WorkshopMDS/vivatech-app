@@ -43,9 +43,9 @@ const styles = StyleSheet.create({
 })
 
 const ImageContainer = styled(View)`
-  padding: 40px;
+  padding: 20px;
   background-color: white;
-  border-radius: 1000px;
+  border-radius: 60px;
 `
 const CTA = styled(Pressable)`
   display: flex;
@@ -53,9 +53,9 @@ const CTA = styled(Pressable)`
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border-radius: ${({ theme }) => theme.roundness};
+  border-radius: 16px;
   background-color: ${({ theme }) => theme.colors.orange};
-  padding: 8px 20px;
+  padding: 8px 24px;
   margin-top: 25px;
 `
 
@@ -95,11 +95,11 @@ function TutorialQuestionView({ navigation, route }: any) {
           marginTop: 50,
           marginBottom: 24,
           backgroundColor: colors.primary,
-          borderRadius: 500,
+          borderRadius: 64,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: 2,
+          padding: 4,
         }}
       >
         <ImageContainer>
@@ -127,7 +127,7 @@ function TutorialQuestionView({ navigation, route }: any) {
         }}
       >
         <Ionicons name="play" size={24} color="white" />
-        <Text style={styles.ctaText}>C'est partit !</Text>
+        <Text style={styles.ctaText}>C'est parti !</Text>
       </CTA>
     </View>
   )

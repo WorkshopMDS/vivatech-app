@@ -14,8 +14,8 @@ Moment.locale('fr')
 const Card = styled(View)`
   background-color: ${({ theme }) => theme.colors.card};
   border-radius: 16px;
-  padding: 16px;
   margin: 12px;
+  padding: 8px;
   margin-bottom: 0;
 `
 const ConfTitle = styled(Text)`
@@ -27,14 +27,15 @@ const ConfTitle = styled(Text)`
 const Schedule = styled(View)`
   align-items: center;
   background-color: ${({ theme }) => theme.colors.primary};
-  border-radius: 8px;
+  border-radius: 16px;
   display: flex;
   flex-direction: row;
   width: 100%;
+  align-items: center;
   justify-content: space-between;
   overflow: hidden;
   flex-wrap: wrap;
-  height: 30px;
+  height: 40px;
 `
 const Time = styled(Text)`
   font-size: 16px;
@@ -44,6 +45,7 @@ const Time = styled(Text)`
 const SpeakerName = styled(Text)`
   font-family: Museo-700;
   font-size: 16px;
+
   color: ${({ theme }) => theme.colors.text};
 `
 const Details = styled(View)`
@@ -60,8 +62,9 @@ const Stage = styled(Time)`
 const StageContainer = styled(View)`
   width: 100px;
   background-color: ${({ theme }) => theme.colors.orange};
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 8px;
+  height: 40px;
   justify-content: space-around;
   align-items: center;
 `
@@ -134,11 +137,12 @@ function ConferenceCard({ conference }: ConferenceCardProps) {
           </StageContainer>
         </Schedule>
       </Row>
-      <View style={{ paddingVertical: 16 }}>
+      <View style={{ paddingTop: 16 }}>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+            paddingBottom: 16,
           }}
         >
           <AntDesign name="user" size={16} color={colors.text} />
@@ -150,37 +154,38 @@ function ConferenceCard({ conference }: ConferenceCardProps) {
               : 'Non renseigné'}
           </SpeakerName>
         </View>
-      </View>
-      <ConfTitle>{conference.title}</ConfTitle>
 
-      <Details>
-        <Description>
-          {conference.description
-            ? conference.description
-            : 'Description a revoir'}
-        </Description>
-      </Details>
+        <ConfTitle>{conference.title}</ConfTitle>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingTop: 16,
-          gap: 8,
-        }}
-      >
-        {interests.map((interest: IInterest) => (
-          <Pill
-            key={
-              interest.label +
-              conference.title +
-              conference.stage +
-              conference.startAt.toString()
-            }
-          >
-            <PillText>{interest.label}</PillText>
-          </Pill>
-        ))}
+        <Details>
+          <Description>
+            {conference.description
+              ? conference.description
+              : 'Description a revoir'}
+          </Description>
+        </Details>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingTop: 16,
+            gap: 8,
+          }}
+        >
+          {interests.map((interest: IInterest) => (
+            <Pill
+              key={
+                interest.label +
+                conference.title +
+                conference.stage +
+                conference.startAt.toString()
+              }
+            >
+              <PillText>{interest.label}</PillText>
+            </Pill>
+          ))}
+        </View>
       </View>
     </Card>
   )

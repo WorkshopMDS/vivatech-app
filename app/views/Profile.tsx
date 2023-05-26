@@ -40,13 +40,13 @@ const Modify = styled(Pressable)`
   justify-content: center;
   gap: 8px;
   flex: 1;
-  background-color: #ffffffe6;
+  background-color: transparent;
 `
 
 const ModifyText = styled(Text)`
   font-family: Museo-700;
   font-size: 16px;
-  color: ${({ theme }) => theme.colors.text};
+  color: white;
 `
 
 interface IDoc {
@@ -89,9 +89,6 @@ function Profile({ navigation }: any) {
   useEffect(() => {
     setUrl(user.cv || '')
   }, [user.cv])
-  const openCV = () => {
-    navigation.navigate('CVTheque')
-  }
 
   if (!user.firstname) {
     return (
@@ -156,25 +153,19 @@ function Profile({ navigation }: any) {
           }}
         >
           <Modify onPress={!cvLoading ? pickDocument : null}>
-            {cvLoading && (
-              <ActivityIndicator size="small" color={colors.text} />
-            )}
+            {cvLoading && <ActivityIndicator size="small" color="white" />}
             {!cvLoading && url.length === 0 && (
               <>
                 <ModifyText>Ajouter un CV</ModifyText>
-                <AntDesign name="plus" size={20} color={colors.text} />
+                <AntDesign name="plus" size={20} color="white" />
               </>
             )}
             {!cvLoading && url.length > 0 && (
               <>
                 <ModifyText>Modifier le CV</ModifyText>
-                <AntDesign name="edit" size={20} color={colors.text} />
+                <AntDesign name="edit" size={20} color="white" />
               </>
             )}
-          </Modify>
-          <Modify onPress={openCV}>
-            <ModifyText>Networking</ModifyText>
-            <AntDesign name="team" size={20} color={colors.text} />
           </Modify>
         </LinearGradient>
 

@@ -47,25 +47,29 @@ export const addJourneyService = async (journey: IInputJourney) => {
     )
   const token = JSON.parse(parts[1])
 
-  fetch(`${API_URL}${ENDPOINT}/${token.id}/journeys`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({ journeys: [journey] }),
-  })
-    .then(response => response.json())
-    .then(response => {
-      if (response) {
-        return response
-      }
-      return Promise.reject()
+  console.log('token', accessToken)
+
+  if (accessToken) {
+    fetch(`${API_URL}${ENDPOINT}/${token.id}/journeys`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ journeys: [journey] }),
     })
-    .catch(error => {
-      console.log('error', error)
-      return Promise.reject(error)
-    })
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          return response
+        }
+        return Promise.reject()
+      })
+      .catch(error => {
+        console.log('error', error)
+        return Promise.reject(error)
+      })
+  }
 }
 
 export const updateUserKYCService = async (interests: string[]) => {

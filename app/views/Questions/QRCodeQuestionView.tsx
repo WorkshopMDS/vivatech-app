@@ -13,7 +13,29 @@ const Title = styled(Text)`
   margin-bottom: 5px;
 `
 
-function QRCodeQuestionView({ standId, setIsOnStand }: any) {
+const Button = styled(View)`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.primary};
+  padding: 10px;
+  border-radius: 16px;
+  margin: 16px 0 10px 0;
+`
+
+const ButtonTitle = styled(Text)`
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+`
+
+function QRCodeQuestionView({
+  standId,
+  totalQuestionsNb,
+  questionNb,
+  setIsOnStand,
+}: any) {
   const [hasPermission, setHasPermission] = useState(false)
   const [hasScanned, setHasScanned] = useState(false)
   const [hasAskedPermission, setHasAskedPermission] = useState(false)
@@ -70,8 +92,18 @@ function QRCodeQuestionView({ standId, setIsOnStand }: any) {
         flex: 1,
       }}
     >
-      <View style={{ margin: 40 }}>
-        <Title>Rendez-vous sur le stand {standId}</Title>
+      <View style={{ marginHorizontal: 40, marginTop: 28, marginBottom: 28 }}>
+        <Text style={{ textAlign: 'center', marginBottom: 4 }}>
+          Stand
+          <Text style={{ fontWeight: 'bold' }}> {standId} </Text>- Question
+          <Text style={{ fontWeight: 'bold' }}> {questionNb} </Text>
+          sur
+          <Text style={{ fontWeight: 'bold' }}> {totalQuestionsNb}</Text>
+        </Text>
+        <Title>Rendez-vous sur le stand</Title>
+        <Button>
+          <ButtonTitle>{standId}</ButtonTitle>
+        </Button>
         <Text style={{ fontSize: 14, textAlign: 'center' }}>
           et scannez le QR code présent pour répondre à la question
         </Text>

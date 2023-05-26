@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { AntDesign } from '@expo/vector-icons'
-import { View, Image, Pressable } from 'react-native'
+import { Image, Pressable, View } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
