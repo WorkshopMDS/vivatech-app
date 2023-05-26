@@ -13,7 +13,7 @@ export const getJourneys = () => (dispatch: any) => {
 
   return getAllJourneys().then(
     async data => {
-      AsyncStorage.setItem('journeys', JSON.stringify(data))
+      await AsyncStorage.setItem('journeys', JSON.stringify(data.data))
       dispatch({
         type: GET_JOURNEYS_SUCCESS,
         payload: data.data,
