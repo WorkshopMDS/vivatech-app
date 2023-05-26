@@ -67,9 +67,9 @@ function QRCodeScannerView({ setScanCV, cv, toggle, navigation }: any) {
         const parsedCVs = JSON.parse(cvs)
         const foundCV = parsedCVs.find((c: any) => c.email === buff.user.email)
 
-        if (foundCV) {
+        if (false) {
           toggle()
-          navigation.navigate('Home', {
+          navigation.navigate('Networking', {
             screen: 'ViewCV',
             params: {
               cv: foundCV,
@@ -90,14 +90,14 @@ function QRCodeScannerView({ setScanCV, cv, toggle, navigation }: any) {
         ).then(savecCV => {
           toggle()
           navigation.navigate('Home', {
-            screen: 'ViewCV',
+            screen: 'ViewCVHome',
             params: {
               cv: savecCV,
             },
           })
         })
         setScanCV(false)
-      } else if (data.length < 10) {
+      } else if (data.length < 15) {
         dispatch(validateTicket(data)).then(() => setHasScanned(false))
       } else {
         Alert.alert(

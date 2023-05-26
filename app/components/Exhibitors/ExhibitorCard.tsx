@@ -8,8 +8,8 @@ const Container = styled(View)`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 4px 12px;
-  gap: 10px;
+  margin: 8px 12px;
+  gap: 8px;
   flex: 1;
 `
 const Logo = styled(Image)`
@@ -34,6 +34,7 @@ const Title = styled(Text)`
   font-size: 20px;
   font-weight: bold;
   flex-wrap: wrap;
+  margin: 8px 0;
   width: 100%;
   color: ${({ theme }) => theme.colors.primary1000}};
 `
@@ -73,7 +74,7 @@ const Header = styled(View)`
   width: 100%;
   background: ${({ theme }) => theme.colors.primary}};
   border-radius: 16px;
-  height: 64px;
+  height: 48px;
   padding:2px;
 `
 

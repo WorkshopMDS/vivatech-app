@@ -21,7 +21,9 @@ export const validateCodeTicketService = (ticket: string, code: string) =>
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ code }),
+    body: JSON.stringify({
+      code: Number(code),
+    }),
   })
     .then(response => response.json())
     .then(response => {

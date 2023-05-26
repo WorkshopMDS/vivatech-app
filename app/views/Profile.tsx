@@ -173,8 +173,8 @@ function Profile({ navigation }: any) {
             )}
           </Modify>
           <Modify onPress={openCV}>
-            <ModifyText>CV Scannés</ModifyText>
-            <AntDesign name="file1" size={20} color={colors.text} />
+            <ModifyText>Networking</ModifyText>
+            <AntDesign name="team" size={20} color={colors.text} />
           </Modify>
         </LinearGradient>
 

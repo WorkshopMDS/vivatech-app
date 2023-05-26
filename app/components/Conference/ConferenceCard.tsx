@@ -7,6 +7,7 @@ import { IConference } from '../../models/ConferenceType'
 import 'moment/locale/fr'
 import { IInterest } from '../Exhibitors/ExhibitorsView'
 import { Pill, PillText } from '../Exhibitors/ExhibitorCard'
+import { useCustomTheme } from '../../utils/Theme'
 
 Moment.locale('fr')
 
@@ -33,6 +34,7 @@ const Schedule = styled(View)`
   justify-content: space-between;
   overflow: hidden;
   flex-wrap: wrap;
+  height: 30px;
 `
 const Time = styled(Text)`
   font-size: 16px;
@@ -56,13 +58,12 @@ const Stage = styled(Time)`
 `
 
 const StageContainer = styled(View)`
-  width: 30%;
+  width: 100px;
   background-color: ${({ theme }) => theme.colors.orange};
   border-radius: 8px;
   padding: 8px;
   justify-content: space-around;
   align-items: center;
-  flex: 1;
 `
 const Description = styled(Text)`
   font-family: Museo-300;
@@ -89,6 +90,7 @@ const capitalizeEveryString = (str: string) =>
 
 function ConferenceCard({ conference }: ConferenceCardProps) {
   const [interests, setInterests] = useState<IInterest[]>([])
+  const { colors } = useCustomTheme()
 
   useEffect(() => {
     // unique interests
@@ -103,7 +105,12 @@ function ConferenceCard({ conference }: ConferenceCardProps) {
       <Row>
         <Schedule>
           {conference.startAt && conference.endAt && (
-            <>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
               <Time>
                 {capitalizeEveryString(
                   Moment(conference.startAt).format('DD MMM YYYY'),
@@ -120,28 +127,29 @@ function ConferenceCard({ conference }: ConferenceCardProps) {
                 <AntDesign name="arrowright" size={16} color="white" />
                 <Time>{Moment(conference.endAt).format('HH:mm')}</Time>
               </View>
-            </>
+            </View>
           )}
           <StageContainer>
             <Stage>Stage {conference.stage}</Stage>
           </StageContainer>
         </Schedule>
       </Row>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 16,
-        }}
-      >
-        <AntDesign name="user" size={16} color="black" />
-        <SpeakerName>
-          {conference.speaker
-            ? conference.speaker
-                .map(speaker => `${speaker.firstname} ${speaker.lastname}`)
-                .join(', ')
-            : 'Non renseigné'}
-        </SpeakerName>
+      <View style={{ paddingVertical: 16 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <AntDesign name="user" size={16} color={colors.text} />
+          <SpeakerName>
+            {conference.speaker
+              ? conference.speaker
+                  .map(speaker => `${speaker.firstname} ${speaker.lastname}`)
+                  .join(', ')
+              : 'Non renseigné'}
+          </SpeakerName>
+        </View>
       </View>
       <ConfTitle>{conference.title}</ConfTitle>
 

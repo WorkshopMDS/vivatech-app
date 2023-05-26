@@ -46,7 +46,14 @@ function HomeStackView() {
           headerShown: false,
         }}
       />
-
+      <HomeStack.Screen
+        name="ViewCVHome"
+        component={ViewCV}
+        options={{
+          headerBackVisible: true,
+          headerShown: false,
+        }}
+      />
       <HomeStack.Screen
         name="Exhibitors"
         component={ExhibitorStack}
@@ -76,6 +83,7 @@ function Navigation() {
           height: 50,
           width: 300,
           marginTop: -15,
+          marginLeft: -35,
           resizeMode: 'contain',
         }}
       />
@@ -101,13 +109,37 @@ function Navigation() {
         </Pressable>
       )
     },
+    headerLeft: () => {
+      if (!user.firstname || !isFilled) {
+        return null
+      }
+      return (
+        <Pressable
+          style={{
+            height: 35,
+            marginLeft: 20,
+          }}
+        >
+          {navigation.getCurrentRoute()?.name !== 'HomeView' && (
+            <AntDesign
+              name="left"
+              size={24}
+              color="white"
+              onPress={() => {
+                navigation.goBack()
+              }}
+            />
+          )}
+        </Pressable>
+      )
+    },
   }
 
   function NetworkingStack() {
     const NetworkignStack = createNativeStackNavigator()
 
     return (
-      <NetworkignStack.Navigator>
+      <NetworkignStack.Navigator initialRouteName="CVTheque">
         <NetworkignStack.Screen
           name="CVTheque"
           component={CVTheque}
@@ -195,17 +227,7 @@ function Navigation() {
                 color={focused ? colors.primary : colors.border}
               />
             ),
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{
-                  height: 50,
-                  width: 300,
-                  marginTop: -15,
-                  resizeMode: 'contain',
-                }}
-              />
-            ),
+            ...headerOptions,
           }}
         />
         <Tab.Screen
