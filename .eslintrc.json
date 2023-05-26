@@ -61,6 +61,7 @@
     "default-param-last": "off",
     "react/no-array-index-key": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "react/jsx-no-bind":"off"
+    "react/jsx-no-bind":"off",
+    "consistent-return":"off"
   }
 }

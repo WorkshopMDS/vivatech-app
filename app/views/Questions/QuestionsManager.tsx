@@ -21,7 +21,10 @@ function QuestionsManager({ navigation, route }: any) {
 
     if (currentQuestion >= journey.questions.length - 1) {
       navigation.pop(2)
-      navigation.navigate('JourneyResult', { journeyId, score })
+      navigation.navigate('JourneyResult', {
+        journeyId,
+        score: score + questionScore,
+      })
       addJourneyService({ journey: journey.id, score })
     }
 

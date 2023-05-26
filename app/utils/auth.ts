@@ -10,7 +10,7 @@ export const getAccessToken = async () => {
     return
   }
 
-  fetch(`${API_URL}/user`, {
+  return fetch(`${API_URL}/user`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -37,8 +37,6 @@ export const getAccessToken = async () => {
             AsyncStorage.setItem('refresh', r.refresh)
           })
       }
-
-      return true
     })
     .then(async () => {
       const newToken = await AsyncStorage.getItem('access')
