@@ -46,16 +46,10 @@ function HomeStackView() {
           headerShown: false,
         }}
       />
+
       <HomeStack.Screen
-        name="CVTheque"
-        component={CVTheque}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <HomeStack.Screen
-        name="ViewCV"
-        component={ViewCV}
+        name="Exhibitors"
+        component={ExhibitorStack}
         options={{
           headerBackVisible: true,
           headerShown: false,
@@ -107,6 +101,30 @@ function Navigation() {
         </Pressable>
       )
     },
+  }
+
+  function NetworkingStack() {
+    const NetworkignStack = createNativeStackNavigator()
+
+    return (
+      <NetworkignStack.Navigator>
+        <NetworkignStack.Screen
+          name="CVTheque"
+          component={CVTheque}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <NetworkignStack.Screen
+          name="ViewCV"
+          component={ViewCV}
+          options={{
+            headerBackVisible: true,
+            headerShown: false,
+          }}
+        />
+      </NetworkignStack.Navigator>
+    )
   }
 
   return (
@@ -231,12 +249,12 @@ function Navigation() {
         />
 
         <Tab.Screen
-          name="Exhibitors"
-          component={ExhibitorStack}
+          name="Networking"
+          component={NetworkingStack}
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign
-                name="isv"
+                name="team"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />
