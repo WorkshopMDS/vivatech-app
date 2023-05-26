@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getConferencesService } from '../services/conference.service'
 import {
   GET_CONFERENCE,
@@ -12,6 +13,14 @@ export const getConferences = () => (dispatch: any) => {
 
   return getConferencesService().then(
     async data => {
+      await AsyncStorage.setItem(
+        'conferences',
+        JSON.stringify(
+          data.data.sort((a: any, b: any) => {
+            return new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
+          }),
+        ),
+      )
       dispatch({
         type: GET_CONFERENCE_SUCCESS,
         payload: data.data.sort((a: any, b: any) => {

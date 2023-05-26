@@ -115,17 +115,8 @@ export const PillText = styled(Text)`
   text-align: center;
 `
 
-function cleanSectors(sector: string) {
-  return sector.replace(/[[\]']/g, '')
-}
-
 function SmallCard({ exhibitor }: { exhibitor: IExhibitor }) {
-  const { name, picture, hall, stand, sectors } = exhibitor
-  const mappedSectors = sectors
-    .map(sector => cleanSectors(sector))
-    .join(',')
-    .split(',') as string[]
-
+  const { name, picture, hall, stand, interests } = exhibitor
   return (
     <Container>
       <Header>
@@ -141,11 +132,13 @@ function SmallCard({ exhibitor }: { exhibitor: IExhibitor }) {
       </Header>
       <Infos>
         <Title>{name}</Title>
-        <Sectors>
-          <Pill>
-            <PillText>{mappedSectors[0]}</PillText>
-          </Pill>
-        </Sectors>
+        {interests && interests[0] && (
+          <Sectors>
+            <Pill>
+              <PillText>{interests[0].label.split(' ')[0]}</PillText>
+            </Pill>
+          </Sectors>
+        )}
       </Infos>
     </Container>
   )

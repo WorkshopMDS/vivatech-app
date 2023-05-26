@@ -145,7 +145,7 @@ function Home({ navigation }: any) {
 
         {filteredExhibitors.length > 0 && (
           <>
-            <Title>Les exposants pouvant vous interesser</Title>
+            <Title>Les exposants pouvant vous intéresser</Title>
             <HorizontalScroller justifyContent="flex-start">
               {filteredExhibitors.slice(0, 5).map((exhibitor: IExhibitor) => (
                 <SmallCard key={exhibitor.name} exhibitor={exhibitor} />

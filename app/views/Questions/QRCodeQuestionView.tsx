@@ -65,7 +65,7 @@ function QRCodeQuestionView({
 
       Alert.alert(
         'Erreur',
-        'Le QR code scanné ne fait pas partit de ce parcours ou ne correspond pas à un stand',
+        'Le QR code scanné ne fait pas partie de ce parcours ou ne correspond pas à un stand',
         [
           {
             text: 'Réessayer',

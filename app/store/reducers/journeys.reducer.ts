@@ -14,6 +14,7 @@ const initialState = {
 const fetchLocalData = async () => {
   try {
     const journeys = await AsyncStorage.getItem('journeys')
+    console.log(journeys)
     if (journeys !== null) {
       initialState.journeys = JSON.parse(journeys)
     }

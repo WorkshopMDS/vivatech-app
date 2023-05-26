@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   GET_CONFERENCE,
   GET_CONFERENCE_SUCCESS,
@@ -9,6 +10,19 @@ const initialState = {
   error: '',
   loading: false,
 }
+
+const fetchConferences = async () => {
+  try {
+    const conferences = await AsyncStorage.getItem('conferences')
+    if (conferences !== null) {
+      initialState.conferences = JSON.parse(conferences)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+fetchConferences()
 
 function conferencesReducer(state = initialState, action: any) {
   const { type, payload } = action
