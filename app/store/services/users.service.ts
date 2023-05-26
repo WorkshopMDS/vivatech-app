@@ -71,3 +71,29 @@ export const addJourneyService = async (journey: IInputJourney) => {
       })
   }
 }
+
+export const updateUserKYCService = async (interests: string[]) => {
+  const accessToken = await getAccessToken()
+  if (!accessToken) {
+    return
+  }
+  fetch(`${API_URL}${ENDPOINT}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ interests }),
+  })
+    .then(response => response.json())
+    .then(response => {
+      if (response.data) {
+        return response.data
+      }
+      return Promise.reject()
+    })
+    .catch(error => {
+      console.log('errorIDI', error)
+      return Promise.reject(error)
+    })
+}

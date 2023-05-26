@@ -7,6 +7,7 @@ import { IConference } from '../../models/ConferenceType'
 import 'moment/locale/fr'
 import { IInterest } from '../Exhibitors/ExhibitorsView'
 import { Pill, PillText } from '../Exhibitors/ExhibitorCard'
+import { useCustomTheme } from '../../utils/Theme'
 
 Moment.locale('fr')
 
@@ -14,6 +15,7 @@ const Card = styled(View)`
   background-color: ${({ theme }) => theme.colors.card};
   border-radius: 16px;
   margin: 12px;
+  padding: 8px;
   margin-bottom: 0;
 `
 const ConfTitle = styled(Text)`
@@ -29,11 +31,11 @@ const Schedule = styled(View)`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 40px;
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
   flex-wrap: wrap;
+  height: 40px;
 `
 const Time = styled(Text)`
   font-size: 16px;
@@ -43,6 +45,7 @@ const Time = styled(Text)`
 const SpeakerName = styled(Text)`
   font-family: Museo-700;
   font-size: 16px;
+
   color: ${({ theme }) => theme.colors.text};
 `
 const Details = styled(View)`
@@ -57,14 +60,13 @@ const Stage = styled(Time)`
 `
 
 const StageContainer = styled(View)`
-  width: 30%;
+  width: 100px;
   background-color: ${({ theme }) => theme.colors.orange};
   border-radius: 16px;
   padding: 8px;
   height: 40px;
   justify-content: space-around;
   align-items: center;
-  flex: 1;
 `
 const Description = styled(Text)`
   font-family: Museo-300;
@@ -91,6 +93,7 @@ const capitalizeEveryString = (str: string) =>
 
 function ConferenceCard({ conference }: ConferenceCardProps) {
   const [interests, setInterests] = useState<IInterest[]>([])
+  const { colors } = useCustomTheme()
 
   useEffect(() => {
     // unique interests
@@ -105,7 +108,12 @@ function ConferenceCard({ conference }: ConferenceCardProps) {
       <Row>
         <Schedule>
           {conference.startAt && conference.endAt && (
-            <>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
               <Time>
                 {capitalizeEveryString(
                   Moment(conference.startAt).format('DD MMM YYYY'),
@@ -122,21 +130,22 @@ function ConferenceCard({ conference }: ConferenceCardProps) {
                 <AntDesign name="arrowright" size={16} color="white" />
                 <Time>{Moment(conference.endAt).format('HH:mm')}</Time>
               </View>
-            </>
+            </View>
           )}
           <StageContainer>
             <Stage>Stage {conference.stage}</Stage>
           </StageContainer>
         </Schedule>
       </Row>
-      <View style={{ padding: 16 }}>
+      <View style={{ paddingTop: 16 }}>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+            paddingBottom: 16,
           }}
         >
-          <AntDesign name="user" size={16} color="black" />
+          <AntDesign name="user" size={16} color={colors.text} />
           <SpeakerName>
             {conference.speaker
               ? conference.speaker
@@ -145,6 +154,7 @@ function ConferenceCard({ conference }: ConferenceCardProps) {
               : 'Non renseigné'}
           </SpeakerName>
         </View>
+
         <ConfTitle>{conference.title}</ConfTitle>
 
         <Details>

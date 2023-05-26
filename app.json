@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "vivatech-app",
+    "name": "VivaTech",
     "slug": "vivatech-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -11,13 +11,11 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets."
+        "NSCameraUsageDescription": "Nous avons besoin de votre caméra pour scanner votre pass VivaTech"
       },
       "bundleIdentifier": "com.kilianpro.vivatech-app"
     },

@@ -9,7 +9,7 @@ import ConferenceList from './views/ConferenceView'
 import { useCustomTheme } from './utils/Theme'
 
 import QRCodeModal from './components/QRCode/QRCodeModal'
-import { useToggle } from './hooks'
+import { useAppSelector, useToggle } from './hooks'
 import ExhibitorStack from './components/Exhibitors/ExhibitorStack'
 import CVTheque from './views/CVTheque'
 import ViewCV from './views/ViewCV'
@@ -31,7 +31,7 @@ function HomeStackView() {
   const HomeStack = createNativeStackNavigator()
 
   return (
-    <HomeStack.Navigator initialRouteName="HomeView">
+    <HomeStack.Navigator>
       <HomeStack.Screen
         name="HomeView"
         component={Home}
@@ -47,15 +47,16 @@ function HomeStackView() {
         }}
       />
       <HomeStack.Screen
-        name="CVTheque"
-        component={CVTheque}
+        name="ViewCVHome"
+        component={ViewCV}
         options={{
+          headerBackVisible: true,
           headerShown: false,
         }}
       />
       <HomeStack.Screen
-        name="ViewCV"
-        component={ViewCV}
+        name="Exhibitors"
+        component={ExhibitorStack}
         options={{
           headerBackVisible: true,
           headerShown: false,
@@ -71,6 +72,8 @@ function Navigation() {
   const navigation = useNavigation()
 
   const [isOpen, toggle] = useToggle()
+  const { user } = useAppSelector(state => state.tickets)
+  const { isFilled } = useAppSelector(state => state.kyc)
 
   const headerOptions = {
     headerTitle: () => (
@@ -80,25 +83,80 @@ function Navigation() {
           height: 50,
           width: 300,
           marginTop: -15,
+          marginLeft: -35,
           resizeMode: 'contain',
         }}
       />
     ),
-    headerRight: () => (
-      <Pressable
-        style={{
-          width: 50,
-          height: 35,
-        }}
-      >
-        <AntDesign
-          name="user"
-          size={24}
-          color="white"
-          onPress={() => navigation.navigate('Profile')}
+
+    headerRight: () => {
+      if (!user.firstname || !isFilled) {
+        return null
+      }
+      return (
+        <Pressable
+          style={{
+            width: 50,
+            height: 35,
+          }}
+        >
+          <AntDesign
+            name="user"
+            size={24}
+            color="white"
+            onPress={() => navigation.navigate('Profile')}
+          />
+        </Pressable>
+      )
+    },
+    headerLeft: () => {
+      if (!user.firstname || !isFilled) {
+        return null
+      }
+      return (
+        <Pressable
+          style={{
+            height: 35,
+            marginLeft: 20,
+          }}
+        >
+          {navigation.getCurrentRoute()?.name !== 'HomeView' && (
+            <AntDesign
+              name="left"
+              size={24}
+              color="white"
+              onPress={() => {
+                navigation.goBack()
+              }}
+            />
+          )}
+        </Pressable>
+      )
+    },
+  }
+
+  function NetworkingStack() {
+    const NetworkignStack = createNativeStackNavigator()
+
+    return (
+      <NetworkignStack.Navigator initialRouteName="CVTheque">
+        <NetworkignStack.Screen
+          name="CVTheque"
+          component={CVTheque}
+          options={{
+            headerShown: false,
+          }}
         />
-      </Pressable>
-    ),
+        <NetworkignStack.Screen
+          name="ViewCV"
+          component={ViewCV}
+          options={{
+            headerBackVisible: true,
+            headerShown: false,
+          }}
+        />
+      </NetworkignStack.Navigator>
+    )
   }
 
   return (
@@ -169,32 +227,7 @@ function Navigation() {
                 color={focused ? colors.primary : colors.border}
               />
             ),
-            headerTitle: () => (
-              <Image
-                source={logo}
-                style={{
-                  height: 50,
-                  width: 300,
-                  marginTop: -15,
-                  resizeMode: 'contain',
-                }}
-              />
-            ),
-            headerRight: () => (
-              <Pressable
-                style={{
-                  width: 50,
-                  height: 35,
-                }}
-              >
-                <AntDesign
-                  name="user"
-                  size={24}
-                  color="white"
-                  onPress={() => navigation.navigate('Profile')}
-                />
-              </Pressable>
-            ),
+            ...headerOptions,
           }}
         />
         <Tab.Screen
@@ -238,12 +271,12 @@ function Navigation() {
         />
 
         <Tab.Screen
-          name="Exhibitors"
-          component={ExhibitorStack}
+          name="Networking"
+          component={NetworkingStack}
           options={{
             tabBarIcon: ({ focused }) => (
               <AntDesign
-                name="isv"
+                name="team"
                 size={24}
                 color={focused ? colors.primary : colors.border}
               />

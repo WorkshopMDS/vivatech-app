@@ -17,6 +17,7 @@ export const Card = styled(View)`
 const Title = styled(Text)`
   font-family: Museo-700;
   font-size: 24px;
+  text-align: center;
   color: ${({ theme }) => theme.colors.text};
 `
 
@@ -60,9 +61,12 @@ function CVTheque({ navigation }: any) {
           alignItems: 'center',
         }}
       >
-        <AntDesign name="addfile" size={64} color={colors.text} />
+        <AntDesign name="team" size={64} color={colors.text} />
         <Absolute>
-          <Title>Scanner différents CV ici !</Title>
+          <Title>
+            Aggrandissez votre réseau en scannant le QR code d'une autre
+            personne
+          </Title>
           <AntDesign name="arrowdown" size={24} color={colors.text} />
         </Absolute>
       </SafeAreaView>

@@ -21,7 +21,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "react/no-unescaped-entities": 0,
+    "react/no-unescaped-entities": "off",
     "import/no-unresolved": 0,
     "react/jsx-filename-extension": [
       1,
@@ -61,6 +61,6 @@
     "default-param-last": "off",
     "react/no-array-index-key": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "react/no-unescaped-entities": "off"
+    "react/jsx-no-bind":"off"
   }
 }
